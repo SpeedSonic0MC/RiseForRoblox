@@ -290,24 +290,26 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
             ImageTransparency = 0,
             Size = UDim2.new(0, size, 0, 60)
         }):Play()
-        tweenService:Create(t, TweenInfo.new(0.2), {
+        task.wait(0.1)
+        tweenService:Create(t, TweenInfo.new(0.1), {
             TextTransparency = 0
         }):Play()
-        tweenService:Create(d, TweenInfo.new(0.2), {
+        tweenService:Create(d, TweenInfo.new(0.1), {
             TextTransparency = 0
         }):Play()
-        task.wait(1)
+        task.wait(0.9)
+        tweenService:Create(t, TweenInfo.new(0.1), {
+            TextTransparency = 1
+        }):Play()
+        tweenService:Create(d, TweenInfo.new(0.1), {
+            TextTransparency = 1
+        }):Play()
+        task.wait(.1)
         tweenService:Create(notification, TweenInfo.new(0.2), {
             ImageTransparency = 1,
             Size = UDim2.new(0, size * 1.3, 0, 60 * 1.3)
         }):Play()
-        tweenService:Create(t, TweenInfo.new(0.2), {
-            TextTransparency = 1
-        }):Play()
-        tweenService:Create(d, TweenInfo.new(0.2), {
-            TextTransparency = 1
-        }):Play()
-        task.wait(.2)
+        task.wait(.1)
         notification:Destroy()
         notif = false
     end)
