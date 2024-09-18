@@ -294,6 +294,7 @@ GuiLibrary.ColorStepped = runService.RenderStepped:Connect(function()
             v.TextColor3 = color
         end
     end
+    lastprogress = progress
 end)
 GuiLibrary["SelfDestruct"] = function()
     if GuiLibrary["ColorStepped"] then
