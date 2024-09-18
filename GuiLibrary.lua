@@ -17,7 +17,8 @@ local GuiLibrary = {
     },
     Assets = {
         ["logo.png"] = "rbxassetid://128089542278367",
-        ["maingui.png"] = "rbxassetid://138942713766181"
+        ["maingui.png"] = "rbxassetid://138942713766181",
+        ["Notification.png"] = "rbxassetid://117437484840382"
     },
     Version = "6.0"
 }
@@ -77,8 +78,9 @@ end
 getriseasset("Minecraft.ttf")
 getriseasset("Comfortaa.ttf")
 getriseasset("AppleUI.ttf")
+getriseasset("AppleUIBold.ttf")
 shared.RiseFonts = {}
-for i, v in pairs({"Minecraft", "Comfortaa", "AppleUI"}) do
+for i, v in pairs({"Minecraft", "Comfortaa", "AppleUI", "AppleUIBold"}) do
     if not isfile("rise/assets/" .. v .. ".json") then
         writefile("rise/assets/" .. v .. ".json", httpService:JSONEncode({
             name = v,
@@ -99,6 +101,11 @@ gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 gui.ResetOnSpawn = false
 gui.SafeAreaCompatibility = Enum.SafeAreaCompatibility.None
 gui.ScreenInsets = Enum.ScreenInsets.None
+local rise2 = Instance.new("ScreenGui", lplr.PlayerGui)
+rise2.DisplayOrder = 999
+rise2.Name = "Rise 6 - HUD"
+rise2.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+rise2.ResetOnSpawn = false
 GuiLibrary["MainGui"] = gui
 if isfile("rise/configs/GUI.rscfg") then
     local suc, err = pcall(function()
@@ -149,6 +156,7 @@ local function tgle()
     if not tweening then
         tweening = true
         if uiscale.Scale == 1 then
+            GuiLibrary["ShowNotification"]("Toggled", "Toggled ClickGUI off")
             tweenService:Create(maingui, TweenInfo.new(0.15), {
                 ImageTransparency = 1
             }):Play()
@@ -170,6 +178,7 @@ local function tgle()
             end
             maingui.Visible = false
         else
+            GuiLibrary["ShowNotification"]("Toggled", "Toggled ClickGUI on")
             maingui.Visible = true
             for i, v in pairs(maingui:GetDescendants()) do
                 if v:GetAttribute(rt) then
@@ -213,7 +222,77 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function()
     if not theme then
         theme = ThemeService.Themes["Water"]
     end
-    ver.TextColor3 = #theme == 1 and theme[1] or theme[2]
 end)
-
+local notif = false
+GuiLibrary["ShowNotification"] = function(title, description, time)
+    if not GuiLibrary.Settings.Notifications then
+        return
+    end
+    if notif then
+        repeat
+            task.wait()
+        until notif == false
+    end
+    notif = true
+    local param = Instance.new("GetTextBoundsParams")
+    param.Font = shared.RiseFonts.AppleUI
+    param.Width = 99999
+    param.Size = 14
+    param.Text = description
+    local int = textService:GetTextBoundsAsync(param)
+    local xs = 60 + int.X + 15
+    local nf = Instance.new("ImageLabel", rise2)
+    nf.BackgroundTransparency = 1
+    nf.Position = UDim2.new(0, 15, 0, 54)
+    nf.Size = UDim2.new(0, xs + 25, 0, 85)
+    nf.ImageTransparency = 1
+    nf.Image = getriseasset("Notification.png")
+    nf.ImageColor3 = Color3.new(1, 1, 1)
+    nf.ScaleType = Enum.ScaleType.Slice
+    nf.SliceCenter = Rect.new(Vector2.new(71, 0), Vector2.new(249, 60))
+    nf.SliceScale = 1
+    local title2 = Instance.new("TextLabel", nf)
+    title2.BackgroundTransparency = 1
+    title2.Position = UDim2.new(0, 60, 0.233, 0)
+    title2.Size = UDim2.new(0, 0, 0, 14)
+    title2.FontFace = shared.RiseFonts["AppleUIBold"]
+    title2.TextTransparency = 1
+    title2.Text = title or "Toggled"
+    title2.TextColor3 = GuiLibrary.Settings.Theme ~= "Rainbow" and ThemeService.Themes[GuiLibrary.Settings.Theme][1] or
+                            Color3.new(1, 1, 1)
+    local dsc = Instance.new("TextLabel", nf)
+    dsc.BackgroundTransparency = 1
+    dsc.Position = UDim2.new(0, 60, 0.567, 0)
+    dsc.TextTransparency = 1
+    dsc.Size = UDim2.new(0, 0, 0, 14)
+    dsc.FontFace = shared.RiseFonts["AppleUI"]
+    dsc.Text = description
+    dsc.TextColor3 = Color3.fromRGB(215, 215, 215)
+    dsc.TextSize = 14
+    dsc.TextXAlignment = Enum.TextXAlignment.Left
+    tweenService:Create(nf, TweenInfo.new(.25), {
+        Size = UDim2.new(0, xs, 0, 60),
+        ImageTransparency = 0
+    }):Play()
+    tweenService:Create(title2, TweenInfo.new(.25), {
+        TextTransparency = 0
+    }):Play()
+    tweenService:Create(dsc, TweenInfo.new(.25), {
+        TextTransparency = 0
+    }):Play()
+    task.wait(.25 + (time or 0.8))
+    tweenService:Create(nf, TweenInfo.new(.25), {
+        Size = UDim2.new(0, xs + 25, 0, 85),
+        ImageTransparency = 1
+    }):Play()
+    tweenService:Create(title2, TweenInfo.new(.25), {
+        TextTransparency = 1
+    }):Play()
+    tweenService:Create(dsc, TweenInfo.new(.25), {
+        TextTransparency = 1
+    }):Play()
+    notif = false
+end
+GuiLibrary.UpdateHudEvent:Fire()
+GuiLibrary.ShowNotification("Rise 6", "Rise loaded. Press " .. GuiLibrary.Settings.Keybind .. " to open Click GUI")
 return GuiLibrary

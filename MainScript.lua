@@ -26,5 +26,4 @@ for i, v in pairs({ "rise", "rise/assets", "rise/configs", "rise/scripts" }) do
 end
 shared.Rise = loadstring(loadscript("RiseService.lua"))()
 local GuiLibrary = loadstring(loadscript("GuiLibrary.lua"))()
-GuiLibrary.UpdateHudEvent:Fire()
 shared.RiseGUI = GuiLibrary
