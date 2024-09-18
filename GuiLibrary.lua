@@ -219,11 +219,18 @@ ver.TextColor3 = Color3.new(1, 1, 1)
 ver.TextSize = 17
 ver.TextXAlignment = Enum.TextXAlignment.Left
 ver.TextYAlignment = Enum.TextYAlignment.Bottom
-table.insert(GuiLibrary.GradientItems, ver)
+local vergra = Instance.new("UIGradient", ver)
+vergra.Color = Color3.new(1, 1, 1)
+table.insert(GuiLibrary.RainbowItems, vergra)
 GuiLibrary.UpdateHudEvent.Event:Connect(function()
     local theme = ThemeService.Themes[GuiLibrary.Settings.Theme]
     if not theme then
         theme = ThemeService.Themes["Water"]
+    end
+    if GuiLibrary.Settings.Theme == "Rainbow" then
+        vergra.Color = Color3.new(1, 1, 1)
+    else
+        vergra.Color = ThemeService.Themes[GuiLibrary.Settings.Theme][1]
     end
 end)
 local notif = false
@@ -257,7 +264,6 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
     notif = false
 end
 GuiLibrary.UpdateHudEvent:Fire()
-
 local lastprogress = nil
 local reverse = true
 GuiLibrary.ColorStepped = runService.RenderStepped:Connect(function()
@@ -280,6 +286,8 @@ GuiLibrary.ColorStepped = runService.RenderStepped:Connect(function()
             v.ImageColor3 = color
         elseif v:IsA("TextLabel") or v:IsA("TextButton") then
             v.TextColor3 = color
+        elseif v:IsA("UIGradient") then
+            v.Color = color
         end
     end
     for i, v in pairs(GuiLibrary.RainbowItems) do
@@ -292,6 +300,8 @@ GuiLibrary.ColorStepped = runService.RenderStepped:Connect(function()
             v.ImageColor3 = color
         elseif v:IsA("TextLabel") or v:IsA("TextButton") then
             v.TextColor3 = color
+        elseif v:IsA("UIGradient") then
+            v.Color = color
         end
     end
     lastprogress = progress
