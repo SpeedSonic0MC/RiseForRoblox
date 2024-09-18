@@ -185,7 +185,7 @@ inputService.InputBegan:Connect(function(input)
                     ImageTransparency = 0
                 }):Play()
                 tweenService:Create(uiscale, TweenInfo.new(0.25), {
-                    Scale = 0
+                    Scale = 0.2
                 }):Play()
             end
             tweening = false
