@@ -244,7 +244,8 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
         local xs = math.min(60 + int.X + 15, 280)
         local nf = Instance.new("ImageLabel", rise2)
         nf.BackgroundTransparency = 1
-        nf.Position = UDim2.new(0, 15, 0, 54)
+        nf.AnchorPoint = Vector2.new(0.5, 0.5)
+        nf.Position = UDim2.new(0, 155, 0, 84)
         nf.Size = UDim2.new(0, xs + 25, 0, 85)
         nf.ImageTransparency = 1
         nf.Image = getriseasset("Notification.png")
@@ -294,6 +295,8 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
         tweenService:Create(dsc, TweenInfo.new(.25), {
             TextTransparency = 1
         }):Play()
+        task.delay(0.25)
+        nf:Destroy()
         notif = false
     end)
 end
