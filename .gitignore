@@ -1,0 +1,7 @@
+# Node.JS automated stuff
+node_modules
+src
+package*.json
+
+# Visual studio code configurations
+.vscode
