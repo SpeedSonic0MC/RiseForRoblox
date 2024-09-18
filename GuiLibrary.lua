@@ -264,6 +264,7 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
             GuiLibrary.Settings.Theme ~= "Rainbow" and ThemeService.Themes[GuiLibrary.Settings.Theme][1] or
                 Color3.new(1, 1, 1)
         title2.TextSize = 14
+        title2.TextXAlignment = Enum.TextXAlignment.Left
         local dsc = Instance.new("TextLabel", nf)
         dsc.BackgroundTransparency = 1
         dsc.Position = UDim2.new(0, 60, 0.567, 0)
@@ -295,7 +296,7 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
         tweenService:Create(dsc, TweenInfo.new(.25), {
             TextTransparency = 1
         }):Play()
-        task.delay(0.25)
+        task.wait(0.25)
         nf:Destroy()
         notif = false
     end)
