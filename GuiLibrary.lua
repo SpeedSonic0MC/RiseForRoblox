@@ -256,7 +256,7 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
         param.Font = shared.RiseFonts.AppleUI
         param.Size = 14
         local size = math.max(textService:GetTextBoundsAsync(param).X + 75, 280)
-        notification.Size = UDim2.new(0, size * 1.3, 0, 60 * 1.3)
+        notification.Size = UDim2.new(0, size * 1.15, 0, 60 * 1.15)
         notification.ImageTransparency = 1
         notification.Position = UDim2.new(0, math.floor((size == 280 and 155 or (155 + (size - 280) / 2))), 0, 92)
         notification.Size = UDim2.new(0, size * 1.3, 0, 60 * 1.3)
@@ -290,26 +290,24 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
             ImageTransparency = 0,
             Size = UDim2.new(0, size, 0, 60)
         }):Play()
-        task.wait(0.1)
-        tweenService:Create(t, TweenInfo.new(0.1), {
+        tweenService:Create(t, TweenInfo.new(0.2), {
             TextTransparency = 0
         }):Play()
-        tweenService:Create(d, TweenInfo.new(0.1), {
+        tweenService:Create(d, TweenInfo.new(0.2), {
             TextTransparency = 0
         }):Play()
-        task.wait(0.9)
-        tweenService:Create(t, TweenInfo.new(0.1), {
+        task.wait(1)
+        tweenService:Create(t, TweenInfo.new(0.2), {
             TextTransparency = 1
         }):Play()
-        tweenService:Create(d, TweenInfo.new(0.1), {
+        tweenService:Create(d, TweenInfo.new(0.2), {
             TextTransparency = 1
         }):Play()
-        task.wait(.1)
         tweenService:Create(notification, TweenInfo.new(0.2), {
             ImageTransparency = 1,
-            Size = UDim2.new(0, size * 1.3, 0, 60 * 1.3)
+            Size = UDim2.new(0, size * 1.15, 0, 60 * 1.15)
         }):Play()
-        task.wait(.1)
+        task.wait(0.2)
         notification:Destroy()
         notif = false
     end)
