@@ -246,7 +246,7 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
         nf.BackgroundTransparency = 1
         nf.AnchorPoint = Vector2.new(0.5, 0.5)
         nf.Position = UDim2.new(0, 155, 0, 84)
-        nf.Size = UDim2.new(0, xs + 25, 0, 85)
+        nf.Size = UDim2.new(0, xs * 1.3, 0, 60 * 1.3)
         nf.ImageTransparency = 1
         nf.Image = getriseasset("Notification.png")
         nf.ImageColor3 = Color3.new(1, 1, 1)
@@ -287,7 +287,7 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
         }):Play()
         task.wait(.25 + (time or 0.8))
         tweenService:Create(nf, TweenInfo.new(.25), {
-            Size = UDim2.new(0, xs + 25, 0, 85),
+            Size = UDim2.new(0, xs * 1.3, 0, 60 * 1.3),
             ImageTransparency = 1
         }):Play()
         tweenService:Create(title2, TweenInfo.new(.25), {
