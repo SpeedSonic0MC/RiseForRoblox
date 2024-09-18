@@ -1,6 +1,6 @@
 local GuiLibrary = {
-    ["ObjectCanBeSaved"] = {},
-    ["Settings"] = {
+    ObjectCanBeSaved = {},
+    Settings = {
         Keybind = shared.RiseDeveloper and "M" or "RightShift",
         Profile = "latest",
         Notifications = true,
@@ -18,7 +18,8 @@ local GuiLibrary = {
     Assets = {
         ["logo.png"] = "rbxassetid://128089542278367",
         ["maingui.png"] = "rbxassetid://138942713766181"
-    }
+    },
+    Version = "6.0"
 }
 local function loadscript(url)
     if shared.RiseDeveloper then
@@ -128,6 +129,7 @@ maingui.Position = UDim2.new(0.5, GuiLibrary.Settings.UILocation[1], 0.5, GuiLib
 maingui.Size = UDim2.new(0, 828, 0, 628)
 maingui.Image = getriseasset("maingui.png")
 maingui.ImageColor3 = Color3.new(1, 1, 1)
+maingui.ImageTransparency = 1
 maingui.ClipsDescendants = true
 local uiscale = Instance.new("UIScale", maingui)
 uiscale.Scale = 0.2
@@ -192,11 +194,21 @@ inputService.InputBegan:Connect(function(input)
         end
     end
 end)
-
+local ver = Instance.new("TextLabel", maingui)
+ver.Position = UDim2.new(0, 97, 0, 37) --  we use UIScale now so finally yay no more scales
+ver.Size = UDim2.new(0, 50, 0, 13)
+ver.BackgroundTransparency = 1
+ver.FontFace = shared.RiseFonts["AppleUI"]
+ver.Text = GuiLibrary["Version"]
+ver.TextColor3 = Color3.new(1, 1, 1)
+ver.TextSize = 20
+ver.TextXAlignment = Enum.TextXAlignment.Left
+ver.TextYAlignment = Enum.TextYAlignment.Bottom
 GuiLibrary.UpdateHudEvent.Event:Connect(function()
     local theme = ThemeService.Themes[GuiLibrary.Settings.Theme]
     if not theme then
         theme = ThemeService.Themes["Water"]
+        ver.TextColor3 = #theme == 1 and theme[1] or theme[2]
     end
 end)
 GuiLibrary.UpdateHudEvent:Fire()
