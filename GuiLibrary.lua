@@ -18,9 +18,11 @@ local GuiLibrary = {
     Assets = {
         ["logo.png"] = "rbxassetid://128089542278367",
         ["maingui.png"] = "rbxassetid://138942713766181",
-        ["Notification.png"] = "rbxassetid://117437484840382"
+        ["Notification.png"] = "rbxassetid://104510745030330"
     },
-    Version = "6.0"
+    Version = "6.0",
+    GradientItems = {},
+    RainbowItems = {}
 }
 local function loadscript(url)
     if shared.RiseDeveloper then
@@ -217,6 +219,7 @@ ver.TextColor3 = Color3.new(1, 1, 1)
 ver.TextSize = 17
 ver.TextXAlignment = Enum.TextXAlignment.Left
 ver.TextYAlignment = Enum.TextYAlignment.Bottom
+table.insert(GuiLibrary.GradientItems, ver)
 GuiLibrary.UpdateHudEvent.Event:Connect(function()
     local theme = ThemeService.Themes[GuiLibrary.Settings.Theme]
     if not theme then
@@ -225,82 +228,77 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function()
 end)
 local notif = false
 GuiLibrary["ShowNotification"] = function(title, description, time)
-    task.spawn(function()
-        if not GuiLibrary.Settings.Notifications then
-            return
-        end
-        if notif then
-            repeat
-                task.wait()
-            until notif == false
-        end
-        notif = true
-        local param = Instance.new("GetTextBoundsParams")
-        param.Font = shared.RiseFonts.AppleUI
-        param.Width = 99999
-        param.Size = 14
-        param.Text = description
-        local int = textService:GetTextBoundsAsync(param)
-        local xs = math.max(60 + int.X + 15, 280)
-        local nf = Instance.new("ImageLabel", rise2)
-        nf.BackgroundTransparency = 1
-        nf.AnchorPoint = Vector2.new(0.5, 0.5)
-        nf.Position = UDim2.new(0, 155, 0, 84)
-        nf.Size = UDim2.new(0, xs * 1.3, 0, 60 * 1.3)
-        nf.ImageTransparency = 1
-        nf.Image = getriseasset("Notification.png")
-        nf.ImageColor3 = Color3.new(1, 1, 1)
-        nf.ScaleType = Enum.ScaleType.Slice
-        nf.SliceCenter = Rect.new(Vector2.new(71, 0), Vector2.new(249, 60))
-        nf.SliceScale = 1
-        local title2 = Instance.new("TextLabel", nf)
-        title2.BackgroundTransparency = 1
-        title2.Position = UDim2.new(0, 60, 0.233, 0)
-        title2.Size = UDim2.new(0, 0, 0, 14)
-        title2.FontFace = shared.RiseFonts["AppleUIBold"]
-        title2.TextTransparency = 1
-        title2.Text = title or "Toggled"
-        title2.TextColor3 =
-            GuiLibrary.Settings.Theme ~= "Rainbow" and ThemeService.Themes[GuiLibrary.Settings.Theme][1] or
-                Color3.new(1, 1, 1)
-        title2.TextSize = 14
-        title2.TextXAlignment = Enum.TextXAlignment.Left
-        local dsc = Instance.new("TextLabel", nf)
-        dsc.BackgroundTransparency = 1
-        dsc.Position = UDim2.new(0, 60, 0.567, 0)
-        dsc.TextTransparency = 1
-        dsc.Size = UDim2.new(0, 0, 0, 14)
-        dsc.FontFace = shared.RiseFonts["AppleUI"]
-        dsc.Text = description
-        dsc.TextColor3 = Color3.fromRGB(215, 215, 215)
-        dsc.TextSize = 14
-        dsc.TextXAlignment = Enum.TextXAlignment.Left
-        tweenService:Create(nf, TweenInfo.new(.25), {
-            Size = UDim2.new(0, xs, 0, 60),
-            ImageTransparency = 0
-        }):Play()
-        tweenService:Create(title2, TweenInfo.new(.25), {
-            TextTransparency = 0
-        }):Play()
-        tweenService:Create(dsc, TweenInfo.new(.25), {
-            TextTransparency = 0
-        }):Play()
-        task.wait(.25 + (time or 0.8))
-        tweenService:Create(nf, TweenInfo.new(.25), {
-            Size = UDim2.new(0, xs * 1.3, 0, 60 * 1.3),
-            ImageTransparency = 1
-        }):Play()
-        tweenService:Create(title2, TweenInfo.new(.25), {
-            TextTransparency = 1
-        }):Play()
-        tweenService:Create(dsc, TweenInfo.new(.25), {
-            TextTransparency = 1
-        }):Play()
-        task.wait(0.25)
-        nf:Destroy()
-        notif = false
-    end)
+    title = description ~= nil and title or "Rise 6"
+    description = description or title
+    if not GuiLibrary.Settings.Notifications then
+        return
+    end
+    if notif then
+        repeat
+            task.wait()
+        until not notif
+    end
+    notif = true
+    local notification = Instance.new("ImageLabel", rise2)
+    notification.AnchorPoint = Vector2.new(0.5, 0.5)
+    notification.BackgroundTransparency = 1
+    local param = Instance.new("GetTextBoundsParams")
+    param.Text = description
+    param.Width = 99999
+    param.Font = shared.RiseFonts.AppleUI
+    param.Size = 14
+    local size = math.max(textService:GetTextBoundsAsync(param).X + 75, 280)
+    notification.Size = UDim2.new(0, size * 1.3, 0, 60 * 1.3)
+    notification.ImageTransparency = 1
+    notification.Position = UDim2.new(0, math.floor((size == 280 and 155 or (155 + (size - 280) / 2))), 0, 92)
+    notification.Size = UDim2.new(0, size * 1.3, 0, 60 * 1.3)
+    notification.Image = getriseasset("Notification.png")
+    notification.ImageColor3 = Color3.new(1, 1, 1)
+    notif = false
 end
 GuiLibrary.UpdateHudEvent:Fire()
+
+local lastprogress = nil
+local reverse = true
+GuiLibrary.ColorStepped = runService.RenderStepped:Connect(function()
+    local progress = (tick() * 0.25 * 0.6) % 1
+    if progress <= 0.01 and lastprogress >= 0.99 then
+        reverse = not reverse
+    end
+    local rlpg = progress
+    if reverse then
+        rlpg = 1 - rlpg
+    end
+    local color = ThemeService:GetColorValue("Rainbow", rlpg)
+    for i, v in pairs(GuiLibrary.GradientItems) do
+        if v == nil then
+            return
+        end
+        if v:IsA("Frame") then
+            v.BackgroundColor3 = color
+        elseif v:IsA("ImageLabel") or v:IsA("ImageButton") then
+            v.ImageColor3 = color
+        elseif v:IsA("TextLabel") or v:IsA("TextButton") then
+            v.TextColor3 = color
+        end
+    end
+    for i, v in pairs(GuiLibrary.RainbowItems) do
+        if v == nil or GuiLibrary.Settings.Theme ~= "Rainbow" then
+            return
+        end
+        if v:IsA("Frame") then
+            v.BackgroundColor3 = color
+        elseif v:IsA("ImageLabel") or v:IsA("ImageButton") then
+            v.ImageColor3 = color
+        elseif v:IsA("TextLabel") or v:IsA("TextButton") then
+            v.TextColor3 = color
+        end
+    end
+end)
+GuiLibrary["SelfDestruct"] = function()
+    if GuiLibrary["ColorStepped"] then
+        GuiLibrary["ColorStepped"]:Disconnect()
+    end
+end
 GuiLibrary.ShowNotification("Rise 6", "Rise loaded. Press " .. GuiLibrary.Settings.Keybind .. " to open Click GUI")
 return GuiLibrary

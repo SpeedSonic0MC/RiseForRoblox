@@ -79,6 +79,18 @@ Themes["ColorFilters"] = {
     Gray = {"Blossom", "Snowy Sky", "Steel Fade", "Winter", "Peony", "Creida", "Creida Two", "Gothic"}
 }
 function Themes:GetColorSequence(theme)
+    if theme == "Rainbow" then
+        return ColorSequence.new({ColorSequenceKeypoint.new(0, Color3.fromHSV(0, 1, 1)),
+                   ColorSequenceKeypoint.new(0.2, Color3.fromHSV(0.2, 1, 1)),
+                   ColorSequenceKeypoint.new(0.3, Color3.fromHSV(0.3, 1, 1)),
+                   ColorSequenceKeypoint.new(0.4, Color3.fromHSV(0.4, 1, 1)),
+                   ColorSequenceKeypoint.new(0.5, Color3.fromHSV(0.5, 1, 1)),
+                   ColorSequenceKeypoint.new(0.6, Color3.fromHSV(0.6, 1, 1)),
+                   ColorSequenceKeypoint.new(0.7, Color3.fromHSV(0.7, 1, 1)),
+                   ColorSequenceKeypoint.new(0.8, Color3.fromHSV(0.8, 1, 1)),
+                   ColorSequenceKeypoint.new(0.9, Color3.fromHSV(0.9, 1, 1)),
+                   ColorSequenceKeypoint.new(1, Color3.fromHSV(1, 1, 1))})
+    end
     local tm = self.Themes[theme]
     if not tm then
         return nil
