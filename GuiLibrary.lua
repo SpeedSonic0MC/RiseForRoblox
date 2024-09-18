@@ -144,13 +144,13 @@ inputService.InputBegan:Connect(function(input)
         if not tweening then
             tweening = true
             if maingui.Size == UDim2.new(0, 828, 0, 628) then
-                tweenService:Create(maingui, TweenInfo.new(0.1), {
+                tweenService:Create(maingui, TweenInfo.new(0.25), {
                     Size = UDim2.new(0, 0, 0, 0),
                     ImageTransparency = 1
                 }):Play()
                 for i, v in pairs(maingui:GetDescendants()) do
                     if v:GetAttribute(rt) then
-                        tweenService:Create(v, TweenInfo.new(0.1), {
+                        tweenService:Create(v, TweenInfo.new(0.25), {
                             [wefpok230(v)] = 1
                         }):Play()
                     end
@@ -171,12 +171,12 @@ inputService.InputBegan:Connect(function(input)
                 end
                 for i, v in pairs(maingui:GetDescendants()) do
                     if v:GetAttribute(rt) then
-                        tweenService:Create(v, TweenInfo.new(0.1), {
+                        tweenService:Create(v, TweenInfo.new(0.25), {
                             [wefpok230(v)] = 0
                         }):Play()
                     end
                 end
-                tweenService:Create(maingui, TweenInfo.new(0.1), {
+                tweenService:Create(maingui, TweenInfo.new(0.25), {
                     Size = UDim2.new(0, 828, 0, 628),
                     ImageTransparency = 0
                 }):Play()
