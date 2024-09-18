@@ -212,8 +212,8 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function()
     local theme = ThemeService.Themes[GuiLibrary.Settings.Theme]
     if not theme then
         theme = ThemeService.Themes["Water"]
-        ver.TextColor3 = #theme == 1 and theme[1] or theme[2]
     end
+    ver.TextColor3 = #theme == 1 and theme[1] or theme[2]
 end)
 
 return GuiLibrary
