@@ -151,7 +151,7 @@ inputService.InputBegan:Connect(function(input)
                     ImageTransparency = 1
                 }):Play()
                 tweenService:Create(uiscale, TweenInfo.new(0.25), {
-                    Scale = 0
+                    Scale = 0.2
                 }):Play()
                 for i, v in pairs(maingui:GetDescendants()) do
                     if v:GetAttribute(rt) then
@@ -185,7 +185,7 @@ inputService.InputBegan:Connect(function(input)
                     ImageTransparency = 0
                 }):Play()
                 tweenService:Create(uiscale, TweenInfo.new(0.25), {
-                    Scale = 0.2
+                    Scale = 1
                 }):Play()
             end
             tweening = false
