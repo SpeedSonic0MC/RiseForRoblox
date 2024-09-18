@@ -20,7 +20,7 @@ local GuiLibrary = {
         ["maingui.png"] = "rbxassetid://138942713766181",
         ["Notification.png"] = "rbxassetid://104510745030330"
     },
-    Version = "6.0",
+    Version = "6.0-Alpha.1",
     GradientItems = {},
     RainbowItems = {}
 }
@@ -211,7 +211,7 @@ inputService.InputBegan:Connect(function(input)
 end)
 local ver = Instance.new("TextLabel", maingui)
 ver.Position = UDim2.new(0, 97, 0, 37) --  we use UIScale now so finally yay no more scales
-ver.Size = UDim2.new(0, 50, 0, 13)
+ver.Size = UDim2.new(0, math.huge, 0, 13)
 ver.BackgroundTransparency = 1
 ver.FontFace = shared.RiseFonts["AppleUI"]
 ver.Text = GuiLibrary["Version"]
