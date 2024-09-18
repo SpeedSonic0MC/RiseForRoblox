@@ -274,6 +274,7 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
         t.TextColor3 = Color3.new(1, 1, 1)
         table.insert(GuiLibrary.RainbowItems, t)
         t.TextSize = 14
+        t.TextScaled = true
         t.TextXAlignment = Enum.TextXAlignment.Left
         t.TextTransparency = 1
         local d = Instance.new("TextLabel", notification)
@@ -281,6 +282,7 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
         d.BackgroundTransparency = 1
         d.Position = UDim2.new(0.214, 0, 0.567, 0)
         d.Size = UDim2.new(0, size - 75, 0.233, 0)
+        d.TextScaled = true
         d.FontFace = shared.RiseFonts.AppleUI
         d.Text = description
         d.TextColor3 = Color3.new(215, 215, 215)
