@@ -12,7 +12,8 @@ local GuiLibrary = {
         Lowercase = false,
         RemoveSpaces = false,
         InformationType = "Rise",
-        UILocation = {0, 0}
+        UILocation = {0, 0},
+        Theme = "Water"
     },
     Assets = {
         ["logo.png"] = "rbxassetid://128089542278367",
@@ -128,6 +129,8 @@ maingui.Size = UDim2.new(0, 828, 0, 628)
 maingui.Image = getriseasset("maingui.png")
 maingui.ImageColor3 = Color3.new(1, 1, 1)
 maingui.ClipsDescendants = true
+local uiscale = Instance.new("UIScale", maingui)
+uiscale.Scale = 0
 local tweening = false
 local rt = "RiseTransparency"
 inputService.InputBegan:Connect(function(input)
@@ -143,10 +146,12 @@ inputService.InputBegan:Connect(function(input)
     if Enum.KeyCode[GuiLibrary.Settings.Keybind] == input.KeyCode then
         if not tweening then
             tweening = true
-            if maingui.Size == UDim2.new(0, 828, 0, 628) then
+            if uiscale.Scale == 1 then
                 tweenService:Create(maingui, TweenInfo.new(0.25), {
-                    Size = UDim2.new(0, 0, 0, 0),
                     ImageTransparency = 1
+                }):Play()
+                tweenService:Create(uiscale, TweenInfo.new(0.25), {
+                    Scale = 0
                 }):Play()
                 for i, v in pairs(maingui:GetDescendants()) do
                     if v:GetAttribute(rt) then
@@ -177,12 +182,21 @@ inputService.InputBegan:Connect(function(input)
                     end
                 end
                 tweenService:Create(maingui, TweenInfo.new(0.25), {
-                    Size = UDim2.new(0, 828, 0, 628),
                     ImageTransparency = 0
+                }):Play()
+                tweenService:Create(uiscale, TweenInfo.new(0.25), {
+                    Scale = 0
                 }):Play()
             end
             tweening = false
         end
+    end
+end)
+
+GuiLibrary.UpdateHudEvent.Event:Connect(function()
+    local theme = ThemeService.Themes[GuiLibrary.Settings.Theme]
+    if not theme then
+        theme = ThemeService.Themes["Water"]
     end
 end)
 GuiLibrary.UpdateHudEvent:Fire()
