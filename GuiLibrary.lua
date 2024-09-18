@@ -149,15 +149,15 @@ local function tgle()
     if not tweening then
         tweening = true
         if uiscale.Scale == 1 then
-            tweenService:Create(maingui, TweenInfo.new(0.25), {
+            tweenService:Create(maingui, TweenInfo.new(0.15), {
                 ImageTransparency = 1
             }):Play()
-            tweenService:Create(uiscale, TweenInfo.new(0.25), {
+            tweenService:Create(uiscale, TweenInfo.new(0.15), {
                 Scale = 0.2
             }):Play()
             for i, v in pairs(maingui:GetDescendants()) do
                 if v:GetAttribute(rt) then
-                    tweenService:Create(v, TweenInfo.new(0.25), {
+                    tweenService:Create(v, TweenInfo.new(0.15), {
                         [wefpok230(v)] = 1
                     }):Play()
                 end
@@ -178,15 +178,15 @@ local function tgle()
             end
             for i, v in pairs(maingui:GetDescendants()) do
                 if v:GetAttribute(rt) then
-                    tweenService:Create(v, TweenInfo.new(0.25), {
+                    tweenService:Create(v, TweenInfo.new(0.15), {
                         [wefpok230(v)] = 0
                     }):Play()
                 end
             end
-            tweenService:Create(maingui, TweenInfo.new(0.25), {
+            tweenService:Create(maingui, TweenInfo.new(0.15), {
                 ImageTransparency = 0
             }):Play()
-            tweenService:Create(uiscale, TweenInfo.new(0.25), {
+            tweenService:Create(uiscale, TweenInfo.new(0.15), {
                 Scale = 1
             }):Play()
         end
@@ -215,5 +215,5 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function()
         ver.TextColor3 = #theme == 1 and theme[1] or theme[2]
     end
 end)
-GuiLibrary.UpdateHudEvent:Fire()
+
 return GuiLibrary
