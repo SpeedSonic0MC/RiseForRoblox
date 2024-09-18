@@ -235,7 +235,7 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function()
 end)
 local notif = false
 GuiLibrary["ShowNotification"] = function(title, description, time)
-    title = description ~= nil and title or "Rise 6"
+    title = description ~= nil and title or "Toggled"
     description = description or title
     if not GuiLibrary.Settings.Notifications then
         return
@@ -261,6 +261,53 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
     notification.Size = UDim2.new(0, size * 1.3, 0, 60 * 1.3)
     notification.Image = getriseasset("Notification.png")
     notification.ImageColor3 = Color3.new(1, 1, 1)
+    notification.ScaleType = Enum.ScaleType.Slice
+    notification.SliceCenter = Rect.new(Vector2.new(71, 0), Vector2.new(249, 60))
+    notification.SliceScale = 1
+    local t = Instance.new("TextLabel", notification)
+    t.BackgroundTransparency = 1
+    t.Position = UDim2.new(0, 60, 0, 13)
+    t.Size = UDim2.new(0, 0, 0, 14)
+    t.FontFace = shared.RiseFonts.AppleUIBold
+    t.Text = title
+    t.TextColor3 = Color3.new(1, 1, 1)
+    table.insert(GuiLibrary.RainbowItems, t)
+    t.TextSize = 14
+    t.TextXAlignment = Enum.TextXAlignment.Left
+    t.TextTransparency = 1
+    local d = Instance.new("TextLabel", rise2)
+    d.TextTransparency = 1
+    d.BackgroundTransparency = 1
+    d.Position = UDim2.new(0, 60, 0, 34)
+    d.Size = UDim2.new(0, size - 75, 0, 14)
+    d.FontFace = shared.RiseFonts.AppleUI
+    d.Text = description
+    d.TextColor3 = Color3.new(215, 215, 215)
+    d.TextSize = 14
+    d.TextXAlignment = Enum.TextXAlignment.Left
+    tweenService:Create(notification, TweenInfo.new(0.2), {
+        ImageTransparency = 0,
+        Size = UDim2.new(0, size, 0, 60)
+    }):Play()
+    tweenService:Create(t, TweenInfo.new(0.2), {
+        TextTransparency = 0
+    }):Play()
+    tweenService:Create(d, TweenInfo.new(0.2), {
+        TextTransparency = 0
+    }):Play()
+    task.wait(1)
+    tweenService:Create(notification, TweenInfo.new(0.2), {
+        ImageTransparency = 1,
+        Size = UDim2.new(0, size * 1.3, 0, 60 * 1.3)
+    }):Play()
+    tweenService:Create(t, TweenInfo.new(0.2), {
+        TextTransparency = 1
+    }):Play()
+    tweenService:Create(d, TweenInfo.new(0.2), {
+        TextTransparency = 1
+    }):Play()
+    task.wait(.2)
+    notification:Destroy()
     notif = false
 end
 GuiLibrary.UpdateHudEvent:Fire()
@@ -268,6 +315,7 @@ local lastprogress = nil
 local reverse = true
 GuiLibrary.ColorStepped = runService.RenderStepped:Connect(function()
     local progress = (tick() * 0.25 * 0.6) % 1
+    lastprogress = lastprogress or 0
     if progress <= 0.01 and lastprogress >= 0.99 then
         reverse = not reverse
     end
@@ -287,7 +335,7 @@ GuiLibrary.ColorStepped = runService.RenderStepped:Connect(function()
         elseif v:IsA("TextLabel") or v:IsA("TextButton") then
             v.TextColor3 = color
         elseif v:IsA("UIGradient") then
-            v.Color = color
+            v.Color = ColorSequence.new(color)
         end
     end
     for i, v in pairs(GuiLibrary.RainbowItems) do
@@ -301,7 +349,7 @@ GuiLibrary.ColorStepped = runService.RenderStepped:Connect(function()
         elseif v:IsA("TextLabel") or v:IsA("TextButton") then
             v.TextColor3 = color
         elseif v:IsA("UIGradient") then
-            v.Color = color
+            v.Color = ColorSequence.new(color)
         end
     end
     lastprogress = progress
