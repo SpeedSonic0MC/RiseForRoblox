@@ -220,7 +220,7 @@ ver.TextSize = 17
 ver.TextXAlignment = Enum.TextXAlignment.Left
 ver.TextYAlignment = Enum.TextYAlignment.Bottom
 local vergra = Instance.new("UIGradient", ver)
-vergra.Color = Color3.new(1, 1, 1)
+vergra.Color = ColorSequence.new(Color3.new(1, 1, 1))
 table.insert(GuiLibrary.RainbowItems, vergra)
 GuiLibrary.UpdateHudEvent.Event:Connect(function()
     local theme = ThemeService.Themes[GuiLibrary.Settings.Theme]
@@ -228,9 +228,9 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function()
         theme = ThemeService.Themes["Water"]
     end
     if GuiLibrary.Settings.Theme == "Rainbow" then
-        vergra.Color = Color3.new(1, 1, 1)
+        vergra.Color = ColorSequence.new(Color3.new(1, 1, 1))
     else
-        vergra.Color = ThemeService.Themes[GuiLibrary.Settings.Theme][1]
+        vergra.Color = ColorSequence.new(ThemeService.Themes[GuiLibrary.Settings.Theme][1])
     end
 end)
 local notif = false
