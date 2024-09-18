@@ -130,7 +130,7 @@ maingui.Image = getriseasset("maingui.png")
 maingui.ImageColor3 = Color3.new(1, 1, 1)
 maingui.ClipsDescendants = true
 local uiscale = Instance.new("UIScale", maingui)
-uiscale.Scale = 0
+uiscale.Scale = 0.2
 local tweening = false
 local rt = "RiseTransparency"
 inputService.InputBegan:Connect(function(input)
