@@ -269,7 +269,7 @@ GuiLibrary.ColorStepped = runService.RenderStepped:Connect(function()
     if reverse then
         rlpg = 1 - rlpg
     end
-    local color = ThemeService:GetColorValue("Rainbow", rlpg)
+    local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, rlpg)
     for i, v in pairs(GuiLibrary.GradientItems) do
         if v == nil then
             return
