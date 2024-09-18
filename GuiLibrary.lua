@@ -129,13 +129,14 @@ maingui.Position = UDim2.new(0.5, GuiLibrary.Settings.UILocation[1], 0.5, GuiLib
 maingui.Size = UDim2.new(0, 828, 0, 628)
 maingui.Image = getriseasset("maingui.png")
 maingui.ImageColor3 = Color3.new(1, 1, 1)
-maingui.ImageTransparency = 1
+maingui.Visible = false
+maingui.ImageTransparency = 0
 maingui.ClipsDescendants = true
 local uiscale = Instance.new("UIScale", maingui)
 uiscale.Scale = 0.2
 local tweening = false
 local rt = "RiseTransparency"
-inputService.InputBegan:Connect(function(input)
+local function tgle()
     local function wefpok230(v)
         if v:IsA("Frame") then
             return "BackgroundTransparency"
@@ -145,53 +146,56 @@ inputService.InputBegan:Connect(function(input)
             return "ImageTransparency"
         end
     end
-    if Enum.KeyCode[GuiLibrary.Settings.Keybind] == input.KeyCode then
-        if not tweening then
-            tweening = true
-            if uiscale.Scale == 1 then
-                tweenService:Create(maingui, TweenInfo.new(0.25), {
-                    ImageTransparency = 1
-                }):Play()
-                tweenService:Create(uiscale, TweenInfo.new(0.25), {
-                    Scale = 0.2
-                }):Play()
-                for i, v in pairs(maingui:GetDescendants()) do
-                    if v:GetAttribute(rt) then
-                        tweenService:Create(v, TweenInfo.new(0.25), {
-                            [wefpok230(v)] = 1
-                        }):Play()
-                    end
+    if not tweening then
+        tweening = true
+        if uiscale.Scale == 1 then
+            tweenService:Create(maingui, TweenInfo.new(0.25), {
+                ImageTransparency = 1
+            }):Play()
+            tweenService:Create(uiscale, TweenInfo.new(0.25), {
+                Scale = 0.2
+            }):Play()
+            for i, v in pairs(maingui:GetDescendants()) do
+                if v:GetAttribute(rt) then
+                    tweenService:Create(v, TweenInfo.new(0.25), {
+                        [wefpok230(v)] = 1
+                    }):Play()
                 end
-                task.wait(0.1)
-                for i, v in pairs(maingui:GetDescendants()) do
-                    if v:GetAttribute(rt) then
-                        v[wefpok230(v)] = 0
-                    end
-                end
-                maingui.Visible = false
-            else
-                maingui.Visible = true
-                for i, v in pairs(maingui:GetDescendants()) do
-                    if v:GetAttribute(rt) then
-                        v[wefpok230(v)] = 1
-                    end
-                end
-                for i, v in pairs(maingui:GetDescendants()) do
-                    if v:GetAttribute(rt) then
-                        tweenService:Create(v, TweenInfo.new(0.25), {
-                            [wefpok230(v)] = 0
-                        }):Play()
-                    end
-                end
-                tweenService:Create(maingui, TweenInfo.new(0.25), {
-                    ImageTransparency = 0
-                }):Play()
-                tweenService:Create(uiscale, TweenInfo.new(0.25), {
-                    Scale = 1
-                }):Play()
             end
-            tweening = false
+            task.wait(0.1)
+            for i, v in pairs(maingui:GetDescendants()) do
+                if v:GetAttribute(rt) then
+                    v[wefpok230(v)] = 0
+                end
+            end
+            maingui.Visible = false
+        else
+            maingui.Visible = true
+            for i, v in pairs(maingui:GetDescendants()) do
+                if v:GetAttribute(rt) then
+                    v[wefpok230(v)] = 1
+                end
+            end
+            for i, v in pairs(maingui:GetDescendants()) do
+                if v:GetAttribute(rt) then
+                    tweenService:Create(v, TweenInfo.new(0.25), {
+                        [wefpok230(v)] = 0
+                    }):Play()
+                end
+            end
+            tweenService:Create(maingui, TweenInfo.new(0.25), {
+                ImageTransparency = 0
+            }):Play()
+            tweenService:Create(uiscale, TweenInfo.new(0.25), {
+                Scale = 1
+            }):Play()
         end
+        tweening = false
+    end
+end
+inputService.InputBegan:Connect(function(input)
+    if Enum.KeyCode[GuiLibrary.Settings.Keybind] == input.KeyCode then
+        tgle()
     end
 end)
 local ver = Instance.new("TextLabel", maingui)
@@ -201,7 +205,7 @@ ver.BackgroundTransparency = 1
 ver.FontFace = shared.RiseFonts["AppleUI"]
 ver.Text = GuiLibrary["Version"]
 ver.TextColor3 = Color3.new(1, 1, 1)
-ver.TextSize = 20
+ver.TextSize = 17
 ver.TextXAlignment = Enum.TextXAlignment.Left
 ver.TextYAlignment = Enum.TextYAlignment.Bottom
 GuiLibrary.UpdateHudEvent.Event:Connect(function()
