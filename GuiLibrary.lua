@@ -318,14 +318,13 @@ end
 GuiLibrary.UpdateHudEvent:Fire()
 local lastprogress = nil
 local reverse = true
+local step = 0
 GuiLibrary.ColorStepped = runService.RenderStepped:Connect(function()
-    local progress = (GuiLibrary.Settings.Theme == "Rainbow" and (tick() * 0.25 * 0.6) % 1 or (tick() * 0.25 * 2) % 1) * 2
     lastprogress = lastprogress or 0
-    print(progress, lastprogress)
-    if progress <= 0.01 and lastprogress >= 0.99 then
+    if step <= 0.01 and lastprogress >= 0.99 then
         reverse = not reverse print("switch")
     end
-    local rlpg = reverse and 1 - progress or progress
+    local rlpg = reverse and 1 - step or step
     local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, rlpg):Lerp(Color3.new(0, 0, 0), 0.1)
     for i, v in pairs(GuiLibrary.GradientItems) do
         if v == nil then
@@ -355,7 +354,8 @@ GuiLibrary.ColorStepped = runService.RenderStepped:Connect(function()
             v.Color = ColorSequence.new(color)
         end
     end
-    lastprogress = progress
+    lastprogress = step
+    step = step + (math.random() * 0.02)
 end)
 local clip = Instance.new("Frame", maingui)
 clip.AnchorPoint = Vector2.new(0.5, 0.5)
