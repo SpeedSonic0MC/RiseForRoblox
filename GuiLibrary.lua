@@ -399,14 +399,15 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
     cart.Image = getriseasset(v .. ".png")
     cart.ImageColor3 = (v == "Search" and Color3.new(1, 1, 1) or Color3.fromRGB(170, 170, 170))
     cart.ScaleType = Enum.ScaleType.Slice
-    cart.ImageRectOffset = Vector2.new(19, 19)
+    cart.ImageRectSize = Vector2.new(19, 19)
+    cart.ImageRectOffset = Vector2.zero
     cart.SliceCenter = Rect.new(Vector2.zero, Vector2.new(19, 19))
     local lab = Instance.new("TextLabel", cart)
     lab.AnchorPoint = Vector2.new(0, 0.5)
     lab.FontFace = shared.RiseFonts.AppleUI
     lab.BackgroundTransparency = 1
     lab.Position = UDim2.new(1, 5, 0.5, 0)
-    lab.Size = UDim2.new(0, 2000, 0, 11)
+    lab.Size = UDim2.new(0, 2000, 0, 15)
     lab.Text = v
     lab.TextColor3 = (v == "Search" and Color3.new(1, 1, 1) or Color3.fromRGB(170, 170, 170))
     lab.TextScaled = true
