@@ -323,7 +323,8 @@ GuiLibrary.ColorStepped = runService.RenderStepped:Connect(function()
     lastprogress = lastprogress or 0
     local progress = (step * 0.25 * 0.6) % 1
     if progress <= 0.01 and lastprogress >= 0.99 then
-        reverse = not reverse print("switch")
+        reverse = not reverse
+        print("switch")
     end
     local rlpg = reverse and 1 - progress or progress
     local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, rlpg):Lerp(Color3.new(0, 0, 0), 0.1)
@@ -394,10 +395,22 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
     cart.AnchorPoint = Vector2.new(0, 0.5)
     cart.BackgroundTransparency = 1
     cart.Position = UDim2.new(0, (v == "Search" and 32 or 24), 0.5, 0)
-    cart.Size = UDim2.new(0, winize[i], 0, 19)
+    cart.Size = UDim2.new(0, 19, 0, 19)
     cart.Image = getriseasset(v .. ".png")
     cart.ImageColor3 = (v == "Search" and Color3.new(1, 1, 1) or Color3.fromRGB(170, 170, 170))
-    cart.ScaleType = Enum.ScaleType.Fit
+    cart.ScaleType = Enum.ScaleType.Slice
+    cart.ImageRectOffset = Vector2.new(19, 19)
+    cart.SliceCenter = Rect.new(Vector2.zero, Vector2.new(19, 19))
+    local lab = Instance.new("TextLabel", cart)
+    lab.AnchorPoint = Vector2.new(0, 0.5)
+    lab.FontFace = shared.RiseFonts.AppleUI
+    lab.BackgroundTransparency = 1
+    lab.Position = UDim2.new(1, 5, 0.5, 0)
+    lab.Size = UDim2.new(0, 2000, 0, 11)
+    lab.Text = v
+    lab.TextColor3 = (v == "Search" and Color3.new(1, 1, 1) or Color3.fromRGB(170, 170, 170))
+    lab.TextScaled = true
+    lab.TextXAlignment = Enum.TextXAlignment.Left
     textbtn.MouseButton1Click:Connect(function()
         if sw == v then
             return
@@ -411,6 +424,10 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             Position = UDim2.new(0, 24, 0.5, 0),
             ImageColor3 = Color3.fromRGB(170, 170, 170)
         }):Play()
+        tweenService:Create(winlist:FindFirstChild(sw):FindFirstChildWhichIsA "ImageLabel"
+            :FindFirstChildWhichIsA "TextLabel", TweenInfo.new(0.3), {
+            TextColor3 = Color3.fromRGB(170, 170, 170)
+        }):Play()
         task.delay(0.3, function()
             cs:Destroy()
         end)
@@ -421,9 +438,12 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             ImageTransparency = 0
         }):Play()
         sw = v
-        tweenService:Create(winlist:FindFirstChild(sw):FindFirstChildWhichIsA "ImageLabel", TweenInfo.new(0.3), {
+        tweenService:Create(cart, TweenInfo.new(0.3), {
             Position = UDim2.new(0, 32, 0.5, 0),
             ImageColor3 = Color3.new(1, 1, 1)
+        }):Play()
+        tweenService:Create(lab, TweenInfo.new(0.3), {
+            TextColor3 = Color3.new(1, 1, 1)
         }):Play()
     end)
 end
