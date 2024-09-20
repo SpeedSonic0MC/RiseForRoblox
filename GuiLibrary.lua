@@ -322,6 +322,7 @@ local step = 0
 GuiLibrary.ColorStepped = runService.RenderStepped:Connect(function()
     lastprogress = lastprogress or 0
     local progress = (step * 0.25 * 0.6) % 1
+    print(progress)
     if progress <= 0.01 and lastprogress >= 0.99 then
         reverse = not reverse
         print("switch")
