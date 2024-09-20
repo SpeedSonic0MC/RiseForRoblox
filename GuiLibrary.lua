@@ -319,10 +319,11 @@ GuiLibrary.UpdateHudEvent:Fire()
 local lastprogress = nil
 local reverse = true
 GuiLibrary.ColorStepped = runService.RenderStepped:Connect(function()
-    local progress = (tick() * 0.25 * 0.6) % 1
+    local progress = GuiLibrary.Settings.Theme == "Rainbow" and (tick() * 0.25 * 0.6) % 1 or (tick() * 0.25 * 0.6) % 0.6
     lastprogress = lastprogress or 0
-    if progress <= 0.01 and lastprogress >= 0.98 then
-        reverse = not reverse
+    print(progress, lastprogress)
+    if progress <= 0.01 and lastprogress >= 0.99 then
+        reverse = not reverse print("switch")
     end
     local rlpg = reverse and 1 - progress or progress
     local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, rlpg):Lerp(Color3.new(0, 0, 0), 0.1)
@@ -366,7 +367,7 @@ local winlist = Instance.new("Frame", clip)
 winlist.BackgroundTransparency = 1
 winlist.Size = UDim2.new(1, 0, 1, 0)
 local selectedsize = {96, 102, 120, 88, 96, 94, 88, 76, 102, 114}
-local selectedpos = {80, 119, 162, 203, 240, 285, 325, 367, 408, 449}
+local selectedpos = {80, 120, 162, 203, 243, 285, 325, 367, 408, 449}
 local winpos = {80, 121, 162, 203, 244, 285, 326, 367, 408, 449}
 local winize = {70, 81, 103, 65, 74, 68, 66, 52, 81, 95}
 local initWindowFunction = {}
@@ -414,9 +415,9 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         end)
         selectedwindow.Position = UDim2.new(0, 20, 0, selectedpos[i])
         selectedwindow.ImageTransparency = 1
+        selectedwindow.Size = UDim2.new(0, selectedsize[i], 0, 30)
         tweenService:Create(selectedwindow, TweenInfo.new(0.3), {
-            ImageTransparency = 0,
-            Size = UDim2.new(0, selectedsize[i], 0, 30)
+            ImageTransparency = 0
         }):Play()
         sw = v
         tweenService:Create(winlist:FindFirstChild(sw):FindFirstChildWhichIsA "ImageLabel", TweenInfo.new(0.3), {
