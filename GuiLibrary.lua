@@ -319,7 +319,7 @@ GuiLibrary.UpdateHudEvent:Fire()
 local lastprogress = nil
 local reverse = true
 GuiLibrary.ColorStepped = runService.RenderStepped:Connect(function()
-    local progress = GuiLibrary.Settings.Theme == "Rainbow" and (tick() * 0.25 * 0.6) % 1 or (tick() * 0.25 * 0.6) % 0.6
+    local progress = GuiLibrary.Settings.Theme == "Rainbow" and (tick() * 0.25 * 0.6) % 1 or (tick() * 0.25 * 2) % 1
     lastprogress = lastprogress or 0
     print(progress, lastprogress)
     if progress <= 0.01 and lastprogress >= 0.99 then
