@@ -104,7 +104,7 @@ gui.ResetOnSpawn = false
 gui.SafeAreaCompatibility = Enum.SafeAreaCompatibility.None
 gui.ScreenInsets = Enum.ScreenInsets.None
 local rise2 = Instance.new("ScreenGui", lplr.PlayerGui)
-rise2.DisplayOrder = 999
+rise2.DisplayOrder = 998
 rise2.Name = "Rise 6 - HUD"
 rise2.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 rise2.ResetOnSpawn = false
@@ -327,7 +327,7 @@ GuiLibrary.ColorStepped = runService.RenderStepped:Connect(function()
     if reverse then
         rlpg = 1 - rlpg
     end
-    local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, rlpg)
+    local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, rlpg):Lerp(Color3.new(0, 0, 0), 0.1)
     for i, v in pairs(GuiLibrary.GradientItems) do
         if v == nil then
             return
@@ -358,6 +358,16 @@ GuiLibrary.ColorStepped = runService.RenderStepped:Connect(function()
     end
     lastprogress = progress
 end)
+local clip = Instance.new("Frame", maingui)
+clip.AnchorPoint = Vector2.new(0.5, 0.5)
+clip.BackgroundTransparency = 1
+clip.Position = UDim2.new(0.5, 0, 0.5, 0)
+clip.Size = UDim2.new(0, 800, 0, 600)
+clip.ClipsDescendants = true
+local winlist = Instance.new("Frame", clip)
+winlist.BackgroundTransparency = 1
+winlist.Size = UDim2.new(1, 0, 1, 0)
+local selectedsize = {96, 102, 120, 88, 96, 94, 88, 76, 102, 114}
 GuiLibrary["SelfDestruct"] = function()
     if GuiLibrary["ColorStepped"] then
         GuiLibrary["ColorStepped"]:Disconnect()
