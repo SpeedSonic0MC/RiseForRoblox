@@ -75,7 +75,7 @@ local getriseasset = function(url)
         Url = "https://raw.githubusercontent.com/SpeedSonic0MC/RiseForRoblox/main/assets/" .. url,
         Method = "GET"
     }
-    writefile("rise/assets/" .. url, asset.Body) -- we dont do file check for asset updates.
+    writefile("rise/assets/" .. url, asset.Body)
     return getcustomasset("rise/assets/" .. url)
 end
 getriseasset("Minecraft.ttf")
@@ -321,13 +321,10 @@ local reverse = true
 GuiLibrary.ColorStepped = runService.RenderStepped:Connect(function()
     local progress = (tick() * 0.25 * 0.6) % 1
     lastprogress = lastprogress or 0
-    if progress <= 0.01 and lastprogress >= 0.99 then
+    if progress <= 0.01 and lastprogress >= 0.98 then
         reverse = not reverse
     end
-    local rlpg = progress
-    if reverse then
-        rlpg = 1 - rlpg
-    end
+    local rlpg = reverse and 1 - progress or progress
     local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, rlpg):Lerp(Color3.new(0, 0, 0), 0.1)
     for i, v in pairs(GuiLibrary.GradientItems) do
         if v == nil then
@@ -418,7 +415,8 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         selectedwindow.Position = UDim2.new(0, 20, 0, selectedpos[i])
         selectedwindow.ImageTransparency = 1
         tweenService:Create(selectedwindow, TweenInfo.new(0.3), {
-            ImageTransparency = 0
+            ImageTransparency = 0,
+            Size = UDim2.new(0, selectedsize[i], 0, 30)
         }):Play()
         sw = v
         tweenService:Create(winlist:FindFirstChild(sw):FindFirstChildWhichIsA "ImageLabel", TweenInfo.new(0.3), {
