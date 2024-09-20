@@ -319,7 +319,7 @@ GuiLibrary.UpdateHudEvent:Fire()
 local lastprogress = nil
 local reverse = true
 local step = 0
-GuiLibrary.ColorStepped = runService.RenderStepped:Connect(function()
+local function t()
     lastprogress = lastprogress or 0
     local progress = (step * 0.25 * 0.6) % 1
     print(progress)
@@ -359,6 +359,9 @@ GuiLibrary.ColorStepped = runService.RenderStepped:Connect(function()
     end
     lastprogress = step
     step = step + (math.random() * 0.02)
+end
+task.spawn(function()
+    repeat t() task.wait() until not GuiLibrary
 end)
 local clip = Instance.new("Frame", maingui)
 clip.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -450,9 +453,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
     end)
 end
 GuiLibrary["SelfDestruct"] = function()
-    if GuiLibrary["ColorStepped"] then
-        GuiLibrary["ColorStepped"]:Disconnect()
-    end
+    GuiLibrary = nil
 end
 GuiLibrary.ShowNotification("Rise 6", "Rise loaded. Press " .. GuiLibrary.Settings.Keybind .. " to open Click GUI")
 return GuiLibrary
