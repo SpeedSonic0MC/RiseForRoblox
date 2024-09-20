@@ -18,7 +18,8 @@ local GuiLibrary = {
     Assets = {
         ["logo.png"] = "rbxassetid://128089542278367",
         ["maingui.png"] = "rbxassetid://138942713766181",
-        ["Notification.png"] = "rbxassetid://104510745030330"
+        ["Notification.png"] = "rbxassetid://104510745030330",
+        ["Window.png"] = "rbxassetid://78059882197728"
     },
     Version = "6.0-Alpha.1",
     GradientItems = {},
@@ -368,6 +369,64 @@ local winlist = Instance.new("Frame", clip)
 winlist.BackgroundTransparency = 1
 winlist.Size = UDim2.new(1, 0, 1, 0)
 local selectedsize = {96, 102, 120, 88, 96, 94, 88, 76, 102, 114}
+local selectedpos = {80, 119, 162, 203, 240, 285, 325, 367, 408, 449}
+local winpos = {80, 121, 162, 203, 244, 285, 326, 367, 408, 449}
+local winize = {70, 81, 103, 65, 74, 68, 66, 52, 81, 95}
+local initWindowFunction = {}
+local selectedwindow = Instance.new("ImageLabel", winlist)
+selectedwindow.Image = getriseasset("Window.png")
+selectedwindow.BackgroundTransparency = 1
+selectedwindow.Position = UDim2.new(0, 20, 0, selectedpos[1])
+selectedwindow.Size = UDim2.new(0, selectedsize[1], 0, 30)
+selectedwindow.ZIndex = 0
+selectedwindow.ScaleType = Enum.ScaleType.Slice
+selectedwindow.SliceScale = 1
+selectedwindow.SliceCenter = Rect.new(Vector2.new(9, 0), Vector2.new(21, 30))
+table.insert(GuiLibrary.GradientItems, selectedwindow)
+local sw = "Search"
+for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit", "Ghost", "CaS", "Themes", "Language"}) do
+    local textbtn = Instance.new("TextButton", winlist)
+    textbtn.BackgroundTransparency = 1
+    textbtn.Text = ""
+    textbtn.Name = v
+    textbtn.Position = UDim2.new(0, 0, 0, winpos[i])
+    textbtn.Size = UDim2.new(0, 200, 0, 29)
+    local cart = Instance.new("ImageLabel", textbtn)
+    cart.AnchorPoint = Vector2.new(0, 0.5)
+    cart.BackgroundTransparency = 1
+    cart.Position = UDim2.new(0, (v == "Search" and 32 or 24), 0.5, 0)
+    cart.Size = UDim2.new(0, winize[i], 0, 19)
+    cart.Image = getriseasset(v .. ".png")
+    cart.ImageColor3 = (v == "Search" and Color3.new(1, 1, 1) or Color3.fromRGB(170, 170, 170))
+    cart.ScaleType = Enum.ScaleType.Fit
+    textbtn.MouseButton1Click:Connect(function()
+        if sw == v then
+            return
+        end
+        local cs = selectedwindow:Clone()
+        cs.Parent = winlist
+        tweenService:Create(cs, TweenInfo.new(0.3), {
+            ImageTransparency = 1
+        }):Play()
+        tweenService:Create(winlist:FindFirstChild(sw):FindFirstChildWhichIsA "ImageLabel", TweenInfo.new(0.3), {
+            Position = UDim2.new(0, 24, 0.5, 0),
+            ImageColor3 = Color3.fromRGB(170, 170, 170)
+        }):Play()
+        task.delay(0.3, function()
+            cs:Destroy()
+        end)
+        selectedwindow.Position = UDim2.new(0, 20, 0, selectedpos[i])
+        selectedwindow.ImageTransparency = 1
+        tweenService:Create(selectedwindow, TweenInfo.new(0.3), {
+            ImageTransparency = 0
+        }):Play()
+        sw = v
+        tweenService:Create(winlist:FindFirstChild(sw):FindFirstChildWhichIsA "ImageLabel", TweenInfo.new(0.3), {
+            Position = UDim2.new(0, 32, 0.5, 0),
+            ImageColor3 = Color3.new(1, 1, 1)
+        }):Play()
+    end)
+end
 GuiLibrary["SelfDestruct"] = function()
     if GuiLibrary["ColorStepped"] then
         GuiLibrary["ColorStepped"]:Disconnect()
