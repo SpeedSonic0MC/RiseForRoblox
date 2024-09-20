@@ -320,6 +320,7 @@ local lastprogress = nil
 local reverse = true
 local step = 0
 local function t()
+    step = step + (math.random() * 0.02)
     lastprogress = lastprogress or 0
     local progress = (step * 0.25 * 0.6) % 1
     print(progress)
@@ -358,7 +359,6 @@ local function t()
         end
     end
     lastprogress = step
-    step = step + (math.random() * 0.02)
 end
 task.spawn(function()
     repeat t() task.wait() until not GuiLibrary
