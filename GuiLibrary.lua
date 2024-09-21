@@ -324,6 +324,8 @@ local function t()
     end
     local rlpg = reverse and 1 - step or step
     local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, rlpg):Lerp(Color3.new(0, 0, 0), 0.1)
+    print(step)
+    step = step + 0.05
     for i, v in pairs(GuiLibrary.GradientItems) do
         if v == nil then
             return
@@ -352,7 +354,6 @@ local function t()
             v.Color = ColorSequence.new(color)
         end
     end
-    step = step + 0.05
 end
 task.spawn(function()
     repeat t() task.wait() until not GuiLibrary
