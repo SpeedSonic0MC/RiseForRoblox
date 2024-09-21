@@ -326,7 +326,7 @@ local function t()
     local rlpg = reverse and 1 - step or step
     local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, rlpg):Lerp(Color3.new(0, 0, 0), 0.1)
     print(step)
-    step = step + 0.05
+    step = step + 0.01
     for i, v in pairs(GuiLibrary.GradientItems) do
         if v == nil then
             return
@@ -356,8 +356,8 @@ local function t()
         end
     end
 end
-GuiLibrary.ColorStepped = runService.RenderStepped:Connect(function()
-    t()
+task.spawn(function()
+    repeat t() task.wait() until not GuiLibrary
 end)
 local clip = Instance.new("Frame", maingui)
 clip.AnchorPoint = Vector2.new(0.5, 0.5)
