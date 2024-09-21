@@ -316,13 +316,13 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
     end)
 end
 GuiLibrary.UpdateHudEvent:Fire()
-local lastprogress = nil
+local lastprogress = 0
 local reverse = true
 local step = 0
 local function t()
     step = step + (math.random() * 0.1)
     lastprogress = lastprogress or 0
-    print("Rise >> Step ", lastprogress)
+    print("Rise >> Step", lastprogress)
     if step <= 0.01 and lastprogress >= 0.99 then
         reverse = not reverse
         print("switch")
