@@ -320,15 +320,14 @@ local lastprogress = nil
 local reverse = true
 local step = 0
 local function t()
-    step = step + (math.random() * 0.02)
+    step = step + (math.random() * 0.1)
     lastprogress = lastprogress or 0
-    local progress = (step * 0.25 * 0.6) % 1
-    print(progress)
-    if progress <= 0.01 and lastprogress >= 0.99 then
+    print(step)
+    if step <= 0.01 and lastprogress >= 0.99 then
         reverse = not reverse
         print("switch")
     end
-    local rlpg = reverse and 1 - progress or progress
+    local rlpg = reverse and 1 - step or step
     local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, rlpg):Lerp(Color3.new(0, 0, 0), 0.1)
     for i, v in pairs(GuiLibrary.GradientItems) do
         if v == nil then
