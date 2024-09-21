@@ -325,8 +325,7 @@ local function t()
     end
     local rlpg = reverse and 1 - step or step
     local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, rlpg):Lerp(Color3.new(0, 0, 0), 0.1)
-    print(step)
-    step = step + 0.01
+    step = step + 0.005
     for i, v in pairs(GuiLibrary.GradientItems) do
         if v == nil then
             return
