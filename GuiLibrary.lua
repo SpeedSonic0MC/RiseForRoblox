@@ -316,16 +316,11 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
     end)
 end
 GuiLibrary.UpdateHudEvent:Fire()
-local lastprogress = 0
 local reverse = true
 local step = 0
 local function t()
-    step = step + (math.random() * 0.1)
-    lastprogress = lastprogress or 0
-    print("Rise >> Step", lastprogress)
-    if step <= 0.01 and lastprogress >= 0.99 then
+    if step >= 1 then
         reverse = not reverse
-        print("switch")
     end
     local rlpg = reverse and 1 - step or step
     local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, rlpg):Lerp(Color3.new(0, 0, 0), 0.1)
@@ -357,7 +352,7 @@ local function t()
             v.Color = ColorSequence.new(color)
         end
     end
-    lastprogress = step
+    step = step + 0.05
 end
 task.spawn(function()
     repeat t() task.wait() until not GuiLibrary
