@@ -322,7 +322,7 @@ local step = 0
 local function t()
     step = step + (math.random() * 0.1)
     lastprogress = lastprogress or 0
-    print(step)
+    print(lastprogress)
     if step <= 0.01 and lastprogress >= 0.99 then
         reverse = not reverse
         print("switch")
