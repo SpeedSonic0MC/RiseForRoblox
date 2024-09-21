@@ -356,8 +356,8 @@ local function t()
         end
     end
 end
-task.spawn(function()
-    repeat t() task.wait() until not GuiLibrary
+GuiLibrary.ColorStepped = runService.RenderStepped:Connect(function()
+    t()
 end)
 local clip = Instance.new("Frame", maingui)
 clip.AnchorPoint = Vector2.new(0.5, 0.5)
