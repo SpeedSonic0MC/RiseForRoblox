@@ -21,7 +21,7 @@ local GuiLibrary = {
         ["Notification.png"] = "rbxassetid://104510745030330",
         ["Window.png"] = "rbxassetid://78059882197728"
     },
-    Version = "6.0-Alpha.1.3",
+    Version = "6.0-Alpha.1.4",
     GradientItems = {},
     RainbowItems = {}
 }
@@ -412,9 +412,9 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
     cart.BackgroundTransparency = 1
     cart.Name = "TNTMinecart"
     cart.Position = UDim2.new(0, (v == "Search" and 32 or 24), 0.5, 0)
-    cart.Size = UDim2.new(0, 19, 0, 19)
+    cart.Size = UDim2.new(0, 17, 0, 17)
     cart.FontFace = shared.RiseFonts["Icon" .. tostring(({"a", "b", "c"})[icon[v][1]])]
-    cart.TextSize = 19
+    cart.TextSize = 17
     cart.Text = icon[v][2]
     cart.TextColor3 = (v == "Search" and Color3.new(1, 1, 1) or Color3.fromRGB(170, 170, 170))
     cart.TextXAlignment = Enum.TextXAlignment.Left
@@ -427,7 +427,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
     lab.Size = UDim2.new(0, 2000, 0, 12)
     lab.Text = v
     lab.TextColor3 = (v == "Search" and Color3.new(1, 1, 1) or Color3.fromRGB(170, 170, 170))
-    lab.TextSize = 1217
+    lab.TextSize = 12
     lab.TextXAlignment = Enum.TextXAlignment.Left
     textbtn.MouseButton1Click:Connect(function()
         if sw == v then
