@@ -21,7 +21,7 @@ local GuiLibrary = {
         ["Notification.png"] = "rbxassetid://104510745030330",
         ["Window.png"] = "rbxassetid://78059882197728"
     },
-    Version = "6.0-Alpha.1.5",
+    Version = "6.0-Alpha.1.6",
     GradientItems = {},
     RainbowItems = {}
 }
