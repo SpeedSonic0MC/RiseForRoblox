@@ -1,6 +1,3 @@
-if getgenv and not getgenv().shared then
-    getgenv().shared = {}
-end
 if not game.Loaded then
     game.Loaded:Wait()
 end

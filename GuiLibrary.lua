@@ -469,7 +469,7 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function()
     if not theme then
         theme = ThemeService.Themes["Water"]
     end
-    shader.BackgroundColor3 = ThemeService:GetColor(GuiLibrary.Settings.Theme)
+    shader.BackgroundColor3 = ThemeService:GetColor(ThemeService:GetKeyColor(GuiLibrary.Settings.Theme))
     if GuiLibrary.Settings.Theme == "Rainbow" then
         vergra.Color = ColorSequence.new(Color3.new(1, 1, 1))
     else
