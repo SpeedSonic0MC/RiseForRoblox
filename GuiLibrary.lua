@@ -221,17 +221,6 @@ ver.TextYAlignment = Enum.TextYAlignment.Bottom
 local vergra = Instance.new("UIGradient", ver)
 vergra.Color = ColorSequence.new(Color3.new(1, 1, 1))
 table.insert(GuiLibrary.RainbowItems, vergra)
-GuiLibrary.UpdateHudEvent.Event:Connect(function()
-    local theme = ThemeService.Themes[GuiLibrary.Settings.Theme]
-    if not theme then
-        theme = ThemeService.Themes["Water"]
-    end
-    if GuiLibrary.Settings.Theme == "Rainbow" then
-        vergra.Color = ColorSequence.new(Color3.new(1, 1, 1))
-    else
-        vergra.Color = ColorSequence.new(ThemeService.Themes[GuiLibrary.Settings.Theme][1])
-    end
-end)
 local notif = false
 GuiLibrary["ShowNotification"] = function(title, description, time)
     task.spawn(function()
@@ -313,7 +302,6 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
         notif = false
     end)
 end
-GuiLibrary.UpdateHudEvent:Fire()
 local reverse = true
 local step = 0
 local function t()
@@ -400,6 +388,14 @@ local icon = {
     Themes = {3, "U"},
     Language = {3, "U"}
 }
+local shader = Instance.new("Frame", clip)
+shader.BackgroundTransparency = 0.99
+shader.AnchorPoint = Vector2.new(0.5, 0.5)
+shader.Size = UDim2.new(0, 1000, 0, 1000)
+shader.ZIndex = 999
+table.insert(GuiLibrary.RainbowItems, shader)
+local cr = Instance.new("UICorner", shader)
+cr.CornerRadius = UDim.new(1, 0)
 for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit", "Ghost", "CaS", "Themes", "Language"}) do
     local textbtn = Instance.new("TextButton", winlist)
     textbtn.BackgroundTransparency = 1
@@ -423,11 +419,11 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
     lab.AnchorPoint = Vector2.new(0, 0.5)
     lab.FontFace = shared.RiseFonts.AppleUI
     lab.BackgroundTransparency = 1
-    lab.Position = UDim2.new(1, 5, 0.5, 0)
-    lab.Size = UDim2.new(0, 2000, 0, 12)
+    lab.Position = UDim2.new(1, 7, 0.5, 0)
+    lab.Size = UDim2.new(0, 2000, 0, 15)
     lab.Text = v
     lab.TextColor3 = (v == "Search" and Color3.new(1, 1, 1) or Color3.fromRGB(170, 170, 170))
-    lab.TextSize = 12
+    lab.TextSize = 15
     lab.TextXAlignment = Enum.TextXAlignment.Left
     textbtn.MouseButton1Click:Connect(function()
         if sw == v then
@@ -464,19 +460,22 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             TextColor3 = Color3.new(1, 1, 1)
         }):Play()
     end)
-    local scrollframe = Instance.new("ScrollingFrame", windowshit)
-    scrollframe.AnchorPoint = Vector2.new(0.5, 0.5)
-    scrollframe.BackgroundTransparency = 1
-    scrollframe.Position = UDim2.new(0.5, 0, 0.5, 0)
-    scrollframe.Size = UDim2.new(1, -12, 1, 0)
-    scrollframe.AutomaticCanvasSize = Enum.AutomaticSize.Y
-    scrollframe.CanvasSize = UDim2.new(0, 0, 0, 0)
-    scrollframe.ScrollBarImageColor3 = Color3.fromRGB(69, 72, 77)
-    scrollframe.ScrollBarThickness = 2
-    scrollframe.ScrollingDirection = Enum.ScrollingDirection.Y
 end
 GuiLibrary["SelfDestruct"] = function()
     GuiLibrary = nil
 end
+GuiLibrary.UpdateHudEvent.Event:Connect(function()
+    local theme = ThemeService.Themes[GuiLibrary.Settings.Theme]
+    if not theme then
+        theme = ThemeService.Themes["Water"]
+    end
+    shader.BackgroundColor3 = ThemeService:GetColor(GuiLibrary.Settings.Theme)
+    if GuiLibrary.Settings.Theme == "Rainbow" then
+        vergra.Color = ColorSequence.new(Color3.new(1, 1, 1))
+    else
+        vergra.Color = ColorSequence.new(ThemeService.Themes[GuiLibrary.Settings.Theme][1])
+    end
+end)
+GuiLibrary.UpdateHudEvent:Fire()
 GuiLibrary.ShowNotification("Rise 6", "Rise loaded. Press " .. GuiLibrary.Settings.Keybind .. " to open Click GUI")
 return GuiLibrary

@@ -78,6 +78,27 @@ Themes["ColorFilters"] = {
             "Peony", "Rue"},
     Gray = {"Blossom", "Snowy Sky", "Steel Fade", "Winter", "Peony", "Creida", "Creida Two", "Gothic"}
 }
+function Themes:GetKeyColor(theme)
+    if theme == "Rainbow" then return nil end
+    for i, v in pairs(self.ColorFilters) do
+        if v == theme then return i end
+    end
+    return nil
+end
+function Themes:GetColor(keycolor)
+    return ({
+        Red = q(255, 55, 55),
+        Orange = q(255, 128, 55),
+        Yellow = q(255, 255, 55),
+        Lime = q(128, 255, 55),
+        DarkGreen = q(55, 128, 55),
+        Aqua = q(55, 200, 255),
+        DarkBlue = q(55, 105, 200),
+        Purple = q(128, 52, 255),
+        Pink = q(255, 128, 255),
+        Gray = q(100, 100, 110)
+    })[keycolor]
+end
 function Themes:GetColorSequence(theme)
     if theme == "Rainbow" then
         return ColorSequence.new({ColorSequenceKeypoint.new(0, Color3.fromHSV(0, 1, 1)),
