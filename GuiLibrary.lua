@@ -78,12 +78,9 @@ local getriseasset = function(url)
     writefile("rise/assets/" .. url, asset.Body)
     return getcustomasset("rise/assets/" .. url)
 end
-getriseasset("Minecraft.ttf")
-getriseasset("Comfortaa.ttf")
-getriseasset("AppleUI.ttf")
-getriseasset("AppleUIBold.ttf")
 shared.RiseFonts = {}
-for i, v in pairs({"Minecraft", "Comfortaa", "AppleUI", "AppleUIBold"}) do
+for i, v in pairs({"Minecraft", "Comfortaa", "AppleUI", "AppleUIBold", "Icon1", "Icon2", "Icon3"}) do
+    getriseasset(v .. ".ttf")
     if not isfile("rise/assets/" .. v .. ".json") then
         writefile("rise/assets/" .. v .. ".json", httpService:JSONEncode({
             name = v,
@@ -356,7 +353,10 @@ local function t()
     end
 end
 task.spawn(function()
-    repeat t() task.wait() until not GuiLibrary
+    repeat
+        t()
+        task.wait()
+    until not GuiLibrary
 end)
 local clip = Instance.new("Frame", maingui)
 clip.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -387,6 +387,18 @@ selectedwindow.SliceScale = 1
 selectedwindow.SliceCenter = Rect.new(Vector2.new(9, 0), Vector2.new(21, 30))
 table.insert(GuiLibrary.GradientItems, selectedwindow)
 local sw = "Search"
+local icon = {
+    Search = {3, "U"},
+    Combat = {1, "a"},
+    Movement = {1, "b"},
+    Player = {1, "c"},
+    Render = {1, "g"},
+    Exploit = {1, "a"},
+    Ghost = {1, "f"},
+    CaS = {3, "m"},
+    Themes = {3, "U"},
+    Language = {3, "U"}
+}
 for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit", "Ghost", "CaS", "Themes", "Language"}) do
     local textbtn = Instance.new("TextButton", winlist)
     textbtn.BackgroundTransparency = 1
@@ -394,17 +406,17 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
     textbtn.Name = v
     textbtn.Position = UDim2.new(0, 0, 0, winpos[i])
     textbtn.Size = UDim2.new(0, 200, 0, 29)
-    local cart = Instance.new("ImageLabel", textbtn)
+    local cart = Instance.new("TextLabel", textbtn)
     cart.AnchorPoint = Vector2.new(0, 0.5)
     cart.BackgroundTransparency = 1
+    cart.Name = "TNTMinecart"
     cart.Position = UDim2.new(0, (v == "Search" and 32 or 24), 0.5, 0)
-    cart.Size = UDim2.new(0, 19, 0, 19)
-    cart.Image = getriseasset(v .. ".png")
-    cart.ImageColor3 = (v == "Search" and Color3.new(1, 1, 1) or Color3.fromRGB(170, 170, 170))
-    cart.ScaleType = Enum.ScaleType.Slice
-    cart.ImageRectSize = Vector2.new(19, 19)
-    cart.ImageRectOffset = Vector2.zero
-    cart.SliceCenter = Rect.new(Vector2.zero, Vector2.new(19, 19))
+    cart.Size = UDim2.new(0, 2000, 0, 19)
+    cart.FontFace = shared.RiseFonts["Icon" .. tostring(icon[v][1])]
+    cart.Text = icon[v][2]
+    cart.TextColor3 = (v == "Search" and Color3.new(1, 1, 1) or Color3.fromRGB(170, 170, 170))
+    cart.TextXAlignment = Enum.TextXAlignment.Left
+    cart.TextYAlignment = Enum.TextYAlignment.Center
     local lab = Instance.new("TextLabel", cart)
     lab.AnchorPoint = Vector2.new(0, 0.5)
     lab.FontFace = shared.RiseFonts.AppleUI
@@ -424,11 +436,11 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         tweenService:Create(cs, TweenInfo.new(0.3), {
             ImageTransparency = 1
         }):Play()
-        tweenService:Create(winlist:FindFirstChild(sw):FindFirstChildWhichIsA "ImageLabel", TweenInfo.new(0.3), {
+        tweenService:Create(winlist:FindFirstChild(sw).TNTMinecart, TweenInfo.new(0.3), {
             Position = UDim2.new(0, 24, 0.5, 0),
-            ImageColor3 = Color3.fromRGB(170, 170, 170)
+            TextColor3 = Color3.fromRGB(170, 170, 170)
         }):Play()
-        tweenService:Create(winlist:FindFirstChild(sw):FindFirstChildWhichIsA "ImageLabel"
+        tweenService:Create(winlist:FindFirstChild(sw).TNTMinecart
             :FindFirstChildWhichIsA "TextLabel", TweenInfo.new(0.3), {
             TextColor3 = Color3.fromRGB(170, 170, 170)
         }):Play()
@@ -444,7 +456,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         sw = v
         tweenService:Create(cart, TweenInfo.new(0.3), {
             Position = UDim2.new(0, 32, 0.5, 0),
-            ImageColor3 = Color3.new(1, 1, 1)
+            TextColor3 = Color3.new(1, 1, 1)
         }):Play()
         tweenService:Create(lab, TweenInfo.new(0.3), {
             TextColor3 = Color3.new(1, 1, 1)
