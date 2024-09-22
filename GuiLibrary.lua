@@ -364,6 +364,10 @@ clip.BackgroundTransparency = 1
 clip.Position = UDim2.new(0.5, 0, 0.5, 0)
 clip.Size = UDim2.new(0, 800, 0, 600)
 clip.ClipsDescendants = true
+local windowshit = Instance.new("Frame", clip)
+windowshit.BackgroundTransparency = 1
+windowshit.Position = UDim2.new(0, 200, 0, 0)
+windowshit.Size = UDim2.new(0, 600, 0, 600)
 local winlist = Instance.new("Frame", clip)
 winlist.BackgroundTransparency = 1
 winlist.Size = UDim2.new(1, 0, 1, 0)
@@ -406,7 +410,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
     lab.FontFace = shared.RiseFonts.AppleUI
     lab.BackgroundTransparency = 1
     lab.Position = UDim2.new(1, 5, 0.5, 0)
-    lab.Size = UDim2.new(0, 2000, 0, 15)
+    lab.Size = UDim2.new(0, 2000, 0, 17)
     lab.Text = v
     lab.TextColor3 = (v == "Search" and Color3.new(1, 1, 1) or Color3.fromRGB(170, 170, 170))
     lab.TextScaled = true
@@ -446,6 +450,16 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             TextColor3 = Color3.new(1, 1, 1)
         }):Play()
     end)
+    local scrollframe = Instance.new("ScrollingFrame", windowshit)
+    scrollframe.AnchorPoint = Vector2.new(0.5, 0.5)
+    scrollframe.BackgroundTransparency = 1
+    scrollframe.Position = UDim2.new(0.5, 0, 0.5, 0)
+    scrollframe.Size = UDim2.new(1, -12, 1, 0)
+    scrollframe.AutomaticCanvasSize = Enum.AutomaticSize.Y
+    scrollframe.CanvasSize = UDim2.new(0, 0, 0, 0)
+    scrollframe.ScrollBarImageColor3 = Color3.fromRGB(69, 72, 77)
+    scrollframe.ScrollBarThickness = 2
+    scrollframe.ScrollingDirection = Enum.ScrollingDirection.Y
 end
 GuiLibrary["SelfDestruct"] = function()
     GuiLibrary = nil
