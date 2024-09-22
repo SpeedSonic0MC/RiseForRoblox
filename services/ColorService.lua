@@ -81,7 +81,7 @@ Themes["ColorFilters"] = {
 function Themes:GetKeyColor(theme)
     if theme == "Rainbow" then return nil end
     for i, v in pairs(self.ColorFilters) do
-        if v == theme then return i end
+        if v:find(theme) then return i end
     end
     return nil
 end
