@@ -21,10 +21,11 @@ local GuiLibrary = {
         ["Notification.png"] = "rbxassetid://104510745030330",
         ["Window.png"] = "rbxassetid://78059882197728"
     },
-    Version = "6.0-Alpha.1",
+    Version = "6.0-Alpha.1.3",
     GradientItems = {},
     RainbowItems = {}
 }
+print("Rise >> Running rise version " .. GuiLibrary.Version)
 local function loadscript(url)
     if shared.RiseDeveloper then
         if isfile("rise/" .. url) then
@@ -79,7 +80,7 @@ local getriseasset = function(url)
     return getcustomasset("rise/assets/" .. url)
 end
 shared.RiseFonts = {}
-for i, v in pairs({"Minecraft", "Comfortaa", "AppleUI", "AppleUIBold", "Icon1", "Icon2", "Icon3"}) do
+for i, v in pairs({"Minecraft", "Comfortaa", "AppleUI", "AppleUIBold", "Icona", "Iconb", "Iconc"}) do
     getriseasset(v .. ".ttf")
     if not isfile("rise/assets/" .. v .. ".json") then
         writefile("rise/assets/" .. v .. ".json", httpService:JSONEncode({
@@ -412,8 +413,8 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
     cart.Name = "TNTMinecart"
     cart.Position = UDim2.new(0, (v == "Search" and 32 or 24), 0.5, 0)
     cart.Size = UDim2.new(0, 19, 0, 19)
-    cart.FontFace = shared.RiseFonts["Icon" .. tostring(icon[v][1])]
-    cart.TextSize = 17
+    cart.FontFace = shared.RiseFonts["Icon" .. tostring(({"a", "b", "c"})[icon[v][1]])]
+    cart.TextSize = 19
     cart.Text = icon[v][2]
     cart.TextColor3 = (v == "Search" and Color3.new(1, 1, 1) or Color3.fromRGB(170, 170, 170))
     cart.TextXAlignment = Enum.TextXAlignment.Left
@@ -426,7 +427,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
     lab.Size = UDim2.new(0, 2000, 0, 12)
     lab.Text = v
     lab.TextColor3 = (v == "Search" and Color3.new(1, 1, 1) or Color3.fromRGB(170, 170, 170))
-    lab.TextSize = 12
+    lab.TextSize = 1217
     lab.TextXAlignment = Enum.TextXAlignment.Left
     textbtn.MouseButton1Click:Connect(function()
         if sw == v then
