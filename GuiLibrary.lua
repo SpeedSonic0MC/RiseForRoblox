@@ -212,7 +212,7 @@ local ver = Instance.new("TextLabel", maingui)
 ver.Position = UDim2.new(0, 97, 0, 37) --  we use UIScale now so finally yay no more scales
 ver.Size = UDim2.new(0, 2000, 0, 13)
 ver.BackgroundTransparency = 1
-ver.FontFace = shared.RiseFonts["AppleUI"]
+ver.FontFace = shared.RiseFonts["AppleUIBold"]
 ver.Text = GuiLibrary["Version"]
 ver.TextColor3 = Color3.new(1, 1, 1)
 ver.TextSize = 17
@@ -417,7 +417,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
     cart.TextYAlignment = Enum.TextYAlignment.Center
     local lab = Instance.new("TextLabel", cart)
     lab.AnchorPoint = Vector2.new(0, 0.5)
-    lab.FontFace = shared.RiseFonts.AppleUI
+    lab.FontFace = shared.RiseFonts.AppleUIBold
     lab.BackgroundTransparency = 1
     lab.Position = UDim2.new(1, 7, 0.5, 0)
     lab.Size = UDim2.new(0, 2000, 0, 15)
