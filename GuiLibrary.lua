@@ -404,6 +404,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
     textbtn.Position = UDim2.new(0, 0, 0, winpos[i])
     textbtn.Size = UDim2.new(0, 200, 0, 29)
     local cart = Instance.new("TextLabel", textbtn)
+    cart.TextScaled = true
     cart.AnchorPoint = Vector2.new(0, 0.5)
     cart.BackgroundTransparency = 1
     cart.Name = "TNTMinecart"
@@ -469,7 +470,9 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function()
     if not theme then
         theme = ThemeService.Themes["Water"]
     end
-    shader.BackgroundColor3 = ThemeService:GetColor(ThemeService:GetKeyColor(GuiLibrary.Settings.Theme))
+    if ThemeService:GetColor(ThemeService:GetKeyColor(GuiLibrary.Settings.Theme)) ~= nil then -- rainbow
+        shader.BackgroundColor3 = ThemeService:GetColor(ThemeService:GetKeyColor(GuiLibrary.Settings.Theme))
+    end
     if GuiLibrary.Settings.Theme == "Rainbow" then
         vergra.Color = ColorSequence.new(Color3.new(1, 1, 1))
     else

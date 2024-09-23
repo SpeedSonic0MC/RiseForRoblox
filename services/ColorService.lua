@@ -79,7 +79,7 @@ Themes["ColorFilters"] = {
     Gray = {"Blossom", "Snowy Sky", "Steel Fade", "Winter", "Peony", "Creida", "Creida Two", "Gothic"}
 }
 function Themes:GetKeyColor(theme)
-    if theme == "Rainbow" then return nil end
+    if theme == "Rainbow" then return 0 end
     for i, v in pairs(self.ColorFilters) do
         if table.find(v, theme) then return i end
     end
