@@ -624,7 +624,6 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         return buttonapi
     end
     GuiLibrary.ObjectCanBeSaved[v .. "Window"] = windowapi
-    return windowapi
 end
 GuiLibrary["SelfDestruct"] = function()
     GuiLibrary = nil
