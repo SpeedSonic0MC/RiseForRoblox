@@ -22,7 +22,7 @@ local GuiLibrary = {
         ["Notification.png"] = "rbxassetid://104510745030330",
         ["Window.png"] = "rbxassetid://78059882197728"
     },
-    Version = "6.0-Alpha.1.31",
+    Version = "6.0-Alpha.1.32",
     GradientItems = {},
     RainbowItems = {},
     Loaded = false
@@ -470,8 +470,8 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             }):Play()
         end)
         task.spawn(function() -- sw example: Combat, old: sw, new: v
-            local newobj = GuiLibrary.ObjectCanBeSaved[v .. "Window"]["ScrollingFrame"]["Object"]
-            local oldobj = GuiLibrary.ObjectCanBeSaved[sw .. "Window"]["ScrollingFrame"]["Object"]
+            local newobj = GuiLibrary.ObjectCanBeSaved[v .. "Window"]["Object"]["ScrollingFrame"]
+            local oldobj = GuiLibrary.ObjectCanBeSaved[sw .. "Window"]["Object"]["ScrollingFrame"]
             for i2, v2 in pairs(oldobj:GetDescendants()) do
                 local property = nil
                 local value = 1
