@@ -499,7 +499,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                     property = "BackgroundTransparency"
                 end
                 if property ~= nil then
-                    v2[property] = value
+                    v2[property] = 1
                     tweenService:Create(v2, TweenInfo.new(0.25), {
                         [property] = value
                     }):Play()
@@ -573,7 +573,8 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         name.Position = UDim2.new(0, 12, 0, 15)
         name.Size = UDim2.new(0, 2000, 0, 16)
         name.FontFace = shared.RiseFonts.AppleUISemibold
-        name.Text = (buttonapi.Enabled and buttonapi.Name or "<font color=\"rgb(255, 255, 255)\">" .. buttonapi.Name .. " </font>") .. "  <font size=\"15\" color=\"rgb(70, 66, 77)\">(" .. v .. ")</font>"
+        name.Text = (buttonapi.Enabled and buttonapi.Name or "<font color=\"rgb(255, 255, 255)\">" .. buttonapi.Name ..
+                        "</font>") .. "   <font size=\"15\" color=\"rgb(70, 66, 77)\">(" .. v .. ")</font>"
         name.RichText = true
         name.TextColor3 = Color3.new(1, 1, 1)
         table.insert(GuiLibrary.GradientItems, name)
@@ -598,8 +599,9 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 return
             end
             buttonapi.Enabled = (toggle or not buttonapi["Enabled"])
-            name.Text = (buttonapi.Enabled and buttonapi.Name or "<font color=\"rgb(255, 255, 255)\">" .. buttonapi.Name ..
-                " </font>") .. "  <font size=\"15\" color=\"rgb(70, 66, 77)\">(" .. v .. ")</font>"
+            name.Text =
+                (buttonapi.Enabled and buttonapi.Name or "<font color=\"rgb(255, 255, 255)\">" .. buttonapi.Name ..
+                    "</font>") .. "   <font size=\"15\" color=\"rgb(70, 66, 77)\">(" .. v .. ")</font>"
             buttonapi["Function"](buttonapi.Enabled)
             if not silent then
                 GuiLibrary["ShowNotification"]("Toggled", "Toggled " .. buttonapi["Name"] .. " " ..
@@ -616,6 +618,13 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 buttonobj.BackgroundColor3 = Color3.fromRGB(18, 21, 27)
             end)
             buttonapi["ToggleButton"]()
+        end)
+        buttonobj.MouseButton2Click:Connect(function()
+            task.spawn(function()
+                buttonobj.BackgroundColor3 = Color3.fromRGB(16, 18, 23)
+                task.wait(.1)
+                buttonobj.BackgroundColor3 = Color3.fromRGB(18, 21, 27)
+            end)
         end)
         GuiLibrary.ObjectCanBeSaved[buttonapi.Name .. "OptionsButton"] = buttonapi
         return buttonapi
@@ -641,7 +650,8 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function()
 end)
 local InterfaceOptionsButton = GuiLibrary.ObjectCanBeSaved["RenderWindow"]["CreateOptionsButton"]({
     ["Name"] = "Interface",
-    ["Description"] = "The clients interface with all information"
+    ["Description"] = "The clients interface with all information",
+    ["Enabled"] = true
 })
 GuiLibrary.UpdateHudEvent:Fire()
 GuiLibrary.ShowNotification("Rise 6", "Rise loaded. Press " .. GuiLibrary.Settings.Keybind .. " to open Click GUI", 3)
