@@ -80,7 +80,7 @@ local getriseasset = function(url)
     return getcustomasset("rise/assets/" .. url)
 end
 shared.RiseFonts = {}
-for i, v in pairs({"Minecraft", "Comfortaa", "AppleUI", "AppleUIBold", "Icona", "Iconb", "Iconc"}) do
+for i, v in pairs({"Minecraft", "Comfortaa", "AppleUI", "AppleUISemibold", "AppleUIBold", "Icona", "Iconb", "Iconc"}) do
     getriseasset(v .. ".ttf")
     if not isfile("rise/assets/" .. v .. ".json") then
         writefile("rise/assets/" .. v .. ".json", httpService:JSONEncode({
@@ -286,7 +286,7 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
         tweenService:Create(d, TweenInfo.new(0.2), {
             TextTransparency = 0
         }):Play()
-        task.wait(1)
+        task.wait(0.2 + (time or 0.8))
         tweenService:Create(t, TweenInfo.new(0.2), {
             TextTransparency = 1
         }):Play()
@@ -418,7 +418,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
     cart.TextYAlignment = Enum.TextYAlignment.Center
     local lab = Instance.new("TextLabel", cart)
     lab.AnchorPoint = Vector2.new(0, 0.5)
-    lab.FontFace = shared.RiseFonts.AppleUI
+    lab.FontFace = shared.RiseFonts.AppleUISemibold
     lab.BackgroundTransparency = 1
     lab.Position = UDim2.new(1, 7, 0.5, 0)
     lab.Size = UDim2.new(0, 2000, 0, 15)
@@ -480,5 +480,5 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function()
     end
 end)
 GuiLibrary.UpdateHudEvent:Fire()
-GuiLibrary.ShowNotification("Rise 6", "Rise loaded. Press " .. GuiLibrary.Settings.Keybind .. " to open Click GUI")
+GuiLibrary.ShowNotification("Rise 6", "Rise loaded. Press " .. GuiLibrary.Settings.Keybind .. " to open Click GUI", 3)
 return GuiLibrary
