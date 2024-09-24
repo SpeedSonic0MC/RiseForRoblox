@@ -22,7 +22,7 @@ local GuiLibrary = {
         ["Notification.png"] = "rbxassetid://104510745030330",
         ["Window.png"] = "rbxassetid://78059882197728"
     },
-    Version = "6.0-Alpha.1.30",
+    Version = "6.0-Alpha.1.31",
     GradientItems = {},
     RainbowItems = {},
     Loaded = false
@@ -264,7 +264,7 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
         t.Size = UDim2.new(0, size - 75, 0, 14)
         t.FontFace = shared.RiseFonts.AppleUIBold
         t.Text = title
-        t.TextColor3 = Color3.new(1, 1, 1)
+        t.TextColor3 = ThemeService.Themes[GuiLibrary.Settings.Theme][1]
         table.insert(GuiLibrary.RainbowItems, t)
         t.TextSize = 14
         t.TextXAlignment = Enum.TextXAlignment.Left
@@ -470,8 +470,8 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             }):Play()
         end)
         task.spawn(function() -- sw example: Combat, old: sw, new: v
-            local newobj = GuiLibrary.ObjectCanBeSaved[v .. "Window"]["ScrollingFrame"]
-            local oldobj = GuiLibrary.ObjectCanBeSaved[sw .. "Window"]["ScrollingFrame"]
+            local newobj = GuiLibrary.ObjectCanBeSaved[v .. "Window"]["ScrollingFrame"]["Object"]
+            local oldobj = GuiLibrary.ObjectCanBeSaved[sw .. "Window"]["ScrollingFrame"]["Object"]
             for i2, v2 in pairs(oldobj:GetDescendants()) do
                 local property = nil
                 local value = 1
@@ -582,6 +582,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         local desc = Instance.new("TextLabel", buttonobj)
         desc.TextXAlignment = Enum.TextXAlignment.Left
         desc.TextSize = 14
+        desc.TextColor3 = Color3.fromRGB(88, 88, 88)
         desc.Text = buttonapi.Description
         desc.FontFace = shared.RiseFonts.AppleUI
         desc.BackgroundTransparency = 1
