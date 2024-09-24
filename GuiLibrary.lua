@@ -262,7 +262,7 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
         t.Text = title
         t.TextColor3 = Color3.new(1, 1, 1)
         table.insert(GuiLibrary.RainbowItems, t)
-        t.TextSize = 14
+        t.TextSize = 20
         t.TextScaled = true
         t.TextXAlignment = Enum.TextXAlignment.Left
         t.TextTransparency = 1
@@ -275,7 +275,7 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
         d.FontFace = shared.RiseFonts.AppleUI
         d.Text = description
         d.TextColor3 = Color3.new(215, 215, 215)
-        d.TextSize = 14
+        d.TextSize = 20
         d.TextXAlignment = Enum.TextXAlignment.Left
         tweenService:Create(notification, TweenInfo.new(0.2), {
             ImageTransparency = 0,
