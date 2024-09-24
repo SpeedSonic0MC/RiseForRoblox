@@ -489,7 +489,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                     end)
                 end
             end
-            newobj.Visible = true
+            newobj.Parent.Visible = true
             for i2, v2 in pairs(newobj:GetDescendants()) do
                 local property = nil
                 local value = 0
@@ -506,7 +506,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 end
             end
             task.delay(0.15, function()
-                oldobj.Visible = false
+                oldobj.Parent.Visible = false
             end)
         end)
         sw = v
@@ -547,7 +547,8 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             ["Suffix"] = nil,
             ["Enabled"] = argsmaintable["Enabled"] or false,
             ["Keybind"] = nil,
-            ["Function"] = argsmaintable["Function"] or function() end
+            ["Function"] = argsmaintable["Function"] or function() end,
+            UUID = httpService:GenerateGUID(false)
         }
         local buttonobj = Instance.new("TextButton", scrframe)
         buttonobj.Text = ""
@@ -592,6 +593,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         buttonapi["SetKeybind"] = function(key)
             buttonapi.Keybind = key
         end
+        buttonobj:AddTag(buttonapi.UUID)
         buttonapi["ToggleButton"] = function(toggle, silent)
             if buttonapi.Enabled == toggle then return end
             buttonapi.Enabled = (toggle or not buttonapi["Enabled"])
@@ -599,7 +601,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 table.insert(GuiLibrary.GradientItems, name)
             else
                 for i2, v2 in pairs(GuiLibrary.GradientItems) do
-                    if v2 == buttonobj then
+                    if v2:HasTag(buttonapi.UUID) then
                         table.remove(GuiLibrary.GradientItems, i2)
                     end
                 end
