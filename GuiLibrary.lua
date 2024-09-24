@@ -418,13 +418,13 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
     cart.TextYAlignment = Enum.TextYAlignment.Center
     local lab = Instance.new("TextLabel", cart)
     lab.AnchorPoint = Vector2.new(0, 0.5)
-    lab.FontFace = shared.RiseFonts.AppleUISemibold
+    lab.FontFace = shared.RiseFonts.AppleUI
     lab.BackgroundTransparency = 1
     lab.Position = UDim2.new(1, 7, 0.5, 0)
     lab.Size = UDim2.new(0, 2000, 0, 15)
     lab.Text = v
     lab.TextColor3 = (v == "Search" and Color3.new(1, 1, 1) or Color3.fromRGB(170, 170, 170))
-    lab.TextSize = 15
+    lab.TextSize = 16
     lab.TextXAlignment = Enum.TextXAlignment.Left
     textbtn.MouseButton1Click:Connect(function()
         if sw == v then
