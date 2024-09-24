@@ -481,10 +481,10 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                     property = "BackgroundTransparency"
                 end
                 if property ~= nil then
-                    tweenService:Create(v2, TweenInfo.new(0.15), {
+                    tweenService:Create(v2, TweenInfo.new(0.25), {
                         [property] = value
                     }):Play()
-                    task.delay(0.15, function()
+                    task.delay(0.25, function()
                         v2[property] = 0
                     end)
                 end
@@ -500,12 +500,12 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 end
                 if property ~= nil then
                     v2[property] = value
-                    tweenService:Create(v2, TweenInfo.new(0.151), {
+                    tweenService:Create(v2, TweenInfo.new(0.25), {
                         [property] = value
                     }):Play()
                 end
             end
-            task.delay(0.15, function()
+            task.delay(0.25, function()
                 oldobj.Parent.Visible = false
             end)
         end)
@@ -547,7 +547,8 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             ["Suffix"] = nil,
             ["Enabled"] = argsmaintable["Enabled"] or false,
             ["Keybind"] = nil,
-            ["Function"] = argsmaintable["Function"] or function() end,
+            ["Function"] = argsmaintable["Function"] or function()
+            end,
             UUID = httpService:GenerateGUID(false)
         }
         local buttonobj = Instance.new("TextButton", scrframe)
@@ -572,12 +573,10 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         name.Position = UDim2.new(0, 12, 0, 15)
         name.Size = UDim2.new(0, 2000, 0, 16)
         name.FontFace = shared.RiseFonts.AppleUISemibold
-        name.Text = buttonapi.Name .. "   <font size=\"15\" color=\"rgb(70, 66, 77)\">(" .. v .. ")</font>"
+        name.Text = (buttonapi.Enabled and buttonapi.Name or "<font color=\"rgb(255, 255, 255)\">" .. buttonapi.Name .. " </font>") .. "  <font size=\"15\" color=\"rgb(70, 66, 77)\">(" .. v .. ")</font>"
         name.RichText = true
         name.TextColor3 = Color3.new(1, 1, 1)
-        if buttonapi.Enabled then
-            table.insert(GuiLibrary.GradientItems, name)
-        end
+        table.insert(GuiLibrary.GradientItems, name)
         name.TextSize = 18
         name.TextXAlignment = Enum.TextXAlignment.Left
         local desc = Instance.new("TextLabel", buttonobj)
@@ -595,21 +594,16 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         end
         buttonobj:AddTag(buttonapi.UUID)
         buttonapi["ToggleButton"] = function(toggle, silent)
-            if buttonapi.Enabled == toggle then return end
-            buttonapi.Enabled = (toggle or not buttonapi["Enabled"])
-            if buttonapi.Enabled then
-                table.insert(GuiLibrary.GradientItems, name)
-            else
-                for i2, v2 in pairs(GuiLibrary.GradientItems) do
-                    if v2:HasTag(buttonapi.UUID) then
-                        table.remove(GuiLibrary.GradientItems, i2)
-                    end
-                end
-                buttonobj.TextColor3 = Color3.new(1, 1, 1)
+            if buttonapi.Enabled == toggle then
+                return
             end
+            buttonapi.Enabled = (toggle or not buttonapi["Enabled"])
+            name.Text = (buttonapi.Enabled and buttonapi.Name or "<font color=\"rgb(255, 255, 255)\">" .. buttonapi.Name ..
+                " </font>") .. "  <font size=\"15\" color=\"rgb(70, 66, 77)\">(" .. v .. ")</font>"
             buttonapi["Function"](buttonapi.Enabled)
             if not silent then
-                GuiLibrary["ShowNotification"]("Toggled", "Toggled " .. buttonapi["Name"] .. " " .. (buttonapi["Enabled"] and "on" or "off"))
+                GuiLibrary["ShowNotification"]("Toggled", "Toggled " .. buttonapi["Name"] .. " " ..
+                    (buttonapi["Enabled"] and "on" or "off"))
             end
         end
         if buttonapi["Enabled"] then
