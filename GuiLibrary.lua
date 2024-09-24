@@ -23,7 +23,8 @@ local GuiLibrary = {
     },
     Version = "6.0-Alpha.1.6",
     GradientItems = {},
-    RainbowItems = {}
+    RainbowItems = {},
+    Loaded = false
 }
 print("Rise >> Running rise version " .. GuiLibrary.Version)
 local function loadscript(url)
@@ -481,4 +482,5 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function()
 end)
 GuiLibrary.UpdateHudEvent:Fire()
 GuiLibrary.ShowNotification("Rise 6", "Rise loaded. Press " .. GuiLibrary.Settings.Keybind .. " to open Click GUI", 3)
+GuiLibrary.Loaded = true
 return GuiLibrary
