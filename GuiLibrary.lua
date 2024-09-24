@@ -239,6 +239,7 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
         local notification = Instance.new("ImageLabel", rise2)
         notification.AnchorPoint = Vector2.new(0.5, 0.5)
         notification.BackgroundTransparency = 1
+        local scale = Instance.new("UIScale", notification)
         local param = Instance.new("GetTextBoundsParams")
         param.Text = description
         param.Width = 99999
@@ -248,7 +249,8 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
         notification.Size = UDim2.new(0, size * 1.15, 0, 60 * 1.15)
         notification.ImageTransparency = 1
         notification.Position = UDim2.new(0, math.floor((size == 280 and 155 or (155 + (size - 280) / 2))), 0, 92)
-        notification.Size = UDim2.new(0, size * 1.3, 0, 60 * 1.3)
+        notification.Size = UDim2.new(0, size, 0, 60)
+        scale.Scale = 1.13
         notification.Image = getriseasset("Notification.png")
         notification.ImageColor3 = Color3.new(1, 1, 1)
         notification.ScaleType = Enum.ScaleType.Slice
@@ -256,28 +258,30 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
         notification.SliceScale = 1
         local t = Instance.new("TextLabel", notification)
         t.BackgroundTransparency = 1
-        t.Position = UDim2.new(0.214, 0, 0.217, 0)
-        t.Size = UDim2.new(0, size - 75, 0.233, 0)
+        t.Position = UDim2.new(0, 60, 0, 14)
+        t.Size = UDim2.new(0, size - 75, 0, 14)
         t.FontFace = shared.RiseFonts.AppleUIBold
         t.Text = title
         t.TextColor3 = Color3.new(1, 1, 1)
         table.insert(GuiLibrary.RainbowItems, t)
-        t.TextSize = 19.6
+        t.TextSize = 14
         t.TextXAlignment = Enum.TextXAlignment.Left
         t.TextTransparency = 1
         local d = Instance.new("TextLabel", notification)
         d.TextTransparency = 1
         d.BackgroundTransparency = 1
-        d.Position = UDim2.new(0.214, 0, 0.567, 0)
-        d.Size = UDim2.new(0, size - 75, 0.233, 0)
+        d.Position = UDim2.new(0, 60, 0, 34)
+        d.Size = UDim2.new(0, size - 75, 0, 14)
         d.FontFace = shared.RiseFonts.AppleUI
         d.Text = description
         d.TextColor3 = Color3.new(215, 215, 215)
-        d.TextSize = 19.6
+        d.TextSize = 14
         d.TextXAlignment = Enum.TextXAlignment.Left
         tweenService:Create(notification, TweenInfo.new(0.2), {
-            ImageTransparency = 0,
-            Size = UDim2.new(0, size, 0, 60)
+            ImageTransparency = 0
+        }):Play()
+        tweenService:Create(scale, TweenInfo.new(0.2), {
+            Scale = 1
         }):Play()
         tweenService:Create(t, TweenInfo.new(0.2), {
             TextTransparency = 0
@@ -293,8 +297,10 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
             TextTransparency = 1
         }):Play()
         tweenService:Create(notification, TweenInfo.new(0.2), {
-            ImageTransparency = 1,
-            Size = UDim2.new(0, size * 1.15, 0, 60 * 1.15)
+            ImageTransparency = 1
+        }):Play()
+        tweenService:Create(scale, TweenInfo.new(0.2), {
+            Scale = 1.13
         }):Play()
         task.wait(0.2)
         notification:Destroy()
@@ -438,10 +444,10 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             Position = UDim2.new(0, 24, 0.5, 0),
             TextColor3 = Color3.fromRGB(170, 170, 170)
         }):Play()
-        tweenService:Create(winlist:FindFirstChild(sw).TNTMinecart
-            :FindFirstChildWhichIsA "TextLabel", TweenInfo.new(0.3), {
-            TextColor3 = Color3.fromRGB(170, 170, 170)
-        }):Play()
+        tweenService:Create(winlist:FindFirstChild(sw).TNTMinecart:FindFirstChildWhichIsA "TextLabel",
+            TweenInfo.new(0.3), {
+                TextColor3 = Color3.fromRGB(170, 170, 170)
+            }):Play()
         task.delay(0.3, function()
             cs:Destroy()
         end)
