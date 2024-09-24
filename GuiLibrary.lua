@@ -573,21 +573,21 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         name.Position = UDim2.new(0, 12, 0, 15)
         name.Size = UDim2.new(0, 2000, 0, 16)
         name.FontFace = shared.RiseFonts.AppleUISemibold
-        name.Text = (buttonapi.Enabled and buttonapi.Name or "<font color=\"rgb(255, 255, 255)\">" .. buttonapi.Name ..
+        name.Text = (buttonapi.Enabled and buttonapi.Name or "<font color=\"rgb(180, 180, 180)\">" .. buttonapi.Name ..
                         "</font>") .. "   <font size=\"15\" color=\"rgb(70, 66, 77)\">(" .. v .. ")</font>"
         name.RichText = true
         name.TextColor3 = Color3.new(1, 1, 1)
         table.insert(GuiLibrary.GradientItems, name)
-        name.TextSize = 18
+        name.TextSize = 20
         name.TextXAlignment = Enum.TextXAlignment.Left
         local desc = Instance.new("TextLabel", buttonobj)
         desc.TextXAlignment = Enum.TextXAlignment.Left
-        desc.TextSize = 14
+        desc.TextSize = 16
         desc.TextColor3 = Color3.fromRGB(88, 88, 88)
         desc.Text = buttonapi.Description
         desc.FontFace = shared.RiseFonts.AppleUI
         desc.BackgroundTransparency = 1
-        desc.Position = UDim2.new(0, 13, 0, 48)
+        desc.Position = UDim2.new(0, 12, 0, 48)
         desc.Size = UDim2.new(0, 2000, 0, 14)
         local expandsize = 0
         buttonapi["SetKeybind"] = function(key)
@@ -600,7 +600,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             end
             buttonapi.Enabled = (toggle or not buttonapi["Enabled"])
             name.Text =
-                (buttonapi.Enabled and buttonapi.Name or "<font color=\"rgb(255, 255, 255)\">" .. buttonapi.Name ..
+                (buttonapi.Enabled and buttonapi.Name or "<font color=\"rgb(180, 180, 180)\">" .. buttonapi.Name ..
                     "</font>") .. "   <font size=\"15\" color=\"rgb(70, 66, 77)\">(" .. v .. ")</font>"
             buttonapi["Function"](buttonapi.Enabled)
             if not silent then
