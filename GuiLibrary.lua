@@ -22,7 +22,7 @@ local GuiLibrary = {
         ["Notification.png"] = "rbxassetid://104510745030330",
         ["Window.png"] = "rbxassetid://78059882197728"
     },
-    Version = "6.0-Alpha.1.32",
+    Version = "6.0-Alpha.1.33",
     GradientItems = {},
     RainbowItems = {},
     Loaded = false
@@ -482,7 +482,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 end
                 if property ~= nil then
                     tweenService:Create(v2, TweenInfo.new(0.15), {
-                        property = value
+                        [property] = value
                     }):Play()
                     task.delay(0.15, function()
                         v2[property] = 0
@@ -501,7 +501,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 if property ~= nil then
                     v2[property] = value
                     tweenService:Create(v2, TweenInfo.new(0.151), {
-                        property = value
+                        [property] = value
                     }):Play()
                 end
             end
