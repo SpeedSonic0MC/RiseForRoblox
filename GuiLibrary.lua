@@ -643,8 +643,8 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function()
     end
 end)
 local InterfaceOptionsButton = GuiLibrary.ObjectCanBeSaved["RenderWindow"]["CreateOptionsButton"]({
-    ["Name"] = "",
-    ["Description"] = ""
+    ["Name"] = "Interface",
+    ["Description"] = "The clients interface with all information"
 })
 GuiLibrary.UpdateHudEvent:Fire()
 GuiLibrary.ShowNotification("Rise 6", "Rise loaded. Press " .. GuiLibrary.Settings.Keybind .. " to open Click GUI", 3)
