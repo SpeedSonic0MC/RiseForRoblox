@@ -1,3 +1,4 @@
+local delta = Color3.fromRGB(9999, 9999, 9999)
 local GuiLibrary = {
     ObjectCanBeSaved = {},
     Settings = {
@@ -130,6 +131,7 @@ if Enum.KeyCode[GuiLibrary.Settings.Keybind] == nil then
     GuiLibrary.Settings.Keybind = "RightShift"
 end
 local ThemeService = shared.Rise:GetService("ColorService")
+local Lang = shared.Rise:GetService("LanguageService")
 GuiLibrary["UpdateHudEvent"] = Instance.new "BindableEvent"
 local maingui = Instance.new("ImageLabel", gui)
 maingui.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -362,6 +364,7 @@ local windowshit = Instance.new("Frame", clip)
 windowshit.BackgroundTransparency = 1
 windowshit.Position = UDim2.new(0, 200, 0, 0)
 windowshit.Size = UDim2.new(0, 600, 0, 600)
+windowshit.ClipsDescendants = true
 local winlist = Instance.new("Frame", clip)
 winlist.BackgroundTransparency = 1
 winlist.Size = UDim2.new(1, 0, 1, 0)
@@ -435,37 +438,193 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         if sw == v then
             return
         end
-        local cs = selectedwindow:Clone()
-        cs.Parent = winlist
-        tweenService:Create(cs, TweenInfo.new(0.3), {
-            ImageTransparency = 1
-        }):Play()
-        tweenService:Create(winlist:FindFirstChild(sw).TNTMinecart, TweenInfo.new(0.3), {
-            Position = UDim2.new(0, 24, 0.5, 0),
-            TextColor3 = Color3.fromRGB(170, 170, 170)
-        }):Play()
-        tweenService:Create(winlist:FindFirstChild(sw).TNTMinecart:FindFirstChildWhichIsA "TextLabel",
-            TweenInfo.new(0.3), {
+        task.spawn(function()
+            local cs = selectedwindow:Clone()
+            cs.Parent = winlist
+            tweenService:Create(cs, TweenInfo.new(0.3), {
+                ImageTransparency = 1
+            }):Play()
+            tweenService:Create(winlist:FindFirstChild(sw).TNTMinecart, TweenInfo.new(0.3), {
+                Position = UDim2.new(0, 24, 0.5, 0),
                 TextColor3 = Color3.fromRGB(170, 170, 170)
             }):Play()
-        task.delay(0.3, function()
-            cs:Destroy()
+            tweenService:Create(winlist:FindFirstChild(sw).TNTMinecart:FindFirstChildWhichIsA "TextLabel",
+                TweenInfo.new(0.3), {
+                    TextColor3 = Color3.fromRGB(170, 170, 170)
+                }):Play()
+            task.delay(0.3, function()
+                cs:Destroy()
+            end)
+            selectedwindow.Position = UDim2.new(0, 20, 0, selectedpos[i])
+            selectedwindow.ImageTransparency = 1
+            selectedwindow.Size = UDim2.new(0, selectedsize[i], 0, 30)
+            tweenService:Create(selectedwindow, TweenInfo.new(0.3), {
+                ImageTransparency = 0
+            }):Play()
+            tweenService:Create(cart, TweenInfo.new(0.3), {
+                Position = UDim2.new(0, 32, 0.5, 0),
+                TextColor3 = Color3.new(1, 1, 1)
+            }):Play()
+            tweenService:Create(lab, TweenInfo.new(0.3), {
+                TextColor3 = Color3.new(1, 1, 1)
+            }):Play()
         end)
-        selectedwindow.Position = UDim2.new(0, 20, 0, selectedpos[i])
-        selectedwindow.ImageTransparency = 1
-        selectedwindow.Size = UDim2.new(0, selectedsize[i], 0, 30)
-        tweenService:Create(selectedwindow, TweenInfo.new(0.3), {
-            ImageTransparency = 0
-        }):Play()
+        task.spawn(function() -- sw example: Combat, old: sw, new: v
+            local newobj = GuiLibrary.ObjectCanBeSaved[v .. "Window"]["ScrollingFrame"]
+            local oldobj = GuiLibrary.ObjectCanBeSaved[sw .. "Window"]["ScrollingFrame"]
+            for i2, v2 in pairs(oldobj:GetDescendants()) do
+                local property = nil
+                local value = 1
+                if v2:IsA("TextLabel") then
+                    property = "TextTransparency"
+                elseif (v2:IsA("TextButton") or v2:IsA("Frame")) and not v2:HasTag("NoTween") then
+                    property = "BackgroundTransparency"
+                end
+                if property ~= nil then
+                    tweenService:Create(v2, TweenInfo.new(0.15), {
+                        property = value
+                    }):Play()
+                    task.delay(0.15, function()
+                        v2[property] = 0
+                    end)
+                end
+            end
+            newobj.Visible = true
+            for i2, v2 in pairs(newobj:GetDescendants()) do
+                local property = nil
+                local value = 0
+                if v2:IsA("TextLabel") then
+                    property = "TextTransparency"
+                elseif (v2:IsA("TextButton") or v2:IsA("Frame")) and not v2:HasTag("NoTween") then
+                    property = "BackgroundTransparency"
+                end
+                if property ~= nil then
+                    v2[property] = value
+                    tweenService:Create(v2, TweenInfo.new(0.151), {
+                        property = value
+                    }):Play()
+                end
+            end
+            task.delay(0.15, function()
+                oldobj.Visible = false
+            end)
+        end)
         sw = v
-        tweenService:Create(cart, TweenInfo.new(0.3), {
-            Position = UDim2.new(0, 32, 0.5, 0),
-            TextColor3 = Color3.new(1, 1, 1)
-        }):Play()
-        tweenService:Create(lab, TweenInfo.new(0.3), {
-            TextColor3 = Color3.new(1, 1, 1)
-        }):Play()
     end)
+    local frame = Instance.new("Frame", windowshit)
+    frame.ClipsDescendants = true -- pretty useless ngl
+    frame.BackgroundTransparency = 1
+    frame.Size = UDim2.new(1, 0, 1, 0)
+    frame.Visible = v == "Search"
+    local windowapi = {
+        ["Type"] = "Window",
+        ["Object"] = frame
+    }
+    local padding = Instance.new("UIPadding", frame)
+    padding.PaddingTop = UDim.new(0, 14)
+    padding.PaddingBottom = UDim.new(0, 14)
+    local scrframe = Instance.new("ScrollingFrame", frame)
+    scrframe.AnchorPoint = Vector2.new(0.5, 0.5)
+    scrframe.Position = UDim2.new(0.5, 0, 0.5, 0)
+    scrframe.Size = UDim2.new(1, -12, 1, 0)
+    scrframe.BackgroundTransparency = 1
+    scrframe.ClipsDescendants = false
+    scrframe.AutomaticCanvasSize = Enum.AutomaticSize.Y
+    scrframe.CanvasSize = UDim2.new(0, 0, 0, 0)
+    scrframe.ElasticBehavior = Enum.ElasticBehavior.Always
+    scrframe.ScrollBarImageColor3 = Color3.fromRGB(69, 72, 77)
+    scrframe.ScrollBarThickness = 2
+    local uilistlayout = Instance.new("UIListLayout", scrframe)
+    uilistlayout.Padding = UDim.new(0, 14)
+    uilistlayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+    if initWindowFunction[v] then
+        initWindowFunction[v](scrframe)
+    end
+    windowapi["CreateOptionsButton"] = function(argsmaintable)
+        local buttonapi = {
+            ["Name"] = argsmaintable["Name"] or "Example Settings",
+            ["Description"] = argsmaintable["Description"] or "An example script to teach how to use rise's settings.",
+            ["Suffix"] = nil,
+            ["Enabled"] = argsmaintable["Enabled"] or false,
+            ["Keybind"] = nil,
+            ["Function"] = argsmaintable["Function"] or function() end
+        }
+        local buttonobj = Instance.new("TextButton", scrframe)
+        buttonobj.Text = ""
+        buttonobj.BackgroundColor3 = Color3.fromRGB(18, 21, 27)
+        buttonobj.Size = UDim2.new(0, 566, 0, 75)
+        buttonobj.AutoButtonColor = false
+        local corner = Instance.new("UICorner", buttonobj)
+        corner.CornerRadius = UDim.new(0, 12)
+        buttonobj.MouseEnter:Connect(function()
+            tweenService:Create(buttonobj, TweenInfo.new(0.1), {
+                BackgroundColor3 = Color3.fromRGB(17, 19, 25)
+            }):Play()
+        end)
+        buttonobj.MouseLeave:Connect(function()
+            tweenService:Create(buttonobj, TweenInfo.new(0.1), {
+                BackgroundColor3 = Color3.fromRGB(18, 21, 27)
+            }):Play()
+        end)
+        local name = Instance.new("TextLabel", buttonobj)
+        name.BackgroundTransparency = 1
+        name.Position = UDim2.new(0, 12, 0, 15)
+        name.Size = UDim2.new(0, 2000, 0, 16)
+        name.FontFace = shared.RiseFonts.AppleUISemibold
+        name.Text = buttonapi.Name .. "   <font size=\"15\" color=\"rgb(70, 66, 77)\">(" .. v .. ")</font>"
+        name.RichText = true
+        name.TextColor3 = Color3.new(1, 1, 1)
+        if buttonapi.Enabled then
+            table.insert(GuiLibrary.GradientItems, name)
+        end
+        name.TextSize = 18
+        name.TextXAlignment = Enum.TextXAlignment.Left
+        local desc = Instance.new("TextLabel", buttonobj)
+        desc.TextXAlignment = Enum.TextXAlignment.Left
+        desc.TextSize = 14
+        desc.Text = buttonapi.Description
+        desc.FontFace = shared.RiseFonts.AppleUI
+        desc.BackgroundTransparency = 1
+        desc.Position = UDim2.new(0, 13, 0, 48)
+        desc.Size = UDim2.new(0, 2000, 0, 14)
+        local expandsize = 0
+        buttonapi["SetKeybind"] = function(key)
+            buttonapi.Keybind = key
+        end
+        buttonapi["ToggleButton"] = function(toggle, silent)
+            if buttonapi.Enabled == toggle then return end
+            buttonapi.Enabled = (toggle or not buttonapi["Enabled"])
+            if buttonapi.Enabled then
+                table.insert(GuiLibrary.GradientItems, name)
+            else
+                for i2, v2 in pairs(GuiLibrary.GradientItems) do
+                    if v2 == buttonobj then
+                        table.remove(GuiLibrary.GradientItems, i2)
+                    end
+                end
+                buttonobj.TextColor3 = Color3.new(1, 1, 1)
+            end
+            buttonapi["Function"](buttonapi.Enabled)
+            if not silent then
+                GuiLibrary["ShowNotification"]("Toggled", "Toggled " .. buttonapi["Name"] .. " " .. (buttonapi["Enabled"] and "on" or "off"))
+            end
+        end
+        if buttonapi["Enabled"] then
+            buttonapi["ToggleButton"](true, true)
+        end
+        buttonobj.MouseButton1Click:Connect(function()
+            task.spawn(function()
+                buttonobj.BackgroundColor3 = Color3.fromRGB(16, 18, 23)
+                task.wait(.1)
+                buttonobj.BackgroundColor3 = Color3.fromRGB(18, 21, 27)
+            end)
+            buttonapi["ToggleButton"]()
+        end)
+        GuiLibrary.ObjectCanBeSaved[buttonapi.Name .. "OptionsButton"] = buttonapi
+        return buttonapi
+    end
+    GuiLibrary.ObjectCanBeSaved[v .. "Window"] = windowapi
+    return windowapi
 end
 GuiLibrary["SelfDestruct"] = function()
     GuiLibrary = nil
@@ -484,6 +643,10 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function()
         vergra.Color = ColorSequence.new(ThemeService.Themes[GuiLibrary.Settings.Theme][1])
     end
 end)
+local InterfaceOptionsButton = GuiLibrary.ObjectCanBeSaved["RenderWindow"]["CreateOptionsButton"]({
+    ["Name"] = "",
+    ["Description"] = ""
+})
 GuiLibrary.UpdateHudEvent:Fire()
 GuiLibrary.ShowNotification("Rise 6", "Rise loaded. Press " .. GuiLibrary.Settings.Keybind .. " to open Click GUI", 3)
 GuiLibrary.Loaded = true
