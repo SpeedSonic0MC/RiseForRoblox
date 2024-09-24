@@ -266,7 +266,7 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
         t.Text = title
         t.TextColor3 = ThemeService.Themes[GuiLibrary.Settings.Theme][1]
         table.insert(GuiLibrary.RainbowItems, t)
-        t.TextSize = 14
+        t.TextSize = 15
         t.TextXAlignment = Enum.TextXAlignment.Left
         t.TextTransparency = 1
         local d = Instance.new("TextLabel", notification)
@@ -277,7 +277,7 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
         d.FontFace = shared.RiseFonts.AppleUI
         d.Text = description
         d.TextColor3 = Color3.new(215, 215, 215)
-        d.TextSize = 14
+        d.TextSize = 15
         d.TextXAlignment = Enum.TextXAlignment.Left
         tweenService:Create(notification, TweenInfo.new(0.2), {
             ImageTransparency = 0
@@ -547,9 +547,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             ["Suffix"] = nil,
             ["Enabled"] = argsmaintable["Enabled"] or false,
             ["Keybind"] = nil,
-            ["Function"] = argsmaintable["Function"] or function()
-            end,
-            UUID = httpService:GenerateGUID(false)
+            ["Function"] = argsmaintable["Function"] or function() end
         }
         local buttonobj = Instance.new("TextButton", scrframe)
         buttonobj.Text = ""
@@ -593,7 +591,6 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         buttonapi["SetKeybind"] = function(key)
             buttonapi.Keybind = key
         end
-        buttonobj:AddTag(buttonapi.UUID)
         buttonapi["ToggleButton"] = function(toggle, silent)
             if buttonapi.Enabled == toggle then
                 return
