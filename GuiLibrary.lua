@@ -626,7 +626,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 buttonobj.BackgroundColor3 = Color3.fromRGB(18, 21, 27)
             end)
             options.AutomaticSize = options.AutomaticSize == Enum.AutomaticSize.None and Enum.AutomaticSize.Y or Enum.AutomaticSize.None
-            buttonobj:TweenSize(UDim2.new(0, 566, 0, (options.AutomaticSize == Enum.AutomaticSize.None and 0 or (85 + (
+            buttonobj:TweenSize(UDim2.new(0, 566, 0, (options.AutomaticSize == Enum.AutomaticSize.None and 75 or (85 + (
                 (#options:GetChildren() - 1) * 15 + ((#options:GetChildren() - 2) * 12)
             )))), nil, nil, 0.1)
             for i2, v2 in pairs(options:GetDescendants()) do
@@ -636,7 +636,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 elseif v2:IsA("Frame") then
                     prop = "BackgroundTransparency"
                 end
-                if v2:HasTag("NoTween") then return end
+                if v2:HasTag("NoTween") or prop == "" then return end
                 v2[prop] = 1
                 tweenService:Create(v2, TweenInfo.new(0.1), {
                     [prop] = 0
