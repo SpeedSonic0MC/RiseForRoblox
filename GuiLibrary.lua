@@ -22,7 +22,7 @@ local GuiLibrary = {
         ["Notification.png"] = "rbxassetid://104510745030330",
         ["Window.png"] = "rbxassetid://78059882197728"
     },
-    Version = "6.0-Alpha.1.33",
+    Version = "6.1.30",
     GradientItems = {},
     RainbowItems = {},
     Loaded = false
@@ -32,20 +32,6 @@ local DisplayY = workspace.CurrentCamera.ViewportSize.Y
 workspace.CurrentCamera:GetPropertyChangedSignal("ViewportSize"):Connect(function()
     DisplayY = workspace.CurrentCamera.ViewportSize.Y
 end)
-local function loadscript(url)
-    if shared.RiseDeveloper then
-        if isfile("rise/" .. url) then
-            return readfile("rise/" .. url)
-        end
-    end
-    local suc, res = pcall(function()
-        return game:HttpGet("https://raw.githubusercontent.com/SpeedSonic0MC/RiseForRoblox/main/" .. url, true)
-    end)
-    if not suc or res == "404: Not Found" then
-        error("Rise >> Failed to execute loadscript()")
-    end
-    return res
-end
 if getcustomasset == nil then
     error(
         "Rise >> Rise 6 requires a functional getcustomasset. If the executor supports it, try to rejoin for a few times to fix it being nil.")
@@ -408,6 +394,7 @@ shader.ZIndex = 999
 table.insert(GuiLibrary.RainbowItems, shader)
 local cr = Instance.new("UICorner", shader)
 cr.CornerRadius = UDim.new(1, 0)
+local tweeningtroll = false
 for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit", "Ghost", "CaS", "Themes", "Language"}) do
     local textbtn = Instance.new("TextButton", winlist)
     textbtn.BackgroundTransparency = 1
@@ -439,7 +426,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
     lab.TextSize = 16
     lab.TextXAlignment = Enum.TextXAlignment.Left
     textbtn.MouseButton1Click:Connect(function()
-        if sw == v then
+        if sw == v or tweeningtroll then
             return
         end
         task.spawn(function()
@@ -474,6 +461,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             }):Play()
         end)
         task.spawn(function() -- sw example: Combat, old: sw, new: v
+            tweeningtroll = true
             local newobj = GuiLibrary.ObjectCanBeSaved[v .. "Window"]["Object"]["ScrollingFrame"]
             local oldobj = GuiLibrary.ObjectCanBeSaved[sw .. "Window"]["Object"]["ScrollingFrame"]
             for i2, v2 in pairs(oldobj:GetDescendants()) do
@@ -485,10 +473,10 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                     property = "BackgroundTransparency"
                 end
                 if property ~= nil then
-                    tweenService:Create(v2, TweenInfo.new(0.25), {
+                    tweenService:Create(v2, TweenInfo.new(0.15), {
                         [property] = value
                     }):Play()
-                    task.delay(0.25, function()
+                    task.delay(0.15, function()
                         v2[property] = 0
                     end)
                 end
@@ -504,14 +492,15 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 end
                 if property ~= nil then
                     v2[property] = 1
-                    tweenService:Create(v2, TweenInfo.new(0.25), {
+                    tweenService:Create(v2, TweenInfo.new(0.15), {
                         [property] = value
                     }):Play()
                 end
             end
-            task.delay(0.25, function()
+            task.delay(0.15, function()
                 oldobj.Parent.Visible = false
             end)
+            tweeningtroll = false
         end)
         sw = v
     end)
@@ -544,6 +533,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
     if initWindowFunction[v] then
         initWindowFunction[v](scrframe)
     end
+
     windowapi["CreateOptionsButton"] = function(argsmaintable)
         local buttonapi = {
             ["Name"] = argsmaintable["Name"] or "Example Settings",
@@ -575,7 +565,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         name.BackgroundTransparency = 1
         name.Position = UDim2.new(0, 12, 0, 15)
         name.Size = UDim2.new(0, 2000, 0, 16)
-        name.FontFace = shared.RiseFonts.AppleUISemibold
+        name.FontFace = shared.RiseFonts.AppleUI
         name.Text = (buttonapi.Enabled and buttonapi.Name or "<font color=\"rgb(180, 180, 180)\">" .. buttonapi.Name ..
                         "</font>") .. "  <font size=\"15\" color=\"rgb(70, 66, 77)\">(" .. v .. ")</font>"
         name.RichText = true
@@ -624,8 +614,12 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         local options = Instance.new("Frame", buttonobj)
         options.BackgroundTransparency = 1
         options.ClipsDescendants = true
-        options.Position = UDim2.new(0, 0, 0, 75)
-        options.Size = UDim2.new(1, 0, 0, 0)
+        options.Position = UDim2.new(0.5, 0, 0, 75)
+        options.AnchorPoint = Vector2.new(0.5, 0)
+        options.Size = UDim2.new(1, -26, 0, 0)
+        options:AddTag("NoTween")
+        local list = Instance.new("UIListLayout", options)
+        list.Padding = UDim.new(0, 12)
         buttonobj.MouseButton2Click:Connect(function()
             task.spawn(function()
                 buttonobj.BackgroundColor3 = Color3.fromRGB(16, 18, 23)
@@ -641,12 +635,27 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 options:TweenSize(UDim2.new(1, 0, 0, 0), nil, nil, 0.1)
             end
         end)
+
+        buttonapi["CreateLabel"] = function(argstable)
+            local label = Instance.new("TextLabel", options)
+            label.LayoutOrder = #options:GetChildren() - 1 -- uilistlayout
+            label.Size = UDim2.new(1, 0, 0, 15)
+            label.BackgroundTransparency = 1
+            label.FontFace = shared.RiseFonts.AppleUISemibold
+            label.Text = argstable["Name"]
+            label.TextColor3 = Color3.new(1, 1, 1)
+            label.TextSize = 15
+            label.TextXAlignment = Enum.TextXAlignment.Left
+        end
+
         GuiLibrary.ObjectCanBeSaved[buttonapi.Name .. "OptionsButton"] = buttonapi
         return buttonapi
     end
     GuiLibrary.ObjectCanBeSaved[v .. "Window"] = windowapi
 end
 GuiLibrary["SelfDestruct"] = function()
+    gui:Destroy()
+    rise2:Destroy()
     GuiLibrary = nil
 end
 GuiLibrary.UpdateHudEvent.Event:Connect(function()
@@ -668,6 +677,7 @@ local InterfaceOptionsButton = GuiLibrary.ObjectCanBeSaved["RenderWindow"]["Crea
     ["Description"] = "The clients interface with all information",
     ["Enabled"] = true
 })
+InterfaceOptionsButton["CreateLabel"]({Name = "LabyMod 4.2.31"})
 GuiLibrary.UpdateHudEvent:Fire()
 GuiLibrary.ShowNotification("Rise 6", "Rise loaded. Press " .. GuiLibrary.Settings.Keybind .. " to open Click GUI", 3)
 GuiLibrary.Loaded = true
