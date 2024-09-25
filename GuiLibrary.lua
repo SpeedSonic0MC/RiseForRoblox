@@ -22,7 +22,7 @@ local GuiLibrary = {
         ["Notification.png"] = "rbxassetid://104510745030330",
         ["Window.png"] = "rbxassetid://78059882197728"
     },
-    Version = "6.0-Alpha.1.36",
+    Version = "6.0-Alpha.1.33",
     GradientItems = {},
     RainbowItems = {},
     Loaded = false
@@ -321,10 +321,9 @@ local function t()
         step = 0
     end
     local rlpg = reverse and 1 - step or step
+    local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, rlpg):Lerp(Color3.new(0, 0, 0), 0.1)
     step = step + 0.005
-    for i, v in pairs(GuiLibrary.GradientItems) do -- update: color no longer same for whole gui.
-        local abso = (v:IsA("UIGradient") and v.Parent.AbsolutePosition.Y or v.AbsolutePosition.Y) / DisplayY
-        local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, (rlpg + abso > 1 and rlpg + abso - 1 or rlpg + abso)):Lerp(Color3.new(0, 0, 0), 0.1)
+    for i, v in pairs(GuiLibrary.GradientItems) do
         if v == nil then
             return
         end
@@ -339,10 +338,6 @@ local function t()
         end
     end
     for i, v in pairs(GuiLibrary.RainbowItems) do
-        local abso = (v:IsA("UIGradient") and v.Parent.AbsolutePosition.Y or v.AbsolutePosition.Y) / DisplayY
-        local color =
-    ThemeService:GetColorValue(GuiLibrary.Settings.Theme, (rlpg + abso > 1 and rlpg + abso - 1 or rlpg + abso)):Lerp(
-        Color3.new(0, 0, 0), 0.1)
         if v == nil or GuiLibrary.Settings.Theme ~= "Rainbow" then
             return
         end
@@ -637,9 +632,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 task.wait(.1)
                 buttonobj.BackgroundColor3 = Color3.fromRGB(18, 21, 27)
             end)
-            if expandsize == 0 then
-                return
-            end -- no settings, no tween shit
+            if expandsize == 0 then return end -- no settings, no tween shit
             if options.Size == UDim2.new(1, 0, 0, 0) then
                 buttonobj:TweenSize(UDim2.new(0, 566, 0, 85 + expandsize), nil, nil, 0.1)
                 options:TweenSize(UDim2.new(1, 0, 0, expandsize), nil, nil, 0.1)
