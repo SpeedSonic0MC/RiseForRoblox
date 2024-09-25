@@ -547,7 +547,8 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             ["Suffix"] = nil,
             ["Enabled"] = argsmaintable["Enabled"] or false,
             ["Keybind"] = nil,
-            ["Function"] = argsmaintable["Function"] or function() end
+            ["Function"] = argsmaintable["Function"] or function()
+            end
         }
         local buttonobj = Instance.new("TextButton", scrframe)
         buttonobj.Text = ""
@@ -572,7 +573,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         name.Size = UDim2.new(0, 2000, 0, 16)
         name.FontFace = shared.RiseFonts.AppleUISemibold
         name.Text = (buttonapi.Enabled and buttonapi.Name or "<font color=\"rgb(180, 180, 180)\">" .. buttonapi.Name ..
-                        "</font>") .. "   <font size=\"15\" color=\"rgb(70, 66, 77)\">(" .. v .. ")</font>"
+                        "</font>") .. "  <font size=\"15\" color=\"rgb(70, 66, 77)\">(" .. v .. ")</font>"
         name.RichText = true
         name.TextColor3 = Color3.new(1, 1, 1)
         table.insert(GuiLibrary.GradientItems, name)
@@ -598,7 +599,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             buttonapi.Enabled = (toggle or not buttonapi["Enabled"])
             name.Text =
                 (buttonapi.Enabled and buttonapi.Name or "<font color=\"rgb(180, 180, 180)\">" .. buttonapi.Name ..
-                    "</font>") .. "   <font size=\"15\" color=\"rgb(70, 66, 77)\">(" .. v .. ")</font>"
+                    "</font>") .. "  <font size=\"15\" color=\"rgb(70, 66, 77)\">(" .. v .. ")</font>"
             buttonapi["Function"](buttonapi.Enabled)
             if not silent then
                 GuiLibrary["ShowNotification"]("Toggled", "Toggled " .. buttonapi["Name"] .. " " ..
@@ -616,12 +617,25 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             end)
             buttonapi["ToggleButton"]()
         end)
+        local options = Instance.new("Frame", buttonobj)
+        options.BackgroundTransparency = 1
+        options.ClipsDescendants = true
+        options.Position = UDim2.new(0, 0, 0, 75)
+        options.Size = UDim2.new(1, 0, 0, 0)
         buttonobj.MouseButton2Click:Connect(function()
             task.spawn(function()
                 buttonobj.BackgroundColor3 = Color3.fromRGB(16, 18, 23)
                 task.wait(.1)
                 buttonobj.BackgroundColor3 = Color3.fromRGB(18, 21, 27)
             end)
+            if expandsize == 0 then return end -- no settings, no tween shit
+            if options.Size == UDim2.new(1, 0, 0, 0) then
+                buttonobj:TweenSize(UDim2.new(0, 566, 0, 85 + expandsize), nil, nil, 0.1)
+                options:TweenSize(UDim2.new(1, 0, 0, expandsize), nil, nil, 0.1)
+            else
+                buttonobj:TweenSize(UDim2.new(0, 566, 0, 75), nil, nil, 0.1)
+                options:TweenSize(UDim2.new(1, 0, 0, 0), nil, nil, 0.1)
+            end
         end)
         GuiLibrary.ObjectCanBeSaved[buttonapi.Name .. "OptionsButton"] = buttonapi
         return buttonapi
