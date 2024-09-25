@@ -637,6 +637,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         end)
 
         buttonapi["CreateLabel"] = function(argstable)
+            expandsize = (#options:GetChildren() == 1 and 15 or 27)
             local label = Instance.new("TextLabel", options)
             label.LayoutOrder = #options:GetChildren() - 1 -- uilistlayout
             label.Size = UDim2.new(1, 0, 0, 15)
