@@ -630,10 +630,10 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             if expandsize == 0 then return end -- no settings, no tween shit
             if options.Size == UDim2.new(1, 0, 0, 0) then
                 buttonobj:TweenSize(UDim2.new(0, 566, 0, 85 + expandsize), nil, nil, 0.1)
-                options:TweenSize(UDim2.new(1, 0, 0, expandsize), nil, nil, 0.1)
+                options:TweenSize(UDim2.new(1, -26, 0, expandsize), nil, nil, 0.1)
             else
                 buttonobj:TweenSize(UDim2.new(0, 566, 0, 75), nil, nil, 0.1)
-                options:TweenSize(UDim2.new(1, 0, 0, 0), nil, nil, 0.1)
+                options:TweenSize(UDim2.new(1, -26, 0, 0), nil, nil, 0.1)
             end
         end)
 
