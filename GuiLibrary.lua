@@ -28,6 +28,10 @@ local GuiLibrary = {
     Loaded = false
 }
 print("Rise >> Running rise version " .. GuiLibrary.Version)
+local DisplayY = workspace.CurrentCamera.ViewportSize.Y
+workspace.CurrentCamera:GetPropertyChangedSignal("ViewportSize"):Connect(function()
+    DisplayY = workspace.CurrentCamera.ViewportSize.Y
+end)
 local function loadscript(url)
     if shared.RiseDeveloper then
         if isfile("rise/" .. url) then
@@ -317,9 +321,10 @@ local function t()
         step = 0
     end
     local rlpg = reverse and 1 - step or step
-    local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, rlpg):Lerp(Color3.new(0, 0, 0), 0.1)
     step = step + 0.005
-    for i, v in pairs(GuiLibrary.GradientItems) do
+    for i, v in pairs(GuiLibrary.GradientItems) do -- update: color no longer same for whole gui.
+        local abso = v.AbsolutePosition.Y / DisplayY
+        local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, rlpg + abso):Lerp(Color3.new(0, 0, 0), 0.1)
         if v == nil then
             return
         end
@@ -334,6 +339,8 @@ local function t()
         end
     end
     for i, v in pairs(GuiLibrary.RainbowItems) do
+        local abso = v.AbsolutePosition.Y / DisplayY
+        local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, rlpg + abso):Lerp(Color3.new(0, 0, 0), 0.1)
         if v == nil or GuiLibrary.Settings.Theme ~= "Rainbow" then
             return
         end
@@ -628,7 +635,9 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 task.wait(.1)
                 buttonobj.BackgroundColor3 = Color3.fromRGB(18, 21, 27)
             end)
-            if expandsize == 0 then return end -- no settings, no tween shit
+            if expandsize == 0 then
+                return
+            end -- no settings, no tween shit
             if options.Size == UDim2.new(1, 0, 0, 0) then
                 buttonobj:TweenSize(UDim2.new(0, 566, 0, 85 + expandsize), nil, nil, 0.1)
                 options:TweenSize(UDim2.new(1, 0, 0, expandsize), nil, nil, 0.1)
