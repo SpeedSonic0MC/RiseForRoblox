@@ -582,7 +582,6 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         desc.BackgroundTransparency = 1
         desc.Position = UDim2.new(0, 12, 0, 48)
         desc.Size = UDim2.new(0, 2000, 0, 14)
-        local expandsize = 0
         buttonapi["SetKeybind"] = function(key)
             buttonapi.Keybind = key
         end
@@ -626,6 +625,8 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 task.wait(.1)
                 buttonobj.BackgroundColor3 = Color3.fromRGB(18, 21, 27)
             end)
+            local expandsize = 0
+            expandsize = ((#options:GetChildren() - 1) * 15) + ((#options:GetChildren() - 2) * 12)
             if expandsize == 0 then return end -- no settings, no tween shit
             if options.Size == UDim2.new(1, 0, 0, 0) then
                 buttonobj:TweenSize(UDim2.new(0, 566, 0, 85 + expandsize), nil, nil, 0.1)
@@ -637,7 +638,6 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         end)
 
         buttonapi["CreateLabel"] = function(argstable)
-            expandsize = (#options:GetChildren() == 1 and 15 or 27)
             local label = Instance.new("TextLabel", options)
             label.LayoutOrder = #options:GetChildren() - 1 -- uilistlayout
             label.Size = UDim2.new(1, 0, 0, 15)
