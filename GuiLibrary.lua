@@ -22,7 +22,7 @@ local GuiLibrary = {
         ["Notification.png"] = "rbxassetid://104510745030330",
         ["Window.png"] = "rbxassetid://78059882197728"
     },
-    Version = "6.0-Alpha.1.35",
+    Version = "6.0-Alpha.1.36",
     GradientItems = {},
     RainbowItems = {},
     Loaded = false
@@ -324,7 +324,7 @@ local function t()
     step = step + 0.005
     for i, v in pairs(GuiLibrary.GradientItems) do -- update: color no longer same for whole gui.
         local abso = (v:IsA("UIGradient") and v.Parent.AbsolutePosition.Y or v.AbsolutePosition.Y) / DisplayY
-        local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, rlpg + abso):Lerp(Color3.new(0, 0, 0), 0.1)
+        local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, (rlpg + abso > 1 and rlpg + abso - 1 or rlpg + abso)):Lerp(Color3.new(0, 0, 0), 0.1)
         if v == nil then
             return
         end
@@ -340,7 +340,9 @@ local function t()
     end
     for i, v in pairs(GuiLibrary.RainbowItems) do
         local abso = (v:IsA("UIGradient") and v.Parent.AbsolutePosition.Y or v.AbsolutePosition.Y) / DisplayY
-        local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, rlpg + abso):Lerp(Color3.new(0, 0, 0), 0.1)
+        local color =
+    ThemeService:GetColorValue(GuiLibrary.Settings.Theme, (rlpg + abso > 1 and rlpg + abso - 1 or rlpg + abso)):Lerp(
+        Color3.new(0, 0, 0), 0.1)
         if v == nil or GuiLibrary.Settings.Theme ~= "Rainbow" then
             return
         end
