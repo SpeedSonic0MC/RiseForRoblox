@@ -217,6 +217,11 @@ table.insert(GuiLibrary.RainbowItems, vergra)
 local notif = false
 GuiLibrary["ShowNotification"] = function(title, description, time)
     task.spawn(function()
+        local check = false
+        task.spawn(function()
+            check = not GuiLibrary["ObjectCanBeSaved"]["InterfaceOptionsButton"]["Enabled"]
+        end)
+        if check then return end
         title = description ~= nil and title or "Toggled"
         description = description or title
         if not GuiLibrary.Settings.Notifications then
@@ -685,7 +690,6 @@ local InterfaceOptionsButton = GuiLibrary.ObjectCanBeSaved["RenderWindow"]["Crea
     ["Description"] = "The clients interface with all information",
     ["Enabled"] = true
 })
-InterfaceOptionsButton["CreateLabel"]({Name = "LabyMod 4.2.31"})
 GuiLibrary.UpdateHudEvent:Fire()
 GuiLibrary.ShowNotification("Rise 6", "Rise loaded. Press " .. GuiLibrary.Settings.Keybind .. " to open Click GUI", 3)
 GuiLibrary.Loaded = true
