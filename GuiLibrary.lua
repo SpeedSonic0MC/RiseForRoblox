@@ -541,6 +541,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
 
     windowapi["CreateOptionsButton"] = function(argsmaintable)
         local buttonapi = {
+            ["Type"] = "OptionsButton",
             ["Name"] = argsmaintable["Name"] or "Example Settings",
             ["Description"] = argsmaintable["Description"] or "An example script to teach how to use rise's settings.",
             ["Suffix"] = nil,
@@ -690,6 +691,7 @@ local InterfaceOptionsButton = GuiLibrary.ObjectCanBeSaved["RenderWindow"]["Crea
     ["Description"] = "The clients interface with all information",
     ["Enabled"] = true
 })
+InterfaceOptionsButton.CreateLabel({Name="6.1.30"})
 GuiLibrary.UpdateHudEvent:Fire()
 GuiLibrary.ShowNotification("Rise 6", "Rise loaded. Press " .. GuiLibrary.Settings.Keybind .. " to open Click GUI", 3)
 GuiLibrary.Loaded = true
