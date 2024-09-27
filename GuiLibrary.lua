@@ -640,6 +640,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         options.Size = UDim2.new(1, -26, 0, 0)
         options:AddTag("NoTween")
         local list = Instance.new("UIListLayout", options)
+        list.HorizontalAlignment = Enum.HorizontalAlignment.Center
         list.Padding = UDim.new(0, 12)
         buttonobj.MouseButton2Click:Connect(function()
             task.spawn(function()
@@ -690,7 +691,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             fr.BackgroundTransparency = 1
             fr.Size = UDim2.new(1, 0, 0, 15)
             fr.LayoutOrder = #options:GetChildren() - 1
-            if conditiontype and conditionname2 and conditionname2 and conditionvalue then
+            if conditiontype and conditionname and conditionvalue then
                 task.spawn(function()
                     local obj = GuiLibrary.ObjectCanBeSaved[conditionname .. (conditionname2 or "") .. conditiontype]
                     if obj then
@@ -713,7 +714,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             label.TextColor3 = Color3.new(1, 1, 1)
             label.TextSize = 15
             label.TextXAlignment = Enum.TextXAlignment.Left
-            if conditiontype and conditionname2 and conditionname2 and conditionvalue then
+            if conditiontype and conditionname and conditionvalue then
                 task.spawn(function()
                     repeat
                         local obj =
@@ -740,8 +741,19 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 ["Function"] = argstable["Function"] or function(_unused)
                 end
             }
+            local subdata = argstable["SubData"]
+            local conditiontype = nil
+            local conditionname = nil
+            local conditionname2 = nil
+            local conditionvalue = nil
+            if subdata ~= nil and type(subdata) == "table" then
+                conditiontype = argstable["SubData"]["ConditionType"]
+                conditionname = argstable["SubData"]["ConditionMainName"]
+                conditionname2 = argstable["SubData"]["ConditionName"]
+                conditionvalue = subdata["ConditionValue"]
+            end
             local label = Instance.new("TextButton", options)
-            label.Size = UDim2.new(1, 0, 0, 15)
+            label.Size = UDim2.new(1, subdata ~= nil and -38 or 0, 0, 15)
             label.LayoutOrder = #options:GetChildren() - 1 -- uilistlayout
             label.FontFace = shared.RiseFonts.AppleUISemibold
             label.Text = api.Name
@@ -750,6 +762,19 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             label.TextXAlignment = Enum.TextXAlignment.Left
             label.BackgroundTransparency = 1
             label:AddTag("SpecialTween")
+            if conditiontype and conditionname and conditionvalue then
+                task.spawn(function()
+                    local obj = GuiLibrary.ObjectCanBeSaved[conditionname .. (conditionname2 or "") .. conditiontype]
+                    if obj then
+                        local value = obj["Enabled"] or obj["Value"]
+                        if value == conditionvalue then
+                            label.Visible = true
+                        else
+                            label.Visible = false
+                        end
+                    end
+                end)
+            end
             local param = Instance.new "GetTextBoundsParams"
             param.Font = shared.RiseFonts.AppleUISemibold
             param.Size = 15
@@ -780,6 +805,23 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 api["Enabled"] = enabled == nil and (not api["Enabled"]) or enabled or false
                 fra:TweenSize(UDim2.new(0, api["Enabled"] and 10 or 0, 0, api["Enabled"] and 10 or 0), nil, nil, 0.15)
                 api["Function"](api["Enabled"])
+            end
+            if conditiontype and conditionname and conditionvalue then
+                task.spawn(function()
+                    repeat
+                        local obj =
+                            GuiLibrary.ObjectCanBeSaved[conditionname .. (conditionname2 or "") .. conditiontype]
+                        if obj then
+                            local value = obj["Enabled"] or obj["Value"]
+                            if value == conditionvalue then
+                                label.Visible = true
+                            else
+                                label.Visible = false
+                            end
+                        end
+                        task.wait(0.05)
+                    until GuiLibrary == nil
+                end)
             end
             label.MouseButton1Click:Connect(api["ToggleButton"])
             GuiLibrary.ObjectCanBeSaved[buttonapi.Name .. api.Name .. "Toggle"] = api
@@ -827,19 +869,22 @@ local InterfaceOptionsButton = GuiLibrary.ObjectCanBeSaved["RenderWindow"]["Crea
 })
 if shared.RiseDeveloper then
     InterfaceOptionsButton.CreateLabel({
-        Name = "Example Label",
-        SubData = {
-            ConditionType = "Toggle",
-            ConditionMainName = "Interface",
-            ConditionName = "Example Option",
-            ConditionValue = true
-        }
+        Name = "Example Label"
     })
     InterfaceOptionsButton.CreateToggle({
         Name = "Example Option",
         Function = function(val)
             print("Example Option: " .. tostring(val))
         end
+    })
+    InterfaceOptionsButton.CreateLabel({
+        Name = "This is an example label that only shows when Example Option is toggled",
+        SubData = {
+            ConditionType = "Toggle",
+            ConditionMainName = "Interface",
+            ConditionName = "Example Option",
+            ConditionValue = true
+        }
     })
 end
 GuiLibrary.UpdateHudEvent:Fire()
