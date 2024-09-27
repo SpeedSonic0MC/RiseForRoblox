@@ -726,7 +726,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                                 fr.Visible = false
                             end
                         end
-                        task.wait()
+                        task.wait(0.05)
                     until GuiLibrary == nil
                 end)
             end
