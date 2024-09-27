@@ -99,6 +99,16 @@ rise2.DisplayOrder = 998
 rise2.Name = "Rise 6 - HUD"
 rise2.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 rise2.ResetOnSpawn = false
+local logoimage = Instance.new("ImageLabel", rise2)
+logoimage.BackgroundTransparency = 1
+logoimage.Position = UDim2.new(0, 15, 0, 15)
+logoimage.Size = UDim2.new(0, 69, 0, 28)
+logoimage.Image = getriseasset("logo.png")
+logoimage.Visible = false
+logoimage.ScaleType = Enum.ScaleType.Fit
+local uigra = Instance.new("UIGradient", logoimage)
+uigra.Color = ColorSequence.new(Color3.new(1, 1, 1))
+table.insert(GuiLibrary.RainbowItems, uigra)
 GuiLibrary["MainGui"] = gui
 if isfile("rise/configs/GUI.rscfg") then
     local suc, err = pcall(function()
@@ -739,8 +749,12 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function()
     if not theme then
         theme = ThemeService.Themes["Water"]
     end
-    if ThemeService:GetColor(ThemeService:GetKeyColor(GuiLibrary.Settings.Theme)) ~= nil then -- rainbow
+    logoimage.Visible = GuiLibrary.ObjectCanBeSaved.InterfaceOptionsButton.Enabled
+    if ThemeService:GetColor(ThemeService:GetKeyColor(GuiLibrary.Settings.Theme)) ~= nil and ThemeService:GetColor(ThemeService:GetKeyColor(GuiLibrary.Settings.Theme)) ~= 0 then -- rainbow
         shader.BackgroundColor3 = ThemeService:GetColor(ThemeService:GetKeyColor(GuiLibrary.Settings.Theme))
+        local color1 = ThemeService.Themes[GuiLibrary.Settings.Theme][1]
+        local color2 = #ThemeService.Themes[GuiLibrary.Settings.Theme] == 1 and ThemeService.Themes[GuiLibrary.Settings.Theme][1] or ThemeService.Themes[GuiLibrary.Settings.Theme][2]
+        uigra.Color = ColorSequence.new({ColorSequenceKeypoint.new(0, color2), ColorSequenceKeypoint.new(1, color1)})
     end
     if GuiLibrary.Settings.Theme == "Rainbow" then
         vergra.Color = ColorSequence.new(Color3.new(1, 1, 1))
