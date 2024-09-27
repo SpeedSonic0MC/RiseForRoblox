@@ -502,11 +502,11 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             for i2, v2 in pairs(newobj:GetDescendants()) do
                 local property = nil
                 local value = 0
-                if v2:IsA("TextLabel") then
-                    property = "TextTransparency"
-                elseif (v2:IsA("TextButton") or v2:IsA("Frame")) and not v2:HasTag("NoTween") then
-                    property = "BackgroundTransparency"
-                end
+                if v2:IsA("TextLabel") or (v2:IsA("TextButton") and v2:HasTag("SpecialTween")) then
+    property = "TextTransparency"
+elseif (v2:IsA("TextButton") or v2:IsA("Frame")) and (not v2:HasTag("NoTween") and not v2:HasTag("SpecialTween")) then
+    property = "BackgroundTransparency"
+end
                 if property ~= nil then
                     v2[property] = 1
                     tweenService:Create(v2, TweenInfo.new(0.15), {
