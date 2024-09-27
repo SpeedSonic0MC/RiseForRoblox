@@ -695,7 +695,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             local toggledx = Instance.new("Frame", label)
             toggledx.AnchorPoint = Vector2.new(0, 0.5)
             toggledx.BackgroundColor3 = Color3.new(25, 26, 35)
-            toggledx.Position = UDim2.new(0, textService:GetTextBoundsAsync(toggledx).X + 9, 0.5, 0)
+            toggledx.Position = UDim2.new(0, textService:GetTextBoundsAsync(param).X + 9, 0.5, 0)
             toggledx.Size = UDim2.new(0, 10, 0, 10)
             local tdc = Instance.new("UICorner", toggledx)
             tdc.CornerRadius = UDim.new(1, 0)
