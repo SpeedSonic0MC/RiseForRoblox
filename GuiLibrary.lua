@@ -886,6 +886,15 @@ if shared.RiseDeveloper then
             ConditionValue = true
         }
     })
+    InterfaceOptionsButton.CreateToggle({
+        Name = "Suffix",
+        SubData = {
+            ConditionType = "Toggle",
+            ConditionMainName = "Interface",
+            ConditionName = "Example Option",
+            ConditionValue = true
+        }
+    })
 end
 GuiLibrary.UpdateHudEvent:Fire()
 GuiLibrary.ShowNotification("Rise 6", "Rise loaded. Press " .. GuiLibrary.Settings.Keybind .. " to open Click GUI", 3)
