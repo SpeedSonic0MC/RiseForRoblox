@@ -766,7 +766,10 @@ end)
 local InterfaceOptionsButton = GuiLibrary.ObjectCanBeSaved["RenderWindow"]["CreateOptionsButton"]({
     ["Name"] = "Interface",
     ["Description"] = "The clients interface with all information",
-    ["Enabled"] = true
+    ["Enabled"] = true,
+    Function = function()
+        GuiLibrary.UpdateHudEvent:Fire()
+    end
 })
 if shared.RiseDeveloper then
     InterfaceOptionsButton.CreateLabel({
