@@ -683,6 +683,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             local label = Instance.new("TextButton", options)
             label.BackgroundTransparency = 1
             label.Size = UDim2.new(1, 0, 0, 15)
+            label.LayoutOrder = #options:GetChildren() - 1 -- uilistlayout
             label.FontFace = shared.RiseFonts.AppleUISemibold
             label.Text = api.Name
             label.TextColor3 = Color3.new(1, 1, 1)
