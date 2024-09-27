@@ -715,7 +715,8 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 api["Function"](true)
             end
             api["ToggleButton"] = function(enabled)
-                api["Enabled"] = enabled == nil and (not api["Enabled"]) or enabled
+                if api.Enabled == enabled then return end
+                api["Enabled"] = enabled == nil and (not api["Enabled"]) or enabled or false
                 fra:TweenSize(UDim2.new(0, api["Enabled"] and 10 or 0, 0, api["Enabled"] and 10 or 0), nil, nil, 0.15)
                 api["Function"](api["Enabled"])
             end
