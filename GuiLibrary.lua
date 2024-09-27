@@ -486,7 +486,8 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 local value = 1
                 if v2:IsA("TextLabel") or (v2:IsA("TextButton") and v2:HasTag("SpecialTween")) then
                     property = "TextTransparency"
-                elseif (v2:IsA("TextButton") or v2:IsA("Frame")) and (not v2:HasTag("NoTween") and not v2:HasTag("SpecialTween")) then
+                elseif (v2:IsA("TextButton") or v2:IsA("Frame")) and
+                    (not v2:HasTag("NoTween") and not v2:HasTag("SpecialTween")) then
                     property = "BackgroundTransparency"
                 end
                 if property ~= nil then
@@ -503,10 +504,11 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 local property = nil
                 local value = 0
                 if v2:IsA("TextLabel") or (v2:IsA("TextButton") and v2:HasTag("SpecialTween")) then
-    property = "TextTransparency"
-elseif (v2:IsA("TextButton") or v2:IsA("Frame")) and (not v2:HasTag("NoTween") and not v2:HasTag("SpecialTween")) then
-    property = "BackgroundTransparency"
-end
+                    property = "TextTransparency"
+                elseif (v2:IsA("TextButton") or v2:IsA("Frame")) and
+                    (not v2:HasTag("NoTween") and not v2:HasTag("SpecialTween")) then
+                    property = "BackgroundTransparency"
+                end
                 if property ~= nil then
                     v2[property] = 1
                     tweenService:Create(v2, TweenInfo.new(0.15), {
@@ -672,15 +674,61 @@ end
             end
         end) -- so we don't have to do shit
         buttonapi["CreateLabel"] = function(argstable)
-            local label = Instance.new("TextLabel", options)
-            label.LayoutOrder = #options:GetChildren() - 1 -- uilistlayout
-            label.Size = UDim2.new(1, 0, 0, 15)
+            local subdata = argstable["SubData"]
+            local conditiontype = nil
+            local conditionname = nil
+            local conditionname2 = nil
+            local conditionvalue = nil
+            if subdata ~= nil and type(subdata) == "table" then
+                conditiontype = argstable["SubData"]["ConditionType"]
+                conditionname = argstable["SubData"]["ConditionMainName"]
+                conditionname2 = argstable["SubData"]["ConditionName"]
+                conditionvalue = subdata["ConditionValue"]
+            end
+            local fr = Instance.new("Frame", options)
+            fr:AddTag("NoTween")
+            fr.BackgroundTransparency = 1
+            fr.Size = UDim2.new(1, 0, 0, 15)
+            fr.LayoutOrder = #options:GetChildren() - 1
+            if conditiontype and conditionname2 and conditionname2 and conditionvalue then
+                task.spawn(function()
+                    local obj = GuiLibrary.ObjectCanBeSaved[conditionname .. (conditionname2 or "") .. conditiontype]
+                    if obj then
+                        local value = obj["Enabled"] or obj["Value"]
+                        if value == conditionvalue then
+                            fr.Visible = true
+                        else
+                            fr.Visible = false
+                        end
+                    end
+                end)
+            end
+            local label = Instance.new("TextLabel", fr)
+            label.AnchorPoint = Vector2.new(0.5, 0)
+            label.Position = UDim2.new(0.5, 0, 0, 0)
+            label.Size = UDim2.new(1, subdata ~= nil and -38 or 0, 1, 0)
             label.BackgroundTransparency = 1
             label.FontFace = shared.RiseFonts.AppleUISemibold
             label.Text = argstable["Name"]
             label.TextColor3 = Color3.new(1, 1, 1)
             label.TextSize = 15
             label.TextXAlignment = Enum.TextXAlignment.Left
+            if conditiontype and conditionname2 and conditionname2 and conditionvalue then
+                task.spawn(function()
+                    repeat
+                        local obj =
+                            GuiLibrary.ObjectCanBeSaved[conditionname .. (conditionname2 or "") .. conditiontype]
+                        if obj then
+                            local value = obj["Enabled"] or obj["Value"]
+                            if value == conditionvalue then
+                                fr.Visible = true
+                            else
+                                fr.Visible = false
+                            end
+                        end
+                    until GuiLibrary == nil
+                end)
+            end
         end
 
         buttonapi["CreateToggle"] = function(argstable)
@@ -725,7 +773,9 @@ end
                 api["Function"](true)
             end
             api["ToggleButton"] = function(enabled)
-                if api.Enabled == enabled then return end
+                if api.Enabled == enabled then
+                    return
+                end
                 api["Enabled"] = enabled == nil and (not api["Enabled"]) or enabled or false
                 fra:TweenSize(UDim2.new(0, api["Enabled"] and 10 or 0, 0, api["Enabled"] and 10 or 0), nil, nil, 0.15)
                 api["Function"](api["Enabled"])
@@ -751,10 +801,13 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function()
         theme = ThemeService.Themes["Water"]
     end
     logoimage.Visible = GuiLibrary.ObjectCanBeSaved.InterfaceOptionsButton.Enabled
-    if ThemeService:GetColor(ThemeService:GetKeyColor(GuiLibrary.Settings.Theme)) ~= nil and ThemeService:GetColor(ThemeService:GetKeyColor(GuiLibrary.Settings.Theme)) ~= 0 then -- rainbow
+    if ThemeService:GetColor(ThemeService:GetKeyColor(GuiLibrary.Settings.Theme)) ~= nil and
+        ThemeService:GetColor(ThemeService:GetKeyColor(GuiLibrary.Settings.Theme)) ~= 0 then -- rainbow
         shader.BackgroundColor3 = ThemeService:GetColor(ThemeService:GetKeyColor(GuiLibrary.Settings.Theme))
         local color1 = ThemeService.Themes[GuiLibrary.Settings.Theme][1]
-        local color2 = #ThemeService.Themes[GuiLibrary.Settings.Theme] == 1 and ThemeService.Themes[GuiLibrary.Settings.Theme][1] or ThemeService.Themes[GuiLibrary.Settings.Theme][2]
+        local color2 = #ThemeService.Themes[GuiLibrary.Settings.Theme] == 1 and
+                           ThemeService.Themes[GuiLibrary.Settings.Theme][1] or
+                           ThemeService.Themes[GuiLibrary.Settings.Theme][2]
         uigra.Color = ColorSequence.new({ColorSequenceKeypoint.new(0, color2), ColorSequenceKeypoint.new(1, color1)})
     end
     if GuiLibrary.Settings.Theme == "Rainbow" then
@@ -773,11 +826,19 @@ local InterfaceOptionsButton = GuiLibrary.ObjectCanBeSaved["RenderWindow"]["Crea
 })
 if shared.RiseDeveloper then
     InterfaceOptionsButton.CreateLabel({
-        Name = "Example Label"
+        Name = "Example Label",
+        SubData = {
+            ConditionType = "Toggle",
+            ConditionMainName = "Interface",
+            ConditionName = "Example Option",
+            ConditionValue = true
+        }
     })
     InterfaceOptionsButton.CreateToggle({
         Name = "Example Option",
-        Function = function(val) print("Example Option: " .. tostring(val)) end
+        Function = function(val)
+            print("Example Option: " .. tostring(val))
+        end
     })
 end
 GuiLibrary.UpdateHudEvent:Fire()
