@@ -221,7 +221,9 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
         task.spawn(function()
             check = not GuiLibrary["ObjectCanBeSaved"]["InterfaceOptionsButton"]["Enabled"]
         end)
-        if check then return end
+        if check then
+            return
+        end
         title = description ~= nil and title or "Toggled"
         description = description or title
         if not GuiLibrary.Settings.Notifications then
@@ -550,6 +552,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             ["Function"] = argsmaintable["Function"] or function()
             end
         }
+        local expanded = false
         local buttonobj = Instance.new("TextButton", scrframe)
         buttonobj.Text = ""
         buttonobj.BackgroundColor3 = Color3.fromRGB(18, 21, 27)
@@ -631,10 +634,11 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 task.wait(.1)
                 buttonobj.BackgroundColor3 = Color3.fromRGB(18, 21, 27)
             end)
-            options.AutomaticSize = options.AutomaticSize == Enum.AutomaticSize.None and Enum.AutomaticSize.Y or Enum.AutomaticSize.None
-            buttonobj:TweenSize(UDim2.new(0, 566, 0, (options.AutomaticSize == Enum.AutomaticSize.None and 75 or (85 + (
-                (#options:GetChildren() - 1) * 15 + ((#options:GetChildren() - 2) * 12)
-            )))), nil, nil, 0.1)
+            options.AutomaticSize = options.AutomaticSize == Enum.AutomaticSize.None and Enum.AutomaticSize.Y or
+                                        Enum.AutomaticSize.None
+            expanded = options.AutomaticSize == Enum.AutomaticSize.Y
+            buttonobj:TweenSize(UDim2.new(0, 566, 0, (options.AutomaticSize == Enum.AutomaticSize.None and 75 or
+                (85 + options.AbsoluteSize.X))), nil, nil, 0.1)
             for i2, v2 in pairs(options:GetDescendants()) do
                 local prop = ""
                 if v2:IsA("TextLabel") or v2:IsA("TextButton") or v2:IsA("TextBox") then
@@ -642,14 +646,20 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 elseif v2:IsA("Frame") then
                     prop = "BackgroundTransparency"
                 end
-                if v2:HasTag("NoTween") or prop == "" then return end
+                if v2:HasTag("NoTween") or prop == "" then
+                    return
+                end
                 v2[prop] = 1
                 tweenService:Create(v2, TweenInfo.new(0.1), {
                     [prop] = 0
                 }):Play()
             end
         end)
-
+        options.Changed:Connect(function(property)
+            if property == "AbsoluteSize" and expanded then
+                buttonobj:TweenSize(UDim2.new(0, 566, 0, (85 + options.AbsoluteSize.X)), nil, nil, 0.1)
+            end
+        end) -- so we don't have to do shit
         buttonapi["CreateLabel"] = function(argstable)
             local label = Instance.new("TextLabel", options)
             label.LayoutOrder = #options:GetChildren() - 1 -- uilistlayout
@@ -660,6 +670,54 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             label.TextColor3 = Color3.new(1, 1, 1)
             label.TextSize = 15
             label.TextXAlignment = Enum.TextXAlignment.Left
+        end
+
+        buttonapi["CreateToggle"] = function(argstable)
+            local api = {
+                ["Type"] = "Toggle",
+                ["Name"] = argstable["Name"] or "Example",
+                ["Enabled"] = argstable["Enabled"] or false,
+                ["Function"] = argstable["Function"] or function(_unused)
+                end
+            }
+            local label = Instance.new("TextButton", options)
+            label.BackgroundTransparency = 1
+            label.Size = UDim2.new(1, 0, 0, 15)
+            label.FontFace = shared.RiseFonts.AppleUISemibold
+            label.Text = api.Name
+            label.TextColor3 = Color3.new(1, 1, 1)
+            label.TextSize = 15
+            label.TextXAlignment = Enum.TextXAlignment.Left
+            local param = Instance.new "GetTextBoundsParams"
+            param.Font = shared.RiseFonts.AppleUISemibold
+            param.Size = 15
+            param.Width = 99999
+            local toggledx = Instance.new("Frame", label)
+            toggledx.AnchorPoint = Vector2.new(0, 0.5)
+            toggledx.BackgroundColor3 = Color3.new(25, 26, 35)
+            toggledx.Position = UDim2.new(0, textService:GetTextBoundsAsync(toggledx).X + 9, 0.5, 0)
+            toggledx.Size = UDim2.new(0, 10, 0, 10)
+            local tdc = Instance.new("UICorner", toggledx)
+            tdc.CornerRadius = UDim.new(1, 0)
+            local fra = Instance.new("Frame", toggledx)
+            task.spawn(function()
+                fra.BackgroundColor3 = ThemeService.Themes[GuiLibrary.Settings.Theme][1]
+            end)
+            fra.AnchorPoint = Vector2.new(0.5, 0.5)
+            fra.Position = UDim2.new(0.5, 0.5)
+            fra.Size = api["Enabled"] and UDim2.new(0, 10, 0, 10) or UDim2.new(0, 0, 0, 0)
+            tdc:Clone().Parent = fra
+            if api["Enabled"] then
+                api["Function"](true)
+            end
+            api["ToggleButton"] = function(enabled)
+                api["Enabled"] = enabled == nil and (not api["Enabled"]) or enabled
+                fra:TweenSize(UDim2.new(0, api["Enabled"] and 10 or 0, 0, api["Enabled"] and 10 or 0), nil, nil, 0.15)
+                api["Function"](api["Enabled"])
+            end
+            label.MouseButton1Click:Connect(api["ToggleButton"])
+            GuiLibrary.ObjectCanBeSaved[buttonapi.Name .. api.Name .. "Toggle"] = api
+            return api
         end
 
         GuiLibrary.ObjectCanBeSaved[buttonapi.Name .. "OptionsButton"] = buttonapi
@@ -691,7 +749,15 @@ local InterfaceOptionsButton = GuiLibrary.ObjectCanBeSaved["RenderWindow"]["Crea
     ["Description"] = "The clients interface with all information",
     ["Enabled"] = true
 })
-InterfaceOptionsButton.CreateLabel({Name="6.1.30"})
+if shared.RiseDeveloper then
+    InterfaceOptionsButton.CreateLabel({
+        Name = "Example Label"
+    })
+    InterfaceOptionsButton.CreateToggle({
+        Name = "Example Option",
+        Function = function(val) print("Example Option: " .. val) end
+    })
+end
 GuiLibrary.UpdateHudEvent:Fire()
 GuiLibrary.ShowNotification("Rise 6", "Rise loaded. Press " .. GuiLibrary.Settings.Keybind .. " to open Click GUI", 3)
 GuiLibrary.Loaded = true
