@@ -575,7 +575,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         name.BackgroundTransparency = 1
         name.Position = UDim2.new(0, 12, 0, 15)
         name.Size = UDim2.new(0, 2000, 0, 16)
-        name.FontFace = shared.RiseFonts.AppleUI
+        name.FontFace = shared.RiseFonts.AppleUISemibold
         name.Text = (buttonapi.Enabled and buttonapi.Name or "<font color=\"rgb(180, 180, 180)\">" .. buttonapi.Name ..
                         "</font>") .. "  <font size=\"15\" color=\"rgb(70, 66, 77)\">(" .. v .. ")</font>"
         name.RichText = true
@@ -708,7 +708,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 fra.BackgroundColor3 = ThemeService.Themes[GuiLibrary.Settings.Theme][1]
             end)
             fra.AnchorPoint = Vector2.new(0.5, 0.5)
-            fra.Position = UDim2.new(0.5, 0.5)
+            fra.Position = UDim2.new(0.5, 0, 0.5, 0)
             fra.Size = api["Enabled"] and UDim2.new(0, 10, 0, 10) or UDim2.new(0, 0, 0, 0)
             tdc:Clone().Parent = fra
             if api["Enabled"] then
