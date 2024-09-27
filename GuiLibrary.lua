@@ -690,7 +690,6 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             label.TextSize = 15
             label.TextXAlignment = Enum.TextXAlignment.Left
             label.BackgroundTransparency = 1
-            label:AddTag("NoTween")
             local param = Instance.new "GetTextBoundsParams"
             param.Font = shared.RiseFonts.AppleUISemibold
             param.Size = 15
