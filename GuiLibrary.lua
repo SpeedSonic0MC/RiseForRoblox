@@ -512,6 +512,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         sw = v
     end)
     local frame = Instance.new("Frame", windowshit)
+    frame.Name = v
     frame.ClipsDescendants = true -- pretty useless ngl
     frame.BackgroundTransparency = 1
     frame.Size = UDim2.new(1, 0, 1, 0)
@@ -657,7 +658,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         end)
         options.Changed:Connect(function(property)
             if property == "AbsoluteSize" and expanded then
-                buttonobj:TweenSize(UDim2.new(0, 566, 0, (85 + options.AbsoluteSize.X)), nil, nil, 0.1)
+                buttonobj:TweenSize(UDim2.new(0, 566, 0, (85 + options.AbsoluteSize.Y)), nil, nil, 0.1)
             end
         end) -- so we don't have to do shit
         buttonapi["CreateLabel"] = function(argstable)
@@ -681,7 +682,6 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 end
             }
             local label = Instance.new("TextButton", options)
-            label.BackgroundTransparency = 1
             label.Size = UDim2.new(1, 0, 0, 15)
             label.LayoutOrder = #options:GetChildren() - 1 -- uilistlayout
             label.FontFace = shared.RiseFonts.AppleUISemibold
@@ -689,13 +689,16 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             label.TextColor3 = Color3.new(1, 1, 1)
             label.TextSize = 15
             label.TextXAlignment = Enum.TextXAlignment.Left
+            label.BackgroundTransparency = 1
+            label:AddTag("NoTween")
             local param = Instance.new "GetTextBoundsParams"
             param.Font = shared.RiseFonts.AppleUISemibold
             param.Size = 15
+            param.Text = api.Name
             param.Width = 99999
             local toggledx = Instance.new("Frame", label)
             toggledx.AnchorPoint = Vector2.new(0, 0.5)
-            toggledx.BackgroundColor3 = Color3.new(25, 26, 35)
+            toggledx.BackgroundColor3 = Color3.fromRGB(25, 26, 35)
             toggledx.Position = UDim2.new(0, textService:GetTextBoundsAsync(param).X + 9, 0.5, 0)
             toggledx.Size = UDim2.new(0, 10, 0, 10)
             local tdc = Instance.new("UICorner", toggledx)
@@ -756,7 +759,7 @@ if shared.RiseDeveloper then
     })
     InterfaceOptionsButton.CreateToggle({
         Name = "Example Option",
-        Function = function(val) print("Example Option: " .. val) end
+        Function = function(val) print("Example Option: " .. tostring(val)) end
     })
 end
 GuiLibrary.UpdateHudEvent:Fire()
