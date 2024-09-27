@@ -486,7 +486,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 local value = 1
                 if v2:IsA("TextLabel") or (v2:IsA("TextButton") and v2:HasTag("SpecialTween")) then
                     property = "TextTransparency"
-                elseif (v2:IsA("TextButton") or v2:IsA("Frame")) and (not v2:HasTag("NoTween") and not v2:HasTag("NoTween")) then
+                elseif (v2:IsA("TextButton") or v2:IsA("Frame")) and (not v2:HasTag("NoTween") and not v2:HasTag("SpecialTween")) then
                     property = "BackgroundTransparency"
                 end
                 if property ~= nil then
