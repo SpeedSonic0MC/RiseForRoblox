@@ -484,9 +484,9 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             for i2, v2 in pairs(oldobj:GetDescendants()) do
                 local property = nil
                 local value = 1
-                if v2:IsA("TextLabel") then
+                if v2:IsA("TextLabel") or (v2:IsA("TextButton") and v2:HasTag("SpecialTween")) then
                     property = "TextTransparency"
-                elseif (v2:IsA("TextButton") or v2:IsA("Frame")) and not v2:HasTag("NoTween") then
+                elseif ((v2:IsA("TextButton") and not v2:HasTag("SpecialTween")) or v2:IsA("Frame")) and not v2:HasTag("NoTween") then
                     property = "BackgroundTransparency"
                 end
                 if property ~= nil then
@@ -700,6 +700,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             label.TextSize = 15
             label.TextXAlignment = Enum.TextXAlignment.Left
             label.BackgroundTransparency = 1
+            label:AddTag("SpecialTween")
             local param = Instance.new "GetTextBoundsParams"
             param.Font = shared.RiseFonts.AppleUISemibold
             param.Size = 15
