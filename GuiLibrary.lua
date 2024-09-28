@@ -337,8 +337,11 @@ local function t()
         if v == nil then
             return
         end
-        local position = v.AbsolutePosition.Y / workspace.CurrentCamera.ViewportSize.Y * 0.04
-        local lerp = rlpg + position > 1 and 1 - (rlpg + position) or rlpg + position
+        local lerp = rlpg
+        if not v:IsA("UIGradient") then
+            local position = v.AbsolutePosition.Y / workspace.CurrentCamera.ViewportSize.Y * 0.04
+            lerp = rlpg + position > 1 and 1 - (rlpg + position) or rlpg + position
+        end
         local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, lerp)
             :Lerp(Color3.new(0, 0, 0), 0.6980392157)
         if v:IsA("Frame") then
@@ -355,8 +358,11 @@ local function t()
         if v == nil or GuiLibrary.Settings.Theme ~= "Rainbow" then
             return
         end
-        local position = v.AbsolutePosition.Y / workspace.CurrentCamera.ViewportSize.Y * 0.04
-        local lerp = rlpg + position > 1 and 1 - (rlpg + position) or rlpg + position
+        local lerp = rlpg
+        if not v:IsA("UIGradient") then
+            local position = v.AbsolutePosition.Y / workspace.CurrentCamera.ViewportSize.Y * 0.04
+            lerp = rlpg + position > 1 and 1 - (rlpg + position) or rlpg + position
+        end
         local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, lerp)
             :Lerp(Color3.new(0, 0, 0), 0.6980392157)
         if v:IsA("Frame") then
