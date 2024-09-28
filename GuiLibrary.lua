@@ -354,7 +354,7 @@ local function t()
             local position = v.AbsolutePosition.Y / workspace.CurrentCamera.ViewportSize.Y * 0.04
             lerp = (rlpg + position) > 1 and 1 - (rlpg + position) or (rlpg + position)
         end
-        local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, lerp)
+        local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, (lerp > 1 and (1 - lerp) or lerp))
             :Lerp(Color3.new(0, 0, 0), 0.6980392157)
         if v:IsA("Frame") then
             v.BackgroundColor3 = color
