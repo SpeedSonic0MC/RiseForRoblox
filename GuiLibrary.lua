@@ -712,7 +712,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             label.Position = UDim2.new(0.5, 0, 0, 0)
             label.Size = UDim2.new(1, subdata ~= nil and -38 or 0, 1, 0)
             label.BackgroundTransparency = 1
-            label.FontFace = shared.RiseFonts.AppleUISemibold
+            label.FontFace = shared.RiseFonts.AppleUI
             label.Text = argstable["Name"]
             label.TextColor3 = Color3.new(1, 1, 1)
             label.TextSize = 15
@@ -758,7 +758,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             local label = Instance.new("TextButton", options)
             label.Size = UDim2.new(1, subdata ~= nil and -38 or 0, 0, 15)
             label.LayoutOrder = #options:GetChildren() - 1 -- uilistlayout
-            label.FontFace = shared.RiseFonts.AppleUISemibold
+            label.FontFace = shared.RiseFonts.AppleUI
             label.Text = api.Name
             label.TextColor3 = Color3.new(1, 1, 1)
             label.TextSize = 15
@@ -779,7 +779,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 end)
             end
             local param = Instance.new "GetTextBoundsParams"
-            param.Font = shared.RiseFonts.AppleUISemibold
+            param.Font = shared.RiseFonts.AppleUI
             param.Size = 15
             param.Text = api.Name
             param.Width = 99999
@@ -856,7 +856,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             local label = Instance.new("TextLabel", options)
             label.Size = UDim2.new(1, subdata ~= nil and -38 or 0, 0, 15)
             label.LayoutOrder = #options:GetChildren() - 1 -- uilistlayout
-            label.FontFace = shared.RiseFonts.AppleUISemibold
+            label.FontFace = shared.RiseFonts.AppleUI
             label.Text = api.Name
             label.TextColor3 = Color3.new(1, 1, 1)
             label.TextSize = 15
@@ -876,7 +876,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 end)
             end
             local param = Instance.new "GetTextBoundsParams"
-            param.Font = shared.RiseFonts.AppleUISemibold
+            param.Font = shared.RiseFonts.AppleUI
             param.Size = 15
             param.Text = api.Name
             param.Width = 99999
@@ -909,7 +909,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             textinput.AnchorPoint = Vector2.new(0, 0.5)
             textinput.PlaceholderText = ""
             textinput.ClearTextOnFocus = false
-            textinput.FontFace = shared.RiseFonts.AppleUISemibold
+            textinput.FontFace = shared.RiseFonts.AppleUI
             textinput.Text = tostring(api.Value)
             textinput.TextColor3 = Color3.new(1, 1, 1)
             textinput.TextSize = 14
