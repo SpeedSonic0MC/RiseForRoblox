@@ -30,6 +30,15 @@ local GuiLibrary = {
     Loaded = false
 }
 print("Rise >> Running rise version " .. GuiLibrary.Version)
+local function RelativeXY(GuiObject, Location)
+    local x, y = Location.X - GuiObject.AbsolutePosition.X, Location.Y - GuiObject.AbsolutePosition.Y
+    local x2 = 0
+    local xm, ym = GuiObject.AbsolutePosition.X, GuiObject.AbsolutePosition.Y
+    x2 = math.clamp(x, 4, xm - 6)
+    x = math.clamp(x, 0, ym)
+    y = math.clamp(y, 0, ym)
+    return x, y, x / xm, y / ym, x2 / xm
+end
 local DisplayY = workspace.CurrentCamera.ViewportSize.Y
 workspace.CurrentCamera:GetPropertyChangedSignal("ViewportSize"):Connect(function()
     DisplayY = workspace.CurrentCamera.ViewportSize.Y
@@ -903,9 +912,9 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             value2.Position = UDim2.new(0, 0, 0.5, 0)
             value2.Size = UDim2.new(currentdec, 0, 1, 0)
             value2.ZIndex = 0
-            local textinput = Instance.new("TextBox", bg)
+            local textinput = Instance.new("TextBox", label)
             textinput.BackgroundTransparency = 1
-            textinput.Position = UDim2.new(0, 210 + textService:GetTextBoundsAsync(param).X, 0.5, 0)
+            textinput.Position = UDim2.new(0, 219 + textService:GetTextBoundsAsync(param).X, 0.5, 0)
             textinput.Size = UDim2.new(0, 100, 0, 13)
             textinput.AnchorPoint = Vector2.new(0, 0.5)
             textinput.PlaceholderText = ""
@@ -917,26 +926,28 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             textinput.TextXAlignment = Enum.TextXAlignment.Left
             api["SetValue"] = function(val)
                 if not val or val < api.MinValue or val > api.MaxValue then
+                    textinput.Text = tostring(api.Value)
                     return false
                 end
-                api.Value = val
+                api.Value = math.floor(val)
+                textinput.Text = tostring(val)
                 currentdec = (api.Value - api.MinValue) / (api.MaxValue - api.MinValue)
                 value2:TweenSize(UDim2.new(currentdec, 0, 1, 0), nil, nil, 0.1)
                 value:TweenPosition(UDim2.new(currentdec, 0, 0.5, 0), nil, nil, 0.1)
+                task.spawn(function()
+                    api["Function"](val)
+                end)
                 return true
             end
+            value.MouseButton1Down:Connect(function()
+                local x, y, xscale, yscale, xscale2 = RelativeXY(bg, inputService:GetMouseLocation())
+                api["SetValue"](math.floor(api.MinValue + ((api.MaxValue - api.MinValue) * xscale)))
+            end)
             textinput.FocusLost:Connect(function()
                 local suc, res = pcall(function()
                     return tonumber(textinput.Text)
                 end)
-                if not suc or res == nil then
-                    textinput.Text = tostring(api.Value)
-                    return
-                end
-                if not api["SetValue"](res) then
-                    textinput.Text = tostring(api.Value)
-                    return
-                end
+                api["SetValue"](res)
             end)
             if conditiontype and conditionname and conditionvalue then
                 task.spawn(function()
