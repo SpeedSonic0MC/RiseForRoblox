@@ -348,10 +348,9 @@ local function t()
         if v == nil then
             return
         end
-        local lerp = rlpg
         local color1 = ThemeService.Themes[GuiLibrary.Settings.Theme][1]
         local color2 = #ThemeService.Themes[GuiLibrary.Settings.Theme] == 1 and ThemeService.Themes[GuiLibrary.Settings.Theme][1] or ThemeService.Themes[GuiLibrary.Settings.Theme][2]
-        local color = color1:Lerp(color2, i / 100)
+        local color = color1:Lerp(color2, (rlpg + (i / 100)) > 1 and (rlpg + (i / 100)) - 1 or (rlpg + (i / 100)))
         if v:IsA("Frame") then
             v.BackgroundColor3 = color
         elseif v:IsA("ImageLabel") or v:IsA("ImageButton") then
