@@ -344,7 +344,6 @@ local function t()
         end
         return a.AbsoluteSize.Y <= b.AbsoluteSize.Y
     end)
-    step = step + 0.005
     for i, v in pairs(GuiLibrary.GradientItems) do
         if v == nil then
             return
@@ -388,6 +387,7 @@ local function t()
             v.Color = ColorSequence.new(color)
         end
     end
+    step = step + 0.005
 end
 task.spawn(function()
     repeat
