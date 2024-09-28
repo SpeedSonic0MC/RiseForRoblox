@@ -915,15 +915,28 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             textinput.TextColor3 = Color3.new(1, 1, 1)
             textinput.TextSize = 16
             textinput.TextXAlignment = Enum.TextXAlignment.Left
+            api["SetValue"] = function(val)
+                if not val or val < api.MinValue or val > api.MaxValue then
+                    return false
+                end
+                api.Value = val
+                currentdec = (api.Value - api.MinValue) / (api.MaxValue - api.MinValue)
+                value2:TweenSize(UDim2.new(currentdec, 0, 1, 0), nil, nil, 0.1)
+                value:TweenPosition(UDim2.new(currentdec, 0, 0.5, 0), nil, nil, 0.1)
+                return true
+            end
             textinput.FocusLost:Connect(function()
                 local suc, res = pcall(function()
                     return tonumber(textinput.Text)
                 end)
-                if not suc or res < api.MinValue or res > api.MaxValue then textinput.Text = tostring(api.Value) end -- Invalid input
-                api.Value = res
-                currentdec = (api.Value - api.MinValue) / (api.MaxValue - api.MinValue)
-                value2.Size = UDim2.new(currentdec, 0, 1, 0)
-                value.Position = UDim2.new(currentdec, 0, 0.5, 0)
+                if not suc or res == nil then
+                    textinput.Text = tostring(api.Value)
+                    return
+                end
+                if not api["SetValue"](res) then
+                    textinput.Text = tostring(api.Value)
+                    return
+                end
             end)
             if conditiontype and conditionname and conditionvalue then
                 task.spawn(function()
