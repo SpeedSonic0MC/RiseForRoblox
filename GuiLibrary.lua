@@ -60,6 +60,7 @@ local vapeCheckLoop = coroutine.create(function()
     until not shared.RiseExecuted
 end)
 coroutine.resume(vapeCheckLoop)
+local ContentProvider = game:GetService("ContentProvider")
 local playersService = game:GetService "Players"
 local inputService = game:GetService "UserInputService"
 local lplr = playersService.LocalPlayer
@@ -983,6 +984,146 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             return api
         end
 
+        buttonapi["CreateBoundsSlider"] = function(argstable)
+            local api = {
+                ["Type"] = "BoundsSlider",
+                ["Name"] = argstable["Name"] or "Example",
+                ["Value"] = {argstable["From"] or 0, argstable["To"] or 100}, -- default value auto.
+                MaxValue = argstable["MaxValue"] or 100,
+                MinValue = argstable["MinValue"] or 0,
+                ["Function"] = argstable["Function"] or function(_unused)
+                end
+            }
+            local subdata = argstable["SubData"]
+            local ct, cn, cn2, cv
+            if subdata ~= nil and type(subdata) == "table" then
+                ct = subdata["ConditionType"]
+                cn = subdata["ConditionMainName"]
+                cn2 = subdata["ConditionName"]
+                cv = subdata["ConditionValue"]
+            end
+            local label = Instance.new("TextLabel", options)
+            label.Size = UDim2.new(1, subdata ~= nil and -38 or 0, 0, 15)
+            label.LayoutOrder = #options:GetChildren() - 1
+            label.FontFace = shared.RiseFonts.AppleUI
+            label.Text = api.Name
+            label.TextColor3 = Color3.new(1, 1, 1)
+            label.TextSize = 16
+            label.TextXAlignment = Enum.TextXAlignment.Left
+            label.BackgroundTransparency = 1
+            if ct and cn and cv then
+                task.spawn(function()
+                    local obj = GuiLibrary.ObjectCanBeSaved[cn .. (cn2 or "") .. ct]
+                    if obj then
+                        local value = obj["Enabled"] or obj["Value"]
+                        if value == cv then
+                            label.Visible = true
+                        else
+                            label.Visible = false
+                        end
+                    end
+                end)
+            end
+            local param = Instance.new "GetTextBoundsParams"
+            param.Font = shared.RiseFonts.AppleUI
+            param.Size = 16
+            param.Text = api.Name
+            param.Width = 99999
+            local bg = Instance.new("Frame", label)
+            bg.Position = UDim2.new(0, textService:GetTextBoundsAsync(param).X + 9, 0.5, 0)
+            bg.AnchorPoint = Vector2.new(0, 0.5)
+            bg.BackgroundColor3 = Color3.fromRGB(22, 25, 32)
+            bg.Size = UDim2.new(0, 200, 0, 4)
+            local cc = Instance.new("UICorner", bg)
+            cc.CornerRadius = UDim.new(1, 0)
+            local currentdec1 = (api.Value[1] - api.MinValue) / (api.MaxValue - api.MinValue)
+            local currentdec2 = (api.Value[2] - api.MinValue) / (api.MaxValue - api.MinValue)
+            local value1 = Instance.new("TextButton", bg)
+            table.insert(GuiLibrary.ThemesItems, value1)
+            value1.Position = UDim2.new(currentdec1, 0, 0.5, 0)
+            value1.Text = ""
+            value1.Size = UDim2.new(0, 10, 0, 10)
+            value1.AnchorPoint = Vector2.new(0.5, 0.5)
+            value1.AutoButtonColor = false
+            cc:Clone().Parent = value1
+            local value2 = value1:Clone()
+            value2.Position = UDim2.new(currentdec2, 0, 0.5, 0)
+            local valuebackground = Instance.new("Frame", bg)
+            valuebackground.AnchorPoint = Vector2.new(0, 0.5)
+            valuebackground.Position = UDim2.new(currentdec1, 0, 0.5, 0)
+            valuebackground.Size = UDim2.new(currentdec2 - currentdec1, 0, 1, 0)
+            valuebackground.ZIndex = 0
+            table.insert(GuiLibrary.DarkerThemesItems, valuebackground)
+            local textinput = Instance.new("TextBox", label)
+            textinput.BackgroundTransparency = 1
+            textinput.Position = UDim2.new(0, 219 + textService:GetTextBoundsAsync(param).X, 0.5, 0)
+            textinput.Size = UDim2.new(0, 200, 0, 13)
+            textinput.AnchorPoint = Vector2.new(0, 0.5)
+            textinput.PlaceholderText = ""
+            textinput.ClearTextOnFocus = false
+            textinput.FontFace = shared.RiseFonts.AppleUI
+            textinput.Text = tostring(api.Value[1]) .. " " .. tostring(api.Value[2])
+            textinput.TextColor3 = Color3.new(1, 1, 1)
+            textinput.TextSize = 16
+            textinput.TextXAlignment = Enum.TextXAlignment.Left
+            api["SetValue"] = function(from, to)
+                if not from or not to or from < api.MinValue or from > api.MaxValue or from > to or to < api.MinValue or
+                    to > api.Value then
+                    textinput.Text = tostring(api.Value[1]) .. " " .. tostring(api.Value[2])
+                    return false
+                end
+                api.Value = {math.floor(from), math.floor(to)}
+                textinput.Text = tostring(api.Value[1]) .. " " .. tostring(api.Value[2])
+                local currentdec1 = (api.Value[1] - api.MinValue) / (api.MaxValue - api.MinValue)
+                local currentdec2 = (api.Value[2] - api.MinValue) / (api.MaxValue - api.MinValue)
+                value1:TweenPosition(UDim2.new(currentdec1, 0, 0.5, 0), nil, nil, 0.1)
+                value2:TweenPosition(UDim2.new(currentdec2, 0, 0.5, 0), nil, nil, 0.1)
+                valuebackground:TweenSizeAndPosition(UDim2.new(currentdec2 - currentdec1, 0, 1, 0),
+                    UDim2.new(currentdec1, 0, 0.5, 0), nil, nil, 0.1)
+                task.spawn(function()
+                    api["Function"](api.Value)
+                end)
+                return true
+            end
+            textinput.FocusLost:Connect(function()
+                local valx = textinput.Text
+                if not valx:find(" ") then
+                    textinput.Text = tostring(api.Value[1]) .. " " .. tostring(api.Value[2])
+                    return
+                end
+                local vals = valx:split(" ")
+                if #vals ~= 2 then
+                    textinput.Text = tostring(api.Value[1]) .. " " .. tostring(api.Value[2])
+                    return
+                end
+                local suc1, res1 = pcall(function()
+                    return tonumber(vals[1])
+                end)
+                local suc2, res2 = pcall(function()
+                    return tonumber(vals[2])
+                end)
+                api["SetValue"](res1, res2)
+            end)
+            if ct and cn and cv then
+                task.spawn(function()
+                    repeat
+                        local obj = GuiLibrary.ObjectCanBeSaved[cn .. (cn2 or "") .. ct]
+                        if obj then
+                            local valuex = obj["Enabled"] or obj["Value"]
+                            if valuex == cv then
+                                label.Visible = true
+                            else
+                                label.Visible = false
+                            end
+                        end
+                        task.wait(0.05)
+                    until GuiLibrary == nil
+                end)
+            end
+            GuiLibrary.ObjectCanBeSaved[buttonapi.Name .. api.Name .. "BoundsSlider"] = api
+            return api
+        end
+
         GuiLibrary.ObjectCanBeSaved[buttonapi.Name .. "OptionsButton"] = buttonapi
         return buttonapi
     end
@@ -1061,6 +1202,15 @@ if shared.RiseDeveloper then
     })
     InterfaceOptionsButton.CreateSlider({
         Name = "Intensity",
+        SubData = {
+            ConditionType = "Toggle",
+            ConditionMainName = "Interface",
+            ConditionName = "Example Option",
+            ConditionValue = true
+        }
+    })
+    InterfaceOptionsButton.CreateBoundsSlider({
+        Name = "Click Speed",
         SubData = {
             ConditionType = "Toggle",
             ConditionMainName = "Interface",
