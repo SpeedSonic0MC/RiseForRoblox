@@ -354,7 +354,7 @@ local function t()
             lerp = (rlpg + position) > 1 and 1 - (rlpg + position) or (rlpg + position)
         end
         print(lerp)
-        local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, (lerp > 1 and (1 - lerp) or lerp))
+        local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, (lerp > 1 and (1 - (lerp - 1)) or lerp))
             :Lerp(Color3.new(0, 0, 0), 0.6980392157)
         if v:IsA("Frame") then
             v.BackgroundColor3 = color
