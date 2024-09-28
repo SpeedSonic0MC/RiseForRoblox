@@ -486,7 +486,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             for i2, v2 in pairs(oldobj:GetDescendants()) do
                 local property = nil
                 local value = 1
-                if v2:IsA("TextLabel") or (v2:IsA("TextButton") and v2:HasTag("SpecialTween")) then
+                if v2:IsA("TextLabel") or (v2:IsA("TextButton") and v2:HasTag("SpecialTween")) or v2:IsA("TextBox") then
                     property = "TextTransparency"
                 elseif (v2:IsA("TextButton") or v2:IsA("Frame")) and
                     (not v2:HasTag("NoTween") and not v2:HasTag("SpecialTween")) then
@@ -505,7 +505,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             for i2, v2 in pairs(newobj:GetDescendants()) do
                 local property = nil
                 local value = 0
-                if v2:IsA("TextLabel") or (v2:IsA("TextButton") and v2:HasTag("SpecialTween")) then
+                if v2:IsA("TextLabel") or (v2:IsA("TextButton") and v2:HasTag("SpecialTween")) or v2:IsA("TextBox") then
                     property = "TextTransparency"
                 elseif (v2:IsA("TextButton") or v2:IsA("Frame")) and
                     (not v2:HasTag("NoTween") and not v2:HasTag("SpecialTween")) then
@@ -894,6 +894,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             value.Text = ""
             value.Size = UDim2.new(0, 10, 0, 10)
             value.AnchorPoint = Vector2.new(0.5, 0.5)
+            value.AutoButtonColor = false
             cc:Clone().Parent = value
             local value2 = Instance.new("Frame", bg)
             value2.AnchorPoint = Vector2.new(0, 0.5)
@@ -913,6 +914,23 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             textinput.TextColor3 = Color3.new(1, 1, 1)
             textinput.TextSize = 14
             textinput.TextXAlignment = Enum.TextXAlignment.Left
+            if conditiontype and conditionname and conditionvalue then
+                task.spawn(function()
+                    repeat
+                        local obj =
+                            GuiLibrary.ObjectCanBeSaved[conditionname .. (conditionname2 or "") .. conditiontype]
+                        if obj then
+                            local valuex = obj["Enabled"] or obj["Value"]
+                            if valuex == conditionvalue then
+                                label.Visible = true
+                            else
+                                label.Visible = false
+                            end
+                        end
+                        task.wait(0.05)
+                    until GuiLibrary == nil
+                end)
+            end
             GuiLibrary.ObjectCanBeSaved[buttonapi.Name .. api.Name .. "Slider"] = api
             return api
         end
