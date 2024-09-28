@@ -1183,6 +1183,55 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             return api
         end
 
+        buttonapi["CreateTextBox"] = function(argstable)
+            local api = {
+                Name = argstable["Name"] or "Example",
+                Type = "TextBox",
+                Value = argstable["Value"] or "",
+                Function = argstable["Function"] or function (_unused)
+                end
+            }
+            local sd = argstable["SubData"]
+            local ct, cn, cn2, cv
+            if sd ~= nil and type(sd) == "table" then
+                ct = sd["ConditionType"]
+                cn = sd["ConditionMainName"]
+                cn2 = sd["ConditionName"]
+                cv = sd["ConditionValue"]
+            end
+            local item = Instance.new("TextBox", options)
+            item.BackgroundTransparency = 1
+            item.LayoutOrder = #options:GetChildren() - 1
+            item.Size = UDim2.new(1, sd == nil and -38 or 0, 0, 15)
+            item.FontFace = shared.RiseFonts.AppleUI
+            item.Text = api.Value
+            item.PlaceholderText = ""
+            item.TextColor3 = Color3.new(1, 1, 1)
+            item.TextSize = 16
+            item.TextXAlignment = Enum.TextXAlignment.Left
+            item.FocusLost:Connect(function()
+                api.Value = item.Text
+                task.spawn(function()
+                    api["Function"](api.Value)
+                end)
+            end)
+            if ct and cn and cv then
+                task.spawn(function()
+                    local obj = GuiLibrary.ObjectCanBeSaved[cn .. (cn2 or "") .. ct]
+                    if obj then
+                        local valx = obj["Enabled"] or obj["Value"]
+                        if valx == cv then
+                            item.Visible = true
+                        else
+                            item.Visible = false
+                        end
+                    end
+                end)
+            end
+            GuiLibrary.ObjectCanBeSaved[buttonapi.Name .. api.Name .. "TextBox"] = api
+            return api
+        end
+
         GuiLibrary.ObjectCanBeSaved[buttonapi.Name .. "OptionsButton"] = buttonapi
         return buttonapi
     end
@@ -1270,6 +1319,15 @@ if shared.RiseDeveloper then
     })
     InterfaceOptionsButton.CreateBoundsSlider({
         Name = "Click Speed",
+        SubData = {
+            ConditionType = "Toggle",
+            ConditionMainName = "Interface",
+            ConditionName = "Example Option",
+            ConditionValue = true
+        }
+    })
+    InterfaceOptionsButton.CreateTextBox({
+        Name = "Mob Text T",
         SubData = {
             ConditionType = "Toggle",
             ConditionMainName = "Interface",
