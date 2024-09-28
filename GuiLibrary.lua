@@ -1068,14 +1068,14 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             textinput.TextXAlignment = Enum.TextXAlignment.Left
             api["SetValue"] = function(from, to)
                 if not from or not to or from < api.MinValue or from > api.MaxValue or from > to or to < api.MinValue or
-                    to > api.Value then
+                    to > api.MaxValue then
                     textinput.Text = tostring(api.Value[1]) .. " " .. tostring(api.Value[2])
                     return false
                 end
                 api.Value = {math.floor(from), math.floor(to)}
                 textinput.Text = tostring(api.Value[1]) .. " " .. tostring(api.Value[2])
-                local currentdec1 = (api.Value[1] - api.MinValue) / (api.MaxValue - api.MinValue)
-                local currentdec2 = (api.Value[2] - api.MinValue) / (api.MaxValue - api.MinValue)
+                currentdec1 = (api.Value[1] - api.MinValue) / (api.MaxValue - api.MinValue)
+                currentdec2 = (api.Value[2] - api.MinValue) / (api.MaxValue - api.MinValue)
                 value1:TweenPosition(UDim2.new(currentdec1, 0, 0.5, 0), nil, nil, 0.1)
                 value2:TweenPosition(UDim2.new(currentdec2, 0, 0.5, 0), nil, nil, 0.1)
                 valuebackground:TweenSizeAndPosition(UDim2.new(currentdec2 - currentdec1, 0, 1, 0),
