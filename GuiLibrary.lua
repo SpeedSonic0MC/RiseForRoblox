@@ -1188,7 +1188,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 Name = argstable["Name"] or "Example",
                 Type = "TextBox",
                 Value = argstable["Value"] or "",
-                Function = argstable["Function"] or function (_unused)
+                Function = argstable["Function"] or function(_unused)
                 end
             }
             local sd = argstable["SubData"]
@@ -1226,6 +1226,22 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                             item.Visible = false
                         end
                     end
+                end)
+            end
+            if ct and cn and cv then
+                task.spawn(function()
+                    repeat
+                        local obj = GuiLibrary.ObjectCanBeSaved[cn .. (cn2 or "") .. ct]
+                        if obj then
+                            local valuex = obj["Enabled"] or obj["Value"]
+                            if valuex == cv then
+                                item.Visible = true
+                            else
+                                item.Visible = false
+                            end
+                        end
+                        task.wait(0.05)
+                    until GuiLibrary == nil
                 end)
             end
             GuiLibrary.ObjectCanBeSaved[buttonapi.Name .. api.Name .. "TextBox"] = api
