@@ -715,7 +715,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             label.FontFace = shared.RiseFonts.AppleUI
             label.Text = argstable["Name"]
             label.TextColor3 = Color3.new(1, 1, 1)
-            label.TextSize = 15
+            label.TextSize = 16
             label.TextXAlignment = Enum.TextXAlignment.Left
             if conditiontype and conditionname and conditionvalue then
                 task.spawn(function()
@@ -761,7 +761,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             label.FontFace = shared.RiseFonts.AppleUI
             label.Text = api.Name
             label.TextColor3 = Color3.new(1, 1, 1)
-            label.TextSize = 15
+            label.TextSize = 16
             label.TextXAlignment = Enum.TextXAlignment.Left
             label.BackgroundTransparency = 1
             label:AddTag("SpecialTween")
@@ -780,7 +780,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             end
             local param = Instance.new "GetTextBoundsParams"
             param.Font = shared.RiseFonts.AppleUI
-            param.Size = 15
+            param.Size = 16
             param.Text = api.Name
             param.Width = 99999
             local toggledx = Instance.new("Frame", label)
@@ -859,7 +859,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             label.FontFace = shared.RiseFonts.AppleUI
             label.Text = api.Name
             label.TextColor3 = Color3.new(1, 1, 1)
-            label.TextSize = 15
+            label.TextSize = 16
             label.TextXAlignment = Enum.TextXAlignment.Left
             label.BackgroundTransparency = 1 -- should not be able to be affected by the btn
             if conditiontype and conditionname and conditionvalue then
@@ -877,7 +877,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             end
             local param = Instance.new "GetTextBoundsParams"
             param.Font = shared.RiseFonts.AppleUI
-            param.Size = 15
+            param.Size = 16
             param.Text = api.Name
             param.Width = 99999
             local bg = Instance.new("Frame", label)
@@ -912,7 +912,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             textinput.FontFace = shared.RiseFonts.AppleUI
             textinput.Text = tostring(api.Value)
             textinput.TextColor3 = Color3.new(1, 1, 1)
-            textinput.TextSize = 14
+            textinput.TextSize = 16
             textinput.TextXAlignment = Enum.TextXAlignment.Left
             if conditiontype and conditionname and conditionvalue then
                 task.spawn(function()
