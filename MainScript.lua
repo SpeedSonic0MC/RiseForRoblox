@@ -18,12 +18,19 @@ end
 assert(not shared.VapeExecuted, "Rise >> Rise is incompatible with VapeV4ForRoblox.")
 assert(not shared.RiseExecuted, "Rise >> Rise 6 already injected")
 shared.RiseExecuted = true
-for i, v in pairs({ "rise", "rise/assets", "rise/configs", "rise/scripts" }) do
-    if not isfolder(v) then makefolder(v) end
+for i, v in pairs({"rise", "rise/assets", "rise/configs", "rise/scripts"}) do
+    if not isfolder(v) then
+        makefolder(v)
+    end
 end
 shared.Rise = loadstring(loadscript("RiseService.lua"))()
 local GuiLibrary = loadstring(loadscript("GuiLibrary.lua"))()
 if not GuiLibrary.Loaded then
-    repeat task.wait() until GuiLibrary.Loaded
+    repeat
+        task.wait()
+    until GuiLibrary.Loaded
+    GuiLibrary.UpdateHudEvent:Fire()
+    GuiLibrary.ShowNotification("Rise 6", "Rise loaded. Press " .. GuiLibrary.Settings.Keybind .. " to open Click GUI",
+        3)
 end
 shared.RiseGUI = GuiLibrary

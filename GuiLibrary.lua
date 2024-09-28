@@ -807,7 +807,8 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                     return
                 end
                 api["Enabled"] = enabled == nil and (not api["Enabled"]) or enabled or false
-                fra:TweenSize(UDim2.new(0, api["Enabled"] and 10 or 0, 0, api["Enabled"] and 10 or 0), nil, nil, 0.15, true)
+                fra:TweenSize(UDim2.new(0, api["Enabled"] and 10 or 0, 0, api["Enabled"] and 10 or 0), nil, nil, 0.15,
+                    true)
                 api["Function"](api["Enabled"])
             end
             if conditiontype and conditionname and conditionvalue then
@@ -829,6 +830,90 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             end
             label.MouseButton1Click:Connect(api["ToggleButton"])
             GuiLibrary.ObjectCanBeSaved[buttonapi.Name .. api.Name .. "Toggle"] = api
+            return api
+        end
+
+        buttonapi["CreateSlider"] = function(argstable)
+            local api = {
+                ["Type"] = "Slider",
+                ["Name"] = argstable["Name"] or "Example",
+                ["Value"] = argstable["Value"] or 0, -- default value auto.
+                MaxValue = argstable["MaxValue"] or 100,
+                ["Function"] = argstable["Function"] or function(_unused)
+                end
+            }
+            local subdata = argstable["SubData"]
+            local conditiontype = nil
+            local conditionname = nil
+            local conditionname2 = nil
+            local conditionvalue = nil
+            if subdata ~= nil and type(subdata) == "table" then
+                conditiontype = argstable["SubData"]["ConditionType"]
+                conditionname = argstable["SubData"]["ConditionMainName"]
+                conditionname2 = argstable["SubData"]["ConditionName"]
+                conditionvalue = subdata["ConditionValue"]
+            end
+            local label = Instance.new("TextLabel", options)
+            label.Size = UDim2.new(1, subdata ~= nil and -38 or 0, 0, 15)
+            label.LayoutOrder = #options:GetChildren() - 1 -- uilistlayout
+            label.FontFace = shared.RiseFonts.AppleUISemibold
+            label.Text = api.Name
+            label.TextColor3 = Color3.new(1, 1, 1)
+            label.TextSize = 15
+            label.TextXAlignment = Enum.TextXAlignment.Left
+            label.BackgroundTransparency = 1 -- should not be able to be affected by the btn
+            if conditiontype and conditionname and conditionvalue then
+                task.spawn(function()
+                    local obj = GuiLibrary.ObjectCanBeSaved[conditionname .. (conditionname2 or "") .. conditiontype]
+                    if obj then
+                        local value = obj["Enabled"] or obj["Value"]
+                        if value == conditionvalue then
+                            label.Visible = true
+                        else
+                            label.Visible = false
+                        end
+                    end
+                end)
+            end
+            local param = Instance.new "GetTextBoundsParams"
+            param.Font = shared.RiseFonts.AppleUISemibold
+            param.Size = 15
+            param.Text = api.Name
+            param.Width = 99999
+            local bg = Instance.new("Frame", label)
+            bg.Position = UDim2.new(0, textService:GetTextBoundsAsync(param).X + 9, 0.5, 0)
+            bg.AnchorPoint = Vector2.new(0, 0.5)
+            bg.BackgroundColor3 = Color3.fromRGB(22, 25, 32)
+            bg.Size = UDim2.new(0, 200, 0, 4)
+            local cc = Instance.new("UICorner", bg)
+            cc.CornerRadius = UDim.new(1, 0)
+            local currentdec = api.Value / api.MaxValue
+            local value = Instance.new("TextButton", bg)
+            table.insert(GuiLibrary.ThemesItems, value)
+            value.Position = UDim2.new(currentdec, 0, 0.5, 0)
+            value.Text = ""
+            value.Size = UDim2.new(0, 10, 0, 10)
+            value.AnchorPoint = Vector2.new(0.5, 0.5)
+            cc:Clone().Parent = value
+            local value2 = Instance.new("Frame", bg)
+            value2.AnchorPoint = Vector2.new(0, 0.5)
+            table.insert(GuiLibrary.DarkerThemesItems, value2)
+            value2.Position = UDim2.new(0, 0, 0.5, 0)
+            value2.Size = UDim2.new(currentdec, 0, 1, 0)
+            value2.ZIndex = 0
+            local textinput = Instance.new("TextBox", bg)
+            textinput.BackgroundTransparency = 1
+            textinput.Position = UDim2.new(0, 210 + textService:GetTextBoundsAsync(param).X, 0.5, 0)
+            textinput.Size = UDim2.new(0, 100, 0, 13)
+            textinput.AnchorPoint = Vector2.new(0, 0.5)
+            textinput.PlaceholderText = ""
+            textinput.ClearTextOnFocus = false
+            textinput.FontFace = shared.RiseFonts.AppleUISemibold
+            textinput.Text = tostring(api.Value)
+            textinput.TextColor3 = Color3.new(1, 1, 1)
+            textinput.TextSize = 14
+            textinput.TextXAlignment = Enum.TextXAlignment.Left
+            GuiLibrary.ObjectCanBeSaved[buttonapi.Name .. api.Name .. "Slider"] = api
             return api
         end
 
@@ -908,8 +993,15 @@ if shared.RiseDeveloper then
             ConditionValue = true
         }
     })
+    InterfaceOptionsButton.CreateSlider({
+        Name = "Suffix",
+        SubData = {
+            ConditionType = "Toggle",
+            ConditionMainName = "Interface",
+            ConditionName = "Example Option",
+            ConditionValue = true
+        }
+    })
 end
-GuiLibrary.UpdateHudEvent:Fire()
-GuiLibrary.ShowNotification("Rise 6", "Rise loaded. Press " .. GuiLibrary.Settings.Keybind .. " to open Click GUI", 3)
 GuiLibrary.Loaded = true
 return GuiLibrary
