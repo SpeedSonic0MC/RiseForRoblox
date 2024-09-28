@@ -839,6 +839,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 ["Name"] = argstable["Name"] or "Example",
                 ["Value"] = argstable["Value"] or 0, -- default value auto.
                 MaxValue = argstable["MaxValue"] or 100,
+                MinValue = argstable["MinValue"] or 0,
                 ["Function"] = argstable["Function"] or function(_unused)
                 end
             }
@@ -887,7 +888,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             bg.Size = UDim2.new(0, 200, 0, 4)
             local cc = Instance.new("UICorner", bg)
             cc.CornerRadius = UDim.new(1, 0)
-            local currentdec = api.Value / api.MaxValue
+            local currentdec = (api.Value - api.MinValue) / (api.MaxValue - api.MinValue)
             local value = Instance.new("TextButton", bg)
             table.insert(GuiLibrary.ThemesItems, value)
             value.Position = UDim2.new(currentdec, 0, 0.5, 0)
@@ -914,6 +915,16 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             textinput.TextColor3 = Color3.new(1, 1, 1)
             textinput.TextSize = 16
             textinput.TextXAlignment = Enum.TextXAlignment.Left
+            textinput.FocusLost:Connect(function()
+                local suc, res = pcall(function()
+                    return tonumber(textinput.Text)
+                end)
+                if not suc or res < api.MinValue or res > api.MaxValue then textinput.Text = tostring(api.Value) end -- Invalid input
+                api.Value = res
+                currentdec = (api.Value - api.MinValue) / (api.MaxValue - api.MinValue)
+                value2.Size = UDim2.new(currentdec, 0, 1, 0)
+                value.Position = UDim2.new(currentdec, 0, 0.5, 0)
+            end)
             if conditiontype and conditionname and conditionvalue then
                 task.spawn(function()
                     repeat
