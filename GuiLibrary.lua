@@ -994,7 +994,7 @@ if shared.RiseDeveloper then
         }
     })
     InterfaceOptionsButton.CreateSlider({
-        Name = "Suffix",
+        Name = "Intensity",
         SubData = {
             ConditionType = "Toggle",
             ConditionMainName = "Interface",

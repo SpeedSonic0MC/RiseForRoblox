@@ -29,8 +29,7 @@ if GuiLibrary.Loaded == false then
     repeat
         task.wait()
     until GuiLibrary.Loaded == true
-    GuiLibrary.UpdateHudEvent:Fire()
-    GuiLibrary.ShowNotification("Rise 6", "Rise loaded. Press " .. GuiLibrary.Settings.Keybind .. " to open Click GUI",
-        3)
 end
+GuiLibrary.UpdateHudEvent:Fire()
+GuiLibrary.ShowNotification("Rise 6", "Rise loaded. Press " .. GuiLibrary.Settings.Keybind .. " to open Click GUI", 3)
 shared.RiseGUI = GuiLibrary
