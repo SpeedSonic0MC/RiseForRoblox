@@ -349,12 +349,9 @@ local function t()
             return
         end
         local lerp = rlpg
-        if not v:IsA("UIGradient") then
-            local position = v.AbsolutePosition.Y / workspace.CurrentCamera.ViewportSize.Y * 0.04
-            lerp = (rlpg + position) > 1 and 1 - (rlpg + position - 1) or (rlpg + position)
-        end
-        print(lerp)
-        local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, (lerp > 1 and (lerp - 1) or lerp))
+        local color1 = ThemeService.Themes[GuiLibrary.Settings.Theme][1]
+        local color2 = #ThemeService.Themes[GuiLibrary.Settings.Theme] == 1 and ThemeService.Themes[GuiLibrary.Settings.Theme][1] or ThemeService.Themes[GuiLibrary.Settings.Theme][2]
+        local color = color1:Lerp(color2, i / 100)
         if v:IsA("Frame") then
             v.BackgroundColor3 = color
         elseif v:IsA("ImageLabel") or v:IsA("ImageButton") then
