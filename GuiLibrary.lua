@@ -941,6 +941,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             end
             value.MouseButton1Down:Connect(function()
                 local x, y, xscale, yscale, xscale2 = RelativeXY(bg, inputService:GetMouseLocation())
+                print(math.floor(api.MinValue + ((api.MaxValue - api.MinValue) * xscale)))
                 api["SetValue"](math.floor(api.MinValue + ((api.MaxValue - api.MinValue) * xscale)))
                 local move, kill
                 move = inputService.InputChanged:Connect(function(input)
