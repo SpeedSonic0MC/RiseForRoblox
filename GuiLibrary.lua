@@ -898,20 +898,13 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             local cc = Instance.new("UICorner", bg)
             cc.CornerRadius = UDim.new(1, 0)
             local currentdec = (api.Value - api.MinValue) / (api.MaxValue - api.MinValue)
-            local fraxme = Instance.new("TextButton", bg)
-            fraxme:AddTag("NoTween")
-            fraxme.BackgroundTransparency = 1
-            fraxme.Position = UDim2.new(currentdec, 0, 0.5, 0)
-            fraxme.AnchorPoint = Vector2.new(0.5, 0.5)
-            fraxme.AutoButtonColor = false
-            fraxme.Text = ""
-            fraxme.Size = UDim2.new(0, 15, 0, 15)
-            local value = Instance.new("TextLabel", fraxme)
+            local value = Instance.new("TextButton", bg)
             table.insert(GuiLibrary.ThemesItems, value)
-            value.Position = UDim2.new(0.5, 0, 0.5, 0)
+            value.Position = UDim2.new(currentdec, 0, 0.5, 0)
             value.Text = ""
             value.Size = UDim2.new(0, 10, 0, 10)
             value.AnchorPoint = Vector2.new(0.5, 0.5)
+            value.AutoButtonColor = false
             cc:Clone().Parent = value
             local value2 = Instance.new("Frame", bg)
             value2.AnchorPoint = Vector2.new(0, 0.5)
@@ -946,7 +939,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 end)
                 return true
             end
-            fraxme.MouseButton1Down:Connect(function()
+            value.MouseButton1Down:Connect(function()
                 local x, y, xscale, yscale, xscale2 = RelativeXY(bg, inputService:GetMouseLocation())
                 api["SetValue"](math.floor(api.MinValue + ((api.MaxValue - api.MinValue) * xscale)))
                 local move, kill
