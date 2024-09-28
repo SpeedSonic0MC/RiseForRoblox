@@ -1047,6 +1047,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             value1.AutoButtonColor = false
             cc:Clone().Parent = value1
             local value2 = value1:Clone()
+            value2.Parent = bg
             value2.Position = UDim2.new(currentdec2, 0, 0.5, 0)
             local valuebackground = Instance.new("Frame", bg)
             valuebackground.AnchorPoint = Vector2.new(0, 0.5)
