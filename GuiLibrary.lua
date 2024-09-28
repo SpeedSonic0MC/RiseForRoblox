@@ -912,7 +912,6 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             value.Text = ""
             value.Size = UDim2.new(0, 10, 0, 10)
             value.AnchorPoint = Vector2.new(0.5, 0.5)
-            value.AutoButtonColor = false
             cc:Clone().Parent = value
             local value2 = Instance.new("Frame", bg)
             value2.AnchorPoint = Vector2.new(0, 0.5)
