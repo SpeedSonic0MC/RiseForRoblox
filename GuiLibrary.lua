@@ -327,9 +327,21 @@ local function t()
     end
     local rlpg = reverse and 1 - step or step
     table.sort(GuiLibrary.GradientItems, function(a, b)
+        if b:IsA("UIGradient") then
+            b = b.Parent
+        end
+        if a:IsA("UIGradient") then
+            a = a.Parent
+        end
         return a.AbsolutePosition.Y <= b.AbsolutePosition.Y
     end)
     table.sort(GuiLibrary.RainbowItems, function(a, b)
+        if b:IsA("UIGradient") then
+            b = b.Parent
+        end
+        if a:IsA("UIGradient") then
+            a = a.Parent
+        end
         return a.AbsoluteSize.Y <= b.AbsoluteSize.Y
     end)
     step = step + 0.005
