@@ -326,31 +326,12 @@ local function t()
         step = 0
     end
     local rlpg = reverse and 1 - step or step
-    table.sort(GuiLibrary.GradientItems, function(a, b)
-        if b:IsA("UIGradient") then
-            b = b.Parent
-        end
-        if a:IsA("UIGradient") then
-            a = a.Parent
-        end
-        return a.AbsolutePosition.Y <= b.AbsolutePosition.Y
-    end)
-    table.sort(GuiLibrary.RainbowItems, function(a, b)
-        if b:IsA("UIGradient") then
-            b = b.Parent
-        end
-        if a:IsA("UIGradient") then
-            a = a.Parent
-        end
-        return a.AbsoluteSize.Y <= b.AbsoluteSize.Y
-    end)
+    local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, rlpg):Lerp(Color3.new(0, 0, 0), 0.1)
+    step = step + 0.005
     for i, v in pairs(GuiLibrary.GradientItems) do
         if v == nil then
             return
         end
-        local color1 = ThemeService.Themes[GuiLibrary.Settings.Theme][1]
-        local color2 = #ThemeService.Themes[GuiLibrary.Settings.Theme] == 1 and ThemeService.Themes[GuiLibrary.Settings.Theme][1] or ThemeService.Themes[GuiLibrary.Settings.Theme][2]
-        local color = color1:Lerp(color2, (rlpg + (i / 100)) > 1 and (rlpg + (i / 100)) - 1 or (rlpg + (i / 100)))
         if v:IsA("Frame") then
             v.BackgroundColor3 = color
         elseif v:IsA("ImageLabel") or v:IsA("ImageButton") then
@@ -365,13 +346,6 @@ local function t()
         if v == nil or GuiLibrary.Settings.Theme ~= "Rainbow" then
             return
         end
-        local lerp = rlpg
-        if not v:IsA("UIGradient") then
-            local position = v.AbsolutePosition.Y / workspace.CurrentCamera.ViewportSize.Y * 0.04
-            lerp = rlpg + position > 1 and 1 - (rlpg + position) or rlpg + position
-        end
-        local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, lerp)
-            :Lerp(Color3.new(0, 0, 0), 0.6980392157)
         if v:IsA("Frame") then
             v.BackgroundColor3 = color
         elseif v:IsA("ImageLabel") or v:IsA("ImageButton") then
@@ -382,7 +356,6 @@ local function t()
             v.Color = ColorSequence.new(color)
         end
     end
-    step = step + 0.005
 end
 task.spawn(function()
     repeat
@@ -834,8 +807,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                     return
                 end
                 api["Enabled"] = enabled == nil and (not api["Enabled"]) or enabled or false
-                fra:TweenSize(UDim2.new(0, api["Enabled"] and 10 or 0, 0, api["Enabled"] and 10 or 0), nil, nil, 0.15,
-                    true)
+                fra:TweenSize(UDim2.new(0, api["Enabled"] and 10 or 0, 0, api["Enabled"] and 10 or 0), nil, nil, 0.15, true)
                 api["Function"](api["Enabled"])
             end
             if conditiontype and conditionname and conditionvalue then
