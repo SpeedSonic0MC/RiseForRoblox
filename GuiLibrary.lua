@@ -906,7 +906,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             fraxme.AutoButtonColor = false
             fraxme.Text = ""
             fraxme.Size = UDim2.new(0, 15, 0, 15)
-            local value = Instance.new("TextLabel", frame)
+            local value = Instance.new("TextLabel", fraxme)
             table.insert(GuiLibrary.ThemesItems, value)
             value.Position = UDim2.new(0.5, 0, 0.5, 0)
             value.Text = ""
