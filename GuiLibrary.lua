@@ -1202,7 +1202,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             local item = Instance.new("TextBox", options)
             item.BackgroundTransparency = 1
             item.LayoutOrder = #options:GetChildren() - 1
-            item.Size = UDim2.new(1, sd == nil and -38 or 0, 0, 15)
+            item.Size = UDim2.new(1, sd ~= nil and -38 or 0, 0, 15)
             item.FontFace = shared.RiseFonts.AppleUI
             item.Text = api.Value
             item.PlaceholderText = ""
