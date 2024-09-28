@@ -25,10 +25,10 @@ for i, v in pairs({"rise", "rise/assets", "rise/configs", "rise/scripts"}) do
 end
 shared.Rise = loadstring(loadscript("RiseService.lua"))()
 local GuiLibrary = loadstring(loadscript("GuiLibrary.lua"))()
-if not GuiLibrary.Loaded then
+if GuiLibrary.Loaded == false then
     repeat
         task.wait()
-    until GuiLibrary.Loaded
+    until GuiLibrary.Loaded == true
     GuiLibrary.UpdateHudEvent:Fire()
     GuiLibrary.ShowNotification("Rise 6", "Rise loaded. Press " .. GuiLibrary.Settings.Keybind .. " to open Click GUI",
         3)
