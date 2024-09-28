@@ -942,6 +942,19 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             value.MouseButton1Down:Connect(function()
                 local x, y, xscale, yscale, xscale2 = RelativeXY(bg, inputService:GetMouseLocation())
                 api["SetValue"](math.floor(api.MinValue + ((api.MaxValue - api.MinValue) * xscale)))
+                local move, kill
+                move = inputService.InputChanged:Connect(function(input)
+                    if input.UserInputType == Enum.UserInputType.MouseMovement then
+                        local x, y, xscale, yscale, xscale2 = RelativeXY(bg, inputService:GetMouseLocation())
+                        api["SetValue"](math.floor(api.MinValue + ((api.MaxValue - api.MinValue) * xscale)))
+                    end
+                end)
+                kill = inputService.InputEnded:Connect(function(o)
+                    if o.UserInputType == Enum.UserInputType.MouseButton1 then
+                        move:Disconnect()
+                        kill:Disconnect()
+                    end
+                end)
             end)
             textinput.FocusLost:Connect(function()
                 local suc, res = pcall(function()
