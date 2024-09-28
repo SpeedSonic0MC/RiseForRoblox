@@ -128,7 +128,7 @@ function Themes:GetColorValue(theme, time)
     local cs = self:GetColorSequence(theme)
     if time == 0 then
         return cs.Keypoints[1].Value
-    elseif time == 1 then
+    elseif time >= 1 then
         return cs.Keypoints[#cs.Keypoints].Value
     end
     for i = 1, #cs.Keypoints - 1 do
