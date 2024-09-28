@@ -30,12 +30,12 @@ local GuiLibrary = {
     Loaded = false
 }
 print("Rise >> Running rise version " .. GuiLibrary.Version)
-local function RelativeXY(GuiObject, Location)
-    local x, y = Location.X - GuiObject.AbsolutePosition.X, Location.Y - GuiObject.AbsolutePosition.Y
+local function RelativeXY(GuiObject, location)
+    local x, y = location.X - GuiObject.AbsolutePosition.X, location.Y - GuiObject.AbsolutePosition.Y
     local x2 = 0
-    local xm, ym = GuiObject.AbsolutePosition.X, GuiObject.AbsolutePosition.Y
+    local xm, ym = GuiObject.AbsoluteSize.X, GuiObject.AbsoluteSize.Y
     x2 = math.clamp(x, 4, xm - 6)
-    x = math.clamp(x, 0, ym)
+    x = math.clamp(x, 0, xm)
     y = math.clamp(y, 0, ym)
     return x, y, x / xm, y / ym, x2 / xm
 end
@@ -941,13 +941,12 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             end
             value.MouseButton1Down:Connect(function()
                 local x, y, xscale, yscale, xscale2 = RelativeXY(bg, inputService:GetMouseLocation())
-                print(math.floor(api.MinValue + ((api.MaxValue - api.MinValue) * xscale)))
-                api["SetValue"](math.floor(api.MinValue + ((api.MaxValue - api.MinValue) * xscale)))
+                api["SetValue"](api.MinValue + ((api.MaxValue - api.MinValue) * xscale))
                 local move, kill
                 move = inputService.InputChanged:Connect(function(input)
                     if input.UserInputType == Enum.UserInputType.MouseMovement then
                         local x, y, xscale, yscale, xscale2 = RelativeXY(bg, inputService:GetMouseLocation())
-                        api["SetValue"](math.floor(api.MinValue + ((api.MaxValue - api.MinValue) * xscale)))
+                        api["SetValue"](api.MinValue + ((api.MaxValue - api.MinValue) * xscale))
                     end
                 end)
                 kill = inputService.InputEnded:Connect(function(o)
