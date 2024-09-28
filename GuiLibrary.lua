@@ -25,6 +25,8 @@ local GuiLibrary = {
     Version = "6.1.30",
     GradientItems = {},
     RainbowItems = {},
+    ThemesItems = {},
+    DarkerThemesItems = {},
     Loaded = false
 }
 print("Rise >> Running rise version " .. GuiLibrary.Version)
@@ -324,12 +326,21 @@ local function t()
         step = 0
     end
     local rlpg = reverse and 1 - step or step
-    local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, rlpg):Lerp(Color3.new(0, 0, 0), 0.1)
+    table.sort(GuiLibrary.GradientItems, function(a, b)
+        return a.AbsolutePosition.Y <= b.AbsolutePosition.Y
+    end)
+    table.sort(GuiLibrary.RainbowItems, function(a, b)
+        return a.AbsoluteSize.Y <= b.AbsoluteSize.Y
+    end)
     step = step + 0.005
     for i, v in pairs(GuiLibrary.GradientItems) do
         if v == nil then
             return
         end
+        local position = v.AbsolutePosition.Y / workspace.CurrentCamera.ViewportSize.Y * 0.04
+        local lerp = rlpg + position > 1 and 1 - (rlpg + position) or rlpg + position
+        local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, lerp)
+            :Lerp(Color3.new(0, 0, 0), 0.6980392157)
         if v:IsA("Frame") then
             v.BackgroundColor3 = color
         elseif v:IsA("ImageLabel") or v:IsA("ImageButton") then
@@ -344,6 +355,10 @@ local function t()
         if v == nil or GuiLibrary.Settings.Theme ~= "Rainbow" then
             return
         end
+        local position = v.AbsolutePosition.Y / workspace.CurrentCamera.ViewportSize.Y * 0.04
+        local lerp = rlpg + position > 1 and 1 - (rlpg + position) or rlpg + position
+        local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, lerp)
+            :Lerp(Color3.new(0, 0, 0), 0.6980392157)
         if v:IsA("Frame") then
             v.BackgroundColor3 = color
         elseif v:IsA("ImageLabel") or v:IsA("ImageButton") then
@@ -640,6 +655,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         options.Size = UDim2.new(1, -26, 0, 0)
         options:AddTag("NoTween")
         local list = Instance.new("UIListLayout", options)
+        list.SortOrder = Enum.SortOrder.LayoutOrder
         list.HorizontalAlignment = Enum.HorizontalAlignment.Center
         list.Padding = UDim.new(0, 12)
         buttonobj.MouseButton2Click:Connect(function()
@@ -788,6 +804,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             local tdc = Instance.new("UICorner", toggledx)
             tdc.CornerRadius = UDim.new(1, 0)
             local fra = Instance.new("Frame", toggledx)
+            table.insert(GuiLibrary.ThemesItems, fra)
             task.spawn(function()
                 fra.BackgroundColor3 = ThemeService.Themes[GuiLibrary.Settings.Theme][1]
             end)
@@ -803,7 +820,8 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                     return
                 end
                 api["Enabled"] = enabled == nil and (not api["Enabled"]) or enabled or false
-                fra:TweenSize(UDim2.new(0, api["Enabled"] and 10 or 0, 0, api["Enabled"] and 10 or 0), nil, nil, 0.15)
+                fra:TweenSize(UDim2.new(0, api["Enabled"] and 10 or 0, 0, api["Enabled"] and 10 or 0), nil, nil, 0.15,
+                    true)
                 api["Function"](api["Enabled"])
             end
             if conditiontype and conditionname and conditionvalue then
@@ -858,6 +876,15 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function()
     else
         vergra.Color = ColorSequence.new(ThemeService.Themes[GuiLibrary.Settings.Theme][1])
     end
+    task.spawn(function()
+        local color = ThemeService.Themes[GuiLibrary.Settings.Theme][1]
+        for i, v in pairs(GuiLibrary.ThemesItems) do -- should only be frames
+            v.BackgroundColor3 = color
+        end
+        for i, v in pairs(GuiLibrary.DarkerThemesItems) do
+            v.BackgroundColor3 = ThemeService:darker(color)
+        end
+    end)
 end)
 local InterfaceOptionsButton = GuiLibrary.ObjectCanBeSaved["RenderWindow"]["CreateOptionsButton"]({
     ["Name"] = "Interface",
