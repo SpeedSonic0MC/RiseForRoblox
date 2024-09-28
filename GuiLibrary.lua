@@ -1087,6 +1087,56 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 end)
                 return true
             end
+            local function value1check(val)
+                val = math.floor(val)
+                local val2 = api.Value[2]
+                if val > val2 then
+                    val2 = val
+                end
+                api["SetValue"](val, val2)
+            end
+            value1.MouseButton1Down:Connect(function()
+                local x, y, xs, ys, xs2 = RelativeXY(bg, inputService:GetMouseLocation())
+                value1check((api.MinValue + ((api.MaxValue - api.MinValue) * xs)))
+                local move, kill
+                move = inputService.InputChanged:Connect(function(o)
+                    if o.UserInputType == Enum.UserInputType.MouseMovement then
+                        local x, y, xs, ys, xs2 = RelativeXY(bg, inputService:GetMouseLocation())
+                        value1check((api.MinValue + ((api.MaxValue - api.MinValue) * xs)))
+                    end
+                end)
+                kill = inputService.InputEnded:Connect(function(o)
+                    if o.UserInputType == Enum.UserInputType.MouseButton1 then
+                        move:Disconnect()
+                        kill:Disconnect()
+                    end
+                end)
+            end)
+            local function value2check(val2)
+                val2 = math.floor(val2)
+                local val = api.Value[1]
+                if val2 < val then
+                    val = val2
+                end
+                api["SetValue"](val, val2)
+            end
+            value2.MouseButton1Down:Connect(function()
+                local x, y, xs, ys, xs2 = RelativeXY(bg, inputService:GetMouseLocation())
+                value2check((api.MinValue + ((api.MaxValue - api.MinValue) * xs)))
+                local move, kill
+                move = inputService.InputChanged:Connect(function(o)
+                    if o.UserInputType == Enum.UserInputType.MouseMovement then
+                        local x, y, xs, ys, xs2 = RelativeXY(bg, inputService:GetMouseLocation())
+                        value2check((api.MinValue + ((api.MaxValue - api.MinValue) * xs)))
+                    end
+                end)
+                kill = inputService.InputEnded:Connect(function(o)
+                    if o.UserInputType == Enum.UserInputType.MouseButton1 then
+                        move:Disconnect()
+                        kill:Disconnect()
+                    end
+                end)
+            end)
             textinput.FocusLost:Connect(function()
                 local valx = textinput.Text
                 if not valx:find(" ") then
