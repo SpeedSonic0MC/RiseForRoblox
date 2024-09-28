@@ -1049,6 +1049,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             local value2 = value1:Clone()
             value2.Parent = bg
             value2.Position = UDim2.new(currentdec2, 0, 0.5, 0)
+            table.insert(GuiLibrary.ThemesItems, value2)
             local valuebackground = Instance.new("Frame", bg)
             valuebackground.AnchorPoint = Vector2.new(0, 0.5)
             valuebackground.Position = UDim2.new(currentdec1, 0, 0.5, 0)
@@ -1089,6 +1090,13 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             textinput.FocusLost:Connect(function()
                 local valx = textinput.Text
                 if not valx:find(" ") then
+                    local suc0, res0 = pcall(function()
+                        return tonumber(valx)
+                    end)
+                    if suc0 and res0 ~= nil then
+                        api["SetValue"](res0, res0)
+                        return
+                    end
                     textinput.Text = tostring(api.Value[1]) .. " " .. tostring(api.Value[2])
                     return
                 end
