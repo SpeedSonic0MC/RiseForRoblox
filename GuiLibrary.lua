@@ -529,7 +529,7 @@ local initWindowFunction = {
             local themepicker = Instance.new("TextButton", colorfilterframe)
             themepicker.BackgroundColor3 = v["Base"]
             themepicker.Size = UDim2.new(0, 102, 0, 32)
-            themepicker.Name = v
+            themepicker.Name = i6
             themepicker.Position = UDim2.new(0, newline and 48 or 0, 0, ({0, 117, 234, 350, 467})[i])
             themepicker.Text = ""
             local tpc = Instance.new("UICorner", themepicker)
@@ -539,10 +539,10 @@ local initWindowFunction = {
             tps.Thickness = 1
             tps.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
             themepicker.MouseButton1Click:Connect(function()
-                if selectedcolorfilter == v then
+                if selectedcolorfilter == i6 then
                     selectedcolorfilter = nil
                 else
-                    selectedcolorfilter = v
+                    selectedcolorfilter = i6
                 end
                 for i2, v2 in pairs(colorfilterframe:GetChildren()) do
                     if v2.Name == selectedcolorfilter then
