@@ -1553,6 +1553,7 @@ AutoClicker = GuiLibrary.ObjectCanBeSaved.GhostWindow.CreateOptionsButton({
                             task.wait(1 / math.random(AutoClickerCPS.Value[1], AutoClickerCPS.Value[2]))
                         end
                     end
+                    task.wait()
                 until not AutoClicker.Enabled
             end)
         end
