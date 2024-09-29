@@ -1275,6 +1275,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             item.TextSize = 16
             item.TextXAlignment = Enum.TextXAlignment.Left
             item.BackgroundTransparency = 1
+            item:AddTag("SpecialTween")
             api["SetValue"] = function(val)
                 if type(val) ~= "number" or val < 1 or val > #api.Options then
                     return false
