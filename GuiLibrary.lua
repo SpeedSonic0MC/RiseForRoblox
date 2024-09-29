@@ -1443,6 +1443,7 @@ end)
 local ClickGUI = GuiLibrary.ObjectCanBeSaved.RenderWindow.CreateOptionsButton({
     Name = "Click GUI",
     NoSave = true,
+    Enabled = true,
     Function = function()
         tgle()
     end
