@@ -1452,7 +1452,7 @@ local InterfaceOptionsButton = GuiLibrary.ObjectCanBeSaved["RenderWindow"]["Crea
     end
 })
 InterfaceOptionsButton["CreateMode"]({
-    Options = {"Modern", "Wurst", "Classic", "Creida"},
+    Options = {"Modern"},
     Value = 1,
     Function = function()
         GuiLibrary.UpdateHudEvent:Fire()
@@ -1491,27 +1491,6 @@ InterfaceOptionsButton["CreateMode"]({
     Name = "BackGround",
     Options = {"Normal", "Off"},
     Value = 1,
-    Function = function()
-        GuiLibrary.UpdateHudEvent:Fire()
-    end,
-    SubData = {
-        ConditionType = "Mode",
-        ConditionMainName = "Interface",
-        ConditionName = "Mode",
-        ConditionValue = 1
-    }
-})
-InterfaceOptionsButton["CreateLabel"]({
-    Name = "Custom Client Name",
-    SubData = {
-        ConditionType = "Mode",
-        ConditionMainName = "Interface",
-        ConditionName = "Mode",
-        ConditionValue = 1
-    }
-})
-InterfaceOptionsButton["CreateTextBox"]({
-    Name = "Custom Client Name",
     Function = function()
         GuiLibrary.UpdateHudEvent:Fire()
     end,
