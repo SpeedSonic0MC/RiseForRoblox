@@ -246,7 +246,10 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
     task.spawn(function()
         local check = false
         task.spawn(function()
-            if not GuiLibrary["ObjectCanBeSaved"]["InterfaceOptionsButton"] then check = false return end
+            if not GuiLibrary["ObjectCanBeSaved"]["InterfaceOptionsButton"] then
+                check = false
+                return
+            end
             check = not GuiLibrary["ObjectCanBeSaved"]["InterfaceOptionsButton"]["Enabled"]
         end)
         if check then
@@ -471,11 +474,93 @@ local initWindowFunction = {
         textl:AddTag("NoTween")
         textl.TextColor3 = Color3.fromRGB(139, 140, 144)
         local colorfilterframe = Instance.new("Frame", frame)
-        colorfilterframe.Position = UDim2.new(0.5, 0, 0, 38 + 15 + 35) -- I can't count :+1:
+        colorfilterframe.Position = UDim2.new(0.5, 0, 0, 89)
         colorfilterframe.AnchorPoint = Vector2.new(0.5, 0)
         colorfilterframe:AddTag("NoTween")
         colorfilterframe.BackgroundTransparency = 1
-        colorfilterframe.Size = UDim2.new(1, -14, 0, 81)
+        colorfilterframe.Size = UDim2.new(1, -16, 0, 80)
+        local color = {
+            Red = {
+                Base = Color3.fromRGB(255, 55, 55),
+                Stroke = Color3.fromRGB(19, 22, 36)
+            },
+            Orange = {
+                Base = Color3.fromRGB(255, 128, 55),
+                Stroke = Color3.fromRGB(19, 22, 35)
+            },
+            Yellow = {
+                Base = Color3.fromRGB(255, 255, 55),
+                Stroke = Color3.fromRGB(19, 22, 33)
+            },
+            Lime = {
+                Base = Color3.fromRGB(128, 255, 55),
+                Stroke = Color3.fromRGB(19, 22, 30)
+            },
+            DarkGreen = {
+                Base = Color3.fromRGB(55, 128, 55),
+                Stroke = Color3.fromRGB(19, 22, 30)
+            },
+            Aqua = {
+                Base = Color3.fromRGB(55, 200, 255),
+                Stroke = Color3.fromRGB(19, 22, 36)
+            },
+            DarkBlue = {
+                Base = Color3.fromRGB(55, 105, 200),
+                Stroke = Color3.fromRGB(19, 22, 35)
+            },
+            Purple = {
+                Base = Color3.fromRGB(128, 52, 255),
+                Stroke = Color3.fromRGB(19, 22, 33)
+            },
+            Pink = {
+                Base = Color3.fromRGB(255, 128, 255),
+                Stroke = Color3.fromRGB(19, 22, 30)
+            },
+            Gray = {
+                Base = Color3.fromRGB(100, 100, 110),
+                Stroke = Color3.fromRGB(19, 22, 30)
+            }
+        } -- colors filter themes: ThemeService.ColorFilters[COLOR]
+        local selectedcolorfilter = nil
+        for i, v in color do
+            local newline = i > 5
+            i = i > 5 and i - 5 or i
+            local themepicker = Instance.new("TextButton", colorfilterframe)
+            themepicker.BackgroundColor3 = v["Base"]
+            themepicker.Size = UDim2.new(0, 102, 0, 32)
+            themepicker.Name = v
+            themepicker.Position = UDim2.new(0, newline and 48 or 0, 0, ({0, 117, 234, 350, 467})[i])
+            themepicker.Text = ""
+            local tpc = Instance.new("UICorner", themepicker)
+            tpc.CornerRadius = UDim.new(0, 6)
+            local tps = Instance.new("UIStroke", themepicker)
+            tps.Color = v["Stroke"]
+            tps.Thickness = 1
+            tps.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+            themepicker.MouseButton1Click:Connect(function()
+                if selectedcolorfilter == v then
+                    selectedcolorfilter = nil
+                else
+                    selectedcolorfilter = v
+                end
+                for i2, v2 in pairs(colorfilterframe:GetChildren()) do
+                    if v2.Name == selectedcolorfilter then
+                        tweenService:Create(v2, TweenInfo.new(0.1), {
+                            BackgroundColor3 = ThemeService:darker(color[v2.Name]["Base"])
+                        }):Play()
+                    else
+                        tweenService:Create(v2, TweenInfo.new(0.1), {
+                            BackgroundColor3 = color[v2.Name]["Base"]
+                        }):Play()
+                    end
+                end
+            end)
+        end
+        local themesframe = Instance.new("Frame", frame)
+        themesframe:AddTag("NoTween")
+        themesframe.BackgroundTransparency = 1
+        themesframe.AnchorPoint = Vector2.new(0.5, 0)
+        themesframe.Position = UDim2.new(0.5, 0, 0, 208)
     end
 }
 local selectedwindow = Instance.new("ImageLabel", winlist)
@@ -582,11 +667,16 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             for i2, v2 in pairs(oldobj:GetDescendants()) do
                 local property = nil
                 local value = 1
+                if v2:HasTag("NoTween") then
+                    return
+                end
                 if v2:IsA("TextLabel") or (v2:IsA("TextButton") and v2:HasTag("SpecialTween")) or v2:IsA("TextBox") then
                     property = "TextTransparency"
                 elseif (v2:IsA("TextButton") or v2:IsA("Frame")) and
                     (not v2:HasTag("NoTween") and not v2:HasTag("SpecialTween")) then
                     property = "BackgroundTransparency"
+                elseif v2:IsA("UIStroke") then
+                    property = "Transparency"
                 end
                 if property ~= nil then
                     tweenService:Create(v2, TweenInfo.new(0.15), {
@@ -601,11 +691,16 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             for i2, v2 in pairs(newobj:GetDescendants()) do
                 local property = nil
                 local value = 0
+                if v2:HasTag("NoTween") then
+                    return
+                end
                 if v2:IsA("TextLabel") or (v2:IsA("TextButton") and v2:HasTag("SpecialTween")) or v2:IsA("TextBox") then
                     property = "TextTransparency"
                 elseif (v2:IsA("TextButton") or v2:IsA("Frame")) and
                     (not v2:HasTag("NoTween") and not v2:HasTag("SpecialTween")) then
                     property = "BackgroundTransparency"
+                elseif v2:IsA("UIStroke") then
+                    property = "Transparency"
                 end
                 if property ~= nil then
                     v2[property] = 1
