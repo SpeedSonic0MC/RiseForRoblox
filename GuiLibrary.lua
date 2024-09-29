@@ -467,6 +467,8 @@ local initWindowFunction = {
         textl.Size = UDim2.new(1, 0, 0, 15)
         textl.TextSize = 16
         textl.FontFace = shared.RiseFonts.AppleUI
+        textl.TextXAlignment = Enum.TextXAlignment.Right
+        textl:AddTag("NoTween")
         textl.TextColor3 = Color3.fromRGB(139, 140, 144)
         local colorfilterframe = Instance.new("Frame", frame)
         colorfilterframe.Position = UDim2.new(0.5, 0, 0, 38 + 15 + 35) -- I can't count :+1:
