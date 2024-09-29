@@ -393,7 +393,7 @@ local function colortick()
         local indexval = ((v:IsA("UIGradient") and v.Parent or v).AbsolutePosition.Y / DisplayY) * 0.005
         local realstep = defaultyprogress + indexval
         if realstep > 1 then
-            realstep = 1 - realstep
+            realstep = 1 - (realstep - 1)
         end
         local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, realstep):Lerp(Color3.new(0, 0, 0), 0.1)
         if v:IsA("Frame") then
