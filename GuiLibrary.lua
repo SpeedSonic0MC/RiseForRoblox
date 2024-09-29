@@ -523,7 +523,7 @@ local initWindowFunction = {
         } -- colors filter themes: ThemeService.ColorFilters[COLOR]
         local selectedcolorfilter = nil
         for i, v in color do
-            local newline = i > 5
+            local newline = table.find({"Red", "Orange", "Yellow", "Lime", "DarkGreen", "Aqua", "DarkBlue", "Purple", "Pink", "Gray"}, i) > 5
             i = i > 5 and i - 5 or i
             local themepicker = Instance.new("TextButton", colorfilterframe)
             themepicker.BackgroundColor3 = v["Base"]
