@@ -367,9 +367,69 @@ local function t()
         end
     end
 end
+local function colortick()
+    if step >= 1 then
+        reverse = not reverse
+        step = 0
+    end
+    local defaultyprogress = reverse and 1 - step or step
+    step = step + 0.005
+    local itemstohavegradient = table.clone(GuiLibrary.GradientItems)
+    local itemstohaverainbow = table.clone(GuiLibrary.RainbowItems)
+    table.sort(itemstohavegradient, function(a, b)
+        local aabsolutey = a:IsA("UIGradient") and a.Parent.AbsolutePosition.Y or a.AbsolutePosition.Y
+        local babsolutey = b:IsA("UIGradient") and b.Parent.AbsolutePosition.Y or b.AbsolutePosition.Y
+        return aabsolutey <= babsolutey
+    end)
+    table.sort(itemstohaverainbow, function(a, b)
+        local aabsolutey = a:IsA("UIGradient") and a.Parent.AbsolutePosition.Y or a.AbsolutePosition.Y
+        local babsolutey = b:IsA("UIGradient") and b.Parent.AbsolutePosition.Y or b.AbsolutePosition.Y
+        return aabsolutey <= babsolutey
+    end)
+    for i, v in pairs(itemstohavegradient) do
+        if v == nil then
+            return
+        end
+        local indexval = ((v:IsA("UIGradient") and v.Parent or v).AbsolutePosition.Y / DisplayY) * 0.005
+        local realstep = defaultyprogress + indexval
+        if realstep > 1 then
+            realstep = 1 - realstep
+        end
+        local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, realstep):Lerp(Color3.new(0, 0, 0), 0.1)
+        if v:IsA("Frame") then
+            v.BackgroundColor3 = color
+        elseif v:IsA("ImageLabel") or v:IsA("ImageButton") then
+            v.ImageColor3 = color
+        elseif v:IsA("TextLabel") or v:IsA("TextButton") then
+            v.TextColor3 = color
+        elseif v:IsA("UIGradient") then
+            v.Color = ColorSequence.new(color)
+        end
+    end
+    for i, v in pairs(itemstohaverainbow) do
+        if v == nil or GuiLibrary.Settings.Theme ~= "Rainbow" then
+            return
+        end
+        local indexval = ((v:IsA("UIGradient") and v.Parent or v).AbsolutePosition.Y / DisplayY) * 0.005
+        local realstep = defaultyprogress + indexval
+        if realstep > 1 then
+            realstep = 1 - realstep
+        end
+        local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, realstep):Lerp(Color3.new(0, 0, 0), 0.1)
+        if v:IsA("Frame") then
+            v.BackgroundColor3 = color
+        elseif v:IsA("ImageLabel") or v:IsA("ImageButton") then
+            v.ImageColor3 = color
+        elseif v:IsA("TextLabel") or v:IsA("TextButton") then
+            v.TextColor3 = color
+        elseif v:IsA("UIGradient") then
+            v.Color = ColorSequence.new(color)
+        end
+    end
+end
 task.spawn(function()
     repeat
-        t()
+        colortick()
         task.wait()
     until not GuiLibrary
 end)
@@ -676,9 +736,9 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 if v2:HasTag("NoTween") or prop == "" then
                     return
                 end
-                v2[prop] = 1
-                tweenService:Create(v2, TweenInfo.new(0.1), {
-                    [prop] = 0
+                v2[prop] = options.AutomaticSize == Enum.AutomaticSize.None and 1 or 0
+                tweenService:Create(v2, TweenInfo.new(0.15), {
+                    [prop] = options.AutomaticSize == Enum.AutomaticSize.None and 0 or 1
                 }):Play()
             end
         end)
@@ -801,6 +861,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             local tdc = Instance.new("UICorner", toggledx)
             tdc.CornerRadius = UDim.new(1, 0)
             local fra = Instance.new("Frame", toggledx)
+            fra.BackgroundColor3 = ThemeService.Themes[GuiLibrary.Settings.Theme][1]
             table.insert(GuiLibrary.ThemesItems, fra)
             task.spawn(function()
                 fra.BackgroundColor3 = ThemeService.Themes[GuiLibrary.Settings.Theme][1]
@@ -900,6 +961,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             cc.CornerRadius = UDim.new(1, 0)
             local currentdec = (api.Value - api.MinValue) / (api.MaxValue - api.MinValue)
             local value = Instance.new("TextButton", bg)
+            value.BackgroundColor3 = ThemeService.Themes[GuiLibrary.Settings.Theme][1]
             table.insert(GuiLibrary.ThemesItems, value)
             value.Position = UDim2.new(currentdec, 0, 0.5, 0)
             value.Text = ""
@@ -1040,6 +1102,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             local currentdec2 = (api.Value[2] - api.MinValue) / (api.MaxValue - api.MinValue)
             local value1 = Instance.new("TextButton", bg)
             table.insert(GuiLibrary.ThemesItems, value1)
+            value1.BackgroundColor3 = ThemeService.Themes[GuiLibrary.Settings.Theme][1]
             value1.Position = UDim2.new(currentdec1, 0, 0.5, 0)
             value1.Text = ""
             value1.Size = UDim2.new(0, 10, 0, 10)
@@ -1050,6 +1113,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             value2.Parent = bg
             value2.Position = UDim2.new(currentdec2, 0, 0.5, 0)
             table.insert(GuiLibrary.ThemesItems, value2)
+            value2.BackgroundColor3 = ThemeService.Themes[GuiLibrary.Settings.Theme][1]
             local valuebackground = Instance.new("Frame", bg)
             valuebackground.AnchorPoint = Vector2.new(0, 0.5)
             valuebackground.Position = UDim2.new(currentdec1, 0, 0.5, 0)
@@ -1207,6 +1271,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             item.Text = api.Value
             item.PlaceholderText = ""
             item.TextColor3 = Color3.new(1, 1, 1)
+            item.ClearTextOnFocus = false
             item.TextSize = 16
             item.TextXAlignment = Enum.TextXAlignment.Left
             item.FocusLost:Connect(function()
@@ -1280,8 +1345,12 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 if type(val) ~= "number" then
                     return false
                 end
-                if val < 1 then val = #api.Options end
-                if val > #api.Options then val = 1 end
+                if val < 1 then
+                    val = #api.Options
+                end
+                if val > #api.Options then
+                    val = 1
+                end
                 api.Value = val
                 item.Text = api.Name .. ": " .. api.Options[api.Value]
                 if api.SetSuffix then
