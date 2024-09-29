@@ -464,11 +464,11 @@ local initWindowFunction = {
     ["Themes"] = function(frame)
         frame.UIListLayout:Destroy()
         local textl = Instance.new("TextLabel", frame)
-        textl.Position = UDim2.new(1, -33, 0, 24)
+        textl.Position = UDim2.new(1, -33, 0, 20)
         textl.AnchorPoint = Vector2.new(1, 0)
         textl.Text = "You can click on a color to filter by it. Click again to reset."
         textl.Size = UDim2.new(1, 0, 0, 15)
-        textl.TextSize = 16
+        textl.TextSize = 18
         textl.FontFace = shared.RiseFonts.AppleUI
         textl.TextXAlignment = Enum.TextXAlignment.Right
         textl:AddTag("NoTween")
@@ -530,7 +530,7 @@ local initWindowFunction = {
             themepicker.BackgroundColor3 = v["Base"]
             themepicker.Size = UDim2.new(0, 102, 0, 32)
             themepicker.Name = i6
-            themepicker.Position = UDim2.new(0, newline and 48 or 0, 0, ({0, 117, 234, 350, 467})[i])
+            themepicker.Position = UDim2.new(0, ({0, 117, 234, 350, 467})[i], 0, newline and 48 or 0)
             themepicker.Text = ""
             local tpc = Instance.new("UICorner", themepicker)
             tpc.CornerRadius = UDim.new(0, 6)
