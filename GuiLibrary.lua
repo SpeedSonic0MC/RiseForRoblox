@@ -246,6 +246,7 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
     task.spawn(function()
         local check = false
         task.spawn(function()
+            if not GuiLibrary["ObjectCanBeSaved"]["InterfaceOptionsButton"] then check = false return end
             check = not GuiLibrary["ObjectCanBeSaved"]["InterfaceOptionsButton"]["Enabled"]
         end)
         if check then
@@ -461,12 +462,18 @@ local initWindowFunction = {
         frame.UIListLayout:Destroy()
         local textl = Instance.new("TextLabel", frame)
         textl.Position = UDim2.new(1, -33, 0, 24)
-        textl.AnchorPoint = UDim2.new(1, 0)
+        textl.AnchorPoint = Vector2.new(1, 0)
         textl.Text = "You can click on a color to filter by it. Click again to reset."
         textl.Size = UDim2.new(1, 0, 0, 15)
         textl.TextSize = 16
         textl.FontFace = shared.RiseFonts.AppleUI
         textl.TextColor3 = Color3.fromRGB(139, 140, 144)
+        local colorfilterframe = Instance.new("Frame", frame)
+        colorfilterframe.Position = UDim2.new(0.5, 0, 0, 38 + 15 + 35) -- I can't count :+1:
+        colorfilterframe.AnchorPoint = Vector2.new(0.5, 0)
+        colorfilterframe:AddTag("NoTween")
+        colorfilterframe.BackgroundTransparency = 1
+        colorfilterframe.Size = UDim2.new(1, -14, 0, 81)
     end
 }
 local selectedwindow = Instance.new("ImageLabel", winlist)
