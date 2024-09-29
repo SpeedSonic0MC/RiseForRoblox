@@ -647,7 +647,6 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             ["Function"] = argsmaintable["Function"] or function()
             end
         }
-        local expanded = false
         local buttonobj = Instance.new("TextButton", scrframe)
         buttonapi.Object = buttonobj
         buttonobj.Text = ""
@@ -735,7 +734,6 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             end)
             options.AutomaticSize = options.AutomaticSize == Enum.AutomaticSize.None and Enum.AutomaticSize.Y or
                                         Enum.AutomaticSize.None
-            expanded = options.AutomaticSize == Enum.AutomaticSize.Y
             buttonobj:TweenSize(UDim2.new(0, 566, 0, (options.AutomaticSize == Enum.AutomaticSize.None and 75 or
                 (options.AbsoluteSize.X ~= 0 and (85 + options.AbsoluteSize.Y) or 75))), nil, nil, 0.1)
             for i2, v2 in pairs(options:GetDescendants()) do
@@ -755,7 +753,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             end
         end)
         options.Changed:Connect(function(property)
-            if property == "AbsoluteSize" and expanded and not guitweening then
+            if property == "AbsoluteSize" and not guitweening then
                 buttonobj:TweenSize(UDim2.new(0, 566, 0, (85 + options.AbsoluteSize.Y)), nil, nil, 0.1)
             end
         end) -- so we don't have to do shit
@@ -1525,66 +1523,6 @@ InterfaceOptionsButton["CreateToggle"]({
     Function = function(val)
         GuiLibrary.Settings.Notifications = val
     end
-})
-local AutoClicker, AutoClickerMode, AutoClickerCPS = {}, {}, {}
-local acr, acl = {}, {}
-AutoClicker = GuiLibrary.ObjectCanBeSaved.GhostWindow.CreateOptionsButton({
-    Name = "Auto Clicker",
-    Description = "Clicks automatically",
-    Function = function(val)
-        if val then
-            task.spawn(function()
-                repeat
-                    if AutoClickerMode.Value == 1 then
-                        local tool = lplr and lplr.Character and lplr.Character:FindFirstAncestorWhichIsA("Tool")
-                        if tool and inputService:IsMouseButtonPressed(0) then
-                            tool:Activate()
-                            task.wait(1 / math.random(AutoClickerCPS.Value[1], AutoClickerCPS.Value[2]))
-                        end
-                    else
-                        local wcheck = isrbxactive and isrbxactive() or iswindowactive and iswindowactive()
-                        if wcheck and not vis then
-                            if acr.Enabled == true then
-                                mouse2click()
-                            end
-                            if acl.Enabled == true then
-                                mouse1click()
-                            end
-                            task.wait(1 / math.random(AutoClickerCPS.Value[1], AutoClickerCPS.Value[2]))
-                        end
-                    end
-                    task.wait()
-                until not AutoClicker.Enabled
-            end)
-        end
-    end
-})
-AutoClickerMode = AutoClicker["CreateMode"]({
-    Options = {"Tool", "Click"}
-})
-acr = AutoClicker.CreateToggle({
-    Name = "Right Click",
-    Enabled = false,
-    SubData = {
-        ConditionType = "Mode",
-        ConditionMainName = "Auto Clicker",
-        ConditionName = "Mode",
-        ConditionValue = 2
-    }
-})
-acl = AutoClicker.CreateToggle({
-    Name = "Left Click",
-    Enabled = true,
-    SubData = {
-        ConditionType = "Mode",
-        ConditionMainName = "Auto Clicker",
-        ConditionName = "Mode",
-        ConditionValue = 2
-    }
-})
-AutoClickerCPS = AutoClicker["CreateBoundsSlider"]({
-    Name = "CPS",
-    MaxValue = 20
 })
 GuiLibrary["RemoveOptionsButton"] = function(key)
     local obj = GuiLibrary.ObjectCanBeSaved[key .. "OptionsButton"]
