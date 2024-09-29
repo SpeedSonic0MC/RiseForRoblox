@@ -393,7 +393,7 @@ local function colortick()
         if v == nil then
             return
         end
-        local indexval = ((v:IsA("UIGradient") and v.Parent or v).AbsolutePosition.Y / DisplayY) * 0.015
+        local indexval = ((v:IsA("UIGradient") and v.Parent or v).AbsolutePosition.Y / DisplayY) * 0.05
         local realstep = defaultyprogress + indexval
         if realstep > 1 then
             realstep = 1 - (realstep - 1)
@@ -413,7 +413,7 @@ local function colortick()
         if v == nil or GuiLibrary.Settings.Theme ~= "Rainbow" then
             return
         end
-        local indexval = ((v:IsA("UIGradient") and v.Parent or v).AbsolutePosition.Y / DisplayY) * 0.015
+        local indexval = ((v:IsA("UIGradient") and v.Parent or v).AbsolutePosition.Y / DisplayY) * 0.05
         local realstep = defaultyprogress + indexval
         if realstep > 1 then
             realstep = 1 - realstep
@@ -454,7 +454,10 @@ local selectedsize = {96, 102, 120, 88, 96, 94, 88, 76, 102, 114}
 local selectedpos = {80, 120, 162, 203, 243, 285, 325, 367, 408, 449}
 local winpos = {80, 121, 162, 203, 244, 285, 326, 367, 408, 449}
 local winize = {70, 81, 103, 65, 74, 68, 66, 52, 81, 95}
-local initWindowFunction = {}
+local initWindowFunction = {
+    ["Themes"] = function(frame)
+    end
+}
 local selectedwindow = Instance.new("ImageLabel", winlist)
 selectedwindow.Image = getriseasset("Window.png")
 selectedwindow.BackgroundTransparency = 1
