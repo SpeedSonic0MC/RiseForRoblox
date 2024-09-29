@@ -30,6 +30,7 @@ local GuiLibrary = {
     Loaded = false
 }
 local guitweening = false
+local vis = false
 print("Rise >> Running rise version " .. GuiLibrary.Version)
 local function RelativeXY(GuiObject, location)
     local x, y = location.X - GuiObject.AbsolutePosition.X, location.Y - GuiObject.AbsolutePosition.Y
@@ -162,6 +163,7 @@ local tweening = false
 local rt = "RiseTransparency"
 local function tgle()
     guitweening = true
+    vis = not vis
     local function wefpok230(v)
         if v:IsA("Frame") then
             return "BackgroundTransparency"
@@ -647,6 +649,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         }
         local expanded = false
         local buttonobj = Instance.new("TextButton", scrframe)
+        buttonapi.Object = buttonobj
         buttonobj.Text = ""
         buttonobj.Name = buttonapi.Name
         buttonobj.BackgroundColor3 = Color3.fromRGB(18, 21, 27)
@@ -1523,5 +1526,72 @@ InterfaceOptionsButton["CreateToggle"]({
         GuiLibrary.Settings.Notifications = val
     end
 })
+local AutoClicker, AutoClickerMode, AutoClickerCPS = {}, {}, {}
+local acr, acl = {}, {}
+AutoClicker = GuiLibrary.ObjectCanBeSaved.GhostWindow.CreateOptionsButton({
+    Name = "Auto Clicker",
+    Description = "Clicks automatically",
+    Function = function(val)
+        if val then
+            task.spawn(function()
+                repeat
+                    if AutoClickerMode.Value == 1 then
+                        local tool = lplr and lplr.Character and lplr.Character:FindFirstAncestorWhichIsA("Tool")
+                        if tool and inputService:IsMouseButtonPressed(0) then
+                            tool:Activate()
+                            task.wait(1 / math.random(AutoClickerCPS.Value[1], AutoClickerCPS.Value[2]))
+                        end
+                    else
+                        local wcheck = isrbxactive and isrbxactive() or iswindowactive and iswindowactive()
+                        if wcheck and not vis then
+                            if acr.Enabled == true then
+                                task.spawn(mouse2click)
+                            end
+                            if acl.Enabled == true then
+                                task.spawn(mouse1click)
+                            end
+                            task.wait(1 / math.random(AutoClickerCPS.Value[1], AutoClickerCPS.Value[2]))
+                        end
+                    end
+                until not AutoClicker.Enabled
+            end)
+        end
+    end
+})
+AutoClickerMode = AutoClicker["CreateMode"]({
+    Options = {"Tool", "Click"}
+})
+acr = AutoClicker.CreateToggle({
+    Name = "Right Click",
+    Enabled = false,
+    SubData = {
+        ConditionType = "Mode",
+        ConditionMainName = "Auto Clicker",
+        ConditionName = "Mode",
+        ConditionValue = 2
+    }
+})
+acl = AutoClicker.CreateToggle({
+    Name = "Left Click",
+    Enabled = true,
+    SubData = {
+        ConditionType = "Mode",
+        ConditionMainName = "Auto Clicker",
+        ConditionName = "Mode",
+        ConditionValue = 2
+    }
+})
+AutoClickerCPS = AutoClicker["CreateBoundsSlider"]({
+    Name = "CPS",
+    MaxValue = 20,
+    Value = {8, 9}
+})
+GuiLibrary["RemoveOptionsButton"] = function(key)
+    local obj = GuiLibrary.ObjectCanBeSaved[key .. "OptionsButton"]
+    if obj then
+        obj.Object:Destroy()
+        GuiLibrary.ObjectCanBeSaved[key .. "OptionsButton"] = nil
+    end
+end
 GuiLibrary.Loaded = true
 return GuiLibrary
