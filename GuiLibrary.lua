@@ -647,6 +647,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             ["Function"] = argsmaintable["Function"] or function()
             end
         }
+        local buttonexpanded = false
         local buttonobj = Instance.new("TextButton", scrframe)
         buttonapi.Object = buttonobj
         buttonobj.Text = ""
@@ -727,6 +728,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         list.HorizontalAlignment = Enum.HorizontalAlignment.Center
         list.Padding = UDim.new(0, 12)
         buttonobj.MouseButton2Click:Connect(function()
+            buttonexpanded = not buttonexpanded
             task.spawn(function()
                 buttonobj.BackgroundColor3 = Color3.fromRGB(16, 18, 23)
                 task.wait(.1)
@@ -753,7 +755,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             end
         end)
         options.Changed:Connect(function(property)
-            if property == "AbsoluteSize" and not guitweening then
+            if property == "AbsoluteSize" and buttonexpanded and not guitweening then
                 buttonobj:TweenSize(UDim2.new(0, 566, 0, (85 + options.AbsoluteSize.Y)), nil, nil, 0.1)
             end
         end) -- so we don't have to do shit
