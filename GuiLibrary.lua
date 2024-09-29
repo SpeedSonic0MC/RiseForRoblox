@@ -1062,7 +1062,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             local api = {
                 ["Type"] = "BoundsSlider",
                 ["Name"] = argstable["Name"] or "Example",
-                ["Value"] = {argstable["From"] or 0, argstable["To"] or 100}, -- default value auto.
+                ["Value"] = {argstable["From"] or 0, argstable["To"] or (argstable["MaxValue"] or 100)}, -- default value auto.
                 MaxValue = argstable["MaxValue"] or 100,
                 MinValue = argstable["MinValue"] or 0,
                 ["Function"] = argstable["Function"] or function(_unused)
@@ -1545,10 +1545,10 @@ AutoClicker = GuiLibrary.ObjectCanBeSaved.GhostWindow.CreateOptionsButton({
                         local wcheck = isrbxactive and isrbxactive() or iswindowactive and iswindowactive()
                         if wcheck and not vis then
                             if acr.Enabled == true then
-                                task.spawn(mouse2click)
+                                mouse2click()
                             end
                             if acl.Enabled == true then
-                                task.spawn(mouse1click)
+                                mouse1click()
                             end
                             task.wait(1 / math.random(AutoClickerCPS.Value[1], AutoClickerCPS.Value[2]))
                         end
@@ -1584,8 +1584,7 @@ acl = AutoClicker.CreateToggle({
 })
 AutoClickerCPS = AutoClicker["CreateBoundsSlider"]({
     Name = "CPS",
-    MaxValue = 20,
-    Value = {8, 9}
+    MaxValue = 20
 })
 GuiLibrary["RemoveOptionsButton"] = function(key)
     local obj = GuiLibrary.ObjectCanBeSaved[key .. "OptionsButton"]
