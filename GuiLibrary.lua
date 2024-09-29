@@ -1277,9 +1277,11 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             item.BackgroundTransparency = 1
             item:AddTag("SpecialTween")
             api["SetValue"] = function(val)
-                if type(val) ~= "number" or val < 1 or val > #api.Options then
+                if type(val) ~= "number" then
                     return false
                 end
+                if val < 1 then val = #api.Options end
+                if val > #api.Options then val = 1 end
                 api.Value = val
                 item.Text = api.Name .. ": " .. api.Options[api.Value]
                 if api.SetSuffix then
