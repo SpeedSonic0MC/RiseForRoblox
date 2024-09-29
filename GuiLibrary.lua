@@ -458,6 +458,15 @@ local winpos = {80, 121, 162, 203, 244, 285, 326, 367, 408, 449}
 local winize = {70, 81, 103, 65, 74, 68, 66, 52, 81, 95}
 local initWindowFunction = {
     ["Themes"] = function(frame)
+        frame.UIListLayout:Destroy()
+        local textl = Instance.new("TextLabel", frame)
+        textl.Position = UDim2.new(1, -33, 0, 24)
+        textl.AnchorPoint = UDim2.new(1, 0)
+        textl.Text = "You can click on a color to filter by it. Click again to reset."
+        textl.Size = UDim2.new(1, 0, 0, 15)
+        textl.TextSize = 16
+        textl.FontFace = shared.RiseFonts.AppleUI
+        textl.TextColor3 = Color3.fromRGB(139, 140, 144)
     end
 }
 local selectedwindow = Instance.new("ImageLabel", winlist)
@@ -634,7 +643,6 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
     if initWindowFunction[v] then
         initWindowFunction[v](scrframe)
     end
-
     windowapi["CreateOptionsButton"] = function(argsmaintable)
         local buttonapi = {
             ["Type"] = "OptionsButton",
