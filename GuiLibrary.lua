@@ -377,13 +377,13 @@ local function colortick()
     local itemstohavegradient = table.clone(GuiLibrary.GradientItems)
     local itemstohaverainbow = table.clone(GuiLibrary.RainbowItems)
     table.sort(itemstohavegradient, function(a, b)
-        local aabsolutey = a:IsA("UIGradient") and a.Parent.AbsolutePosition.Y or a.AbsolutePosition.Y
-        local babsolutey = b:IsA("UIGradient") and b.Parent.AbsolutePosition.Y or b.AbsolutePosition.Y
+        local aabsolutey = a:IsA("UIGradient") and a.Parent.AbsolutePosition.Y or a.AbsolutePosition.Y or 0
+        local babsolutey = b:IsA("UIGradient") and b.Parent.AbsolutePosition.Y or b.AbsolutePosition.Y or 0
         return aabsolutey <= babsolutey
     end)
     table.sort(itemstohaverainbow, function(a, b)
-        local aabsolutey = a:IsA("UIGradient") and a.Parent.AbsolutePosition.Y or a.AbsolutePosition.Y
-        local babsolutey = b:IsA("UIGradient") and b.Parent.AbsolutePosition.Y or b.AbsolutePosition.Y
+        local aabsolutey = a:IsA("UIGradient") and a.Parent.AbsolutePosition.Y or a.AbsolutePosition.Y or 0
+        local babsolutey = b:IsA("UIGradient") and b.Parent.AbsolutePosition.Y or b.AbsolutePosition.Y or 0
         return aabsolutey <= babsolutey
     end)
     for i, v in pairs(itemstohavegradient) do
@@ -728,7 +728,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                                         Enum.AutomaticSize.None
             expanded = options.AutomaticSize == Enum.AutomaticSize.Y
             buttonobj:TweenSize(UDim2.new(0, 566, 0, (options.AutomaticSize == Enum.AutomaticSize.None and 75 or
-                (85 + options.AbsoluteSize.Y))), nil, nil, 0.1)
+                (options.AbsoluteSize.X ~= 0 and (85 + options.AbsoluteSize.Y) or 75))), nil, nil, 0.1)
             for i2, v2 in pairs(options:GetDescendants()) do
                 local prop = ""
                 if v2:IsA("TextLabel") or v2:IsA("TextButton") or v2:IsA("TextBox") then
@@ -1440,20 +1440,102 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function()
         end
     end)
 end)
-local ClickGUI = GuiLibrary.ObjectCanBeSaved.RenderWindow.CreateOptionsButton({
-    Name = "Click GUI",
-    NoSave = true,
-    Enabled = true,
-    Function = function()
-        tgle()
-    end
-})
 local InterfaceOptionsButton = GuiLibrary.ObjectCanBeSaved["RenderWindow"]["CreateOptionsButton"]({
     ["Name"] = "Interface",
     ["Description"] = "The clients interface with all information",
     ["Enabled"] = true,
     Function = function()
         GuiLibrary.UpdateHudEvent:Fire()
+    end
+})
+InterfaceOptionsButton["CreateMode"]({
+    Options = {"Modern", "Wurst", "Classic", "Creida"},
+    Value = 1,
+    Function = function()
+        GuiLibrary.UpdateHudEvent:Fire()
+    end,
+    SetSuffix = true
+})
+InterfaceOptionsButton["CreateMode"]({
+    Name = "ArrayList Color Mode",
+    Options = {"Fade", "Breathe", "Static"},
+    Value = 1,
+    Function = function()
+        GuiLibrary.UpdateHudEvent:Fire()
+    end,
+    SubData = {
+        ConditionType = "Mode",
+        ConditionMainName = "Interface",
+        ConditionName = "Mode",
+        ConditionValue = 1
+    }
+})
+InterfaceOptionsButton["CreateMode"]({
+    Name = "ArrayList Font",
+    Options = {"Apple UI", "Minecraft"},
+    Value = 1,
+    Function = function()
+        GuiLibrary.UpdateHudEvent:Fire()
+    end,
+    SubData = {
+        ConditionType = "Mode",
+        ConditionMainName = "Interface",
+        ConditionName = "Mode",
+        ConditionValue = 1
+    }
+})
+InterfaceOptionsButton["CreateMode"]({
+    Name = "BackGround",
+    Options = {"Normal", "Off"},
+    Value = 1,
+    Function = function()
+        GuiLibrary.UpdateHudEvent:Fire()
+    end,
+    SubData = {
+        ConditionType = "Mode",
+        ConditionMainName = "Interface",
+        ConditionName = "Mode",
+        ConditionValue = 1
+    }
+})
+InterfaceOptionsButton["CreateLabel"]({
+    Name = "Custom Client Name",
+    SubData = {
+        ConditionType = "Mode",
+        ConditionMainName = "Interface",
+        ConditionName = "Mode",
+        ConditionValue = 1
+    }
+})
+InterfaceOptionsButton["CreateTextBox"]({
+    Name = "Custom Client Name",
+    Function = function()
+        GuiLibrary.UpdateHudEvent:Fire()
+    end,
+    SubData = {
+        ConditionType = "Mode",
+        ConditionMainName = "Interface",
+        ConditionName = "Mode",
+        ConditionValue = 1
+    }
+})
+InterfaceOptionsButton["CreateToggle"]({
+    Value = true,
+    Name = "Suffix"
+})
+InterfaceOptionsButton["CreateToggle"]({
+    Value = false,
+    Name = "Lowercase"
+})
+InterfaceOptionsButton["CreateToggle"]({
+    Name = "Remove Spaces",
+    Value = false
+})
+InterfaceOptionsButton["CreateToggle"]({
+    Name = "Toggle Notifications",
+    Value = GuiLibrary.Settings.Notifications,
+    Function = function(val)
+        GuiLibrary.Settings.Notifications = val
     end
 })
 GuiLibrary.Loaded = true
