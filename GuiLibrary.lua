@@ -1444,7 +1444,7 @@ if shared.RiseDeveloper then
             ConditionType = "Mode",
             ConditionMainName = "Interface",
             ConditionName = "Mode",
-            ConditionValue = "NCP"
+            ConditionValue = 6
         }
     })
     InterfaceOptionsButton.CreateLabel({
@@ -1453,7 +1453,7 @@ if shared.RiseDeveloper then
             ConditionType = "Mode",
             ConditionMainName = "Interface",
             ConditionName = "Mode",
-            ConditionValue = "BlocksMC"
+            ConditionValue = 9
         }
     })
 end
