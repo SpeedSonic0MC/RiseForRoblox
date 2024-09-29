@@ -621,6 +621,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
     scrframe.ScrollBarThickness = 2
     local uilistlayout = Instance.new("UIListLayout", scrframe)
     uilistlayout.Padding = UDim.new(0, 14)
+    uilistlayout.SortOrder = Enum.SortOrder.Name
     uilistlayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
     if initWindowFunction[v] then
         initWindowFunction[v](scrframe)
@@ -629,6 +630,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
     windowapi["CreateOptionsButton"] = function(argsmaintable)
         local buttonapi = {
             ["Type"] = "OptionsButton",
+            NoSave = argsmaintable["NoSave"] ~= nil and argsmaintable["NoSave"] or true,
             ["Name"] = argsmaintable["Name"] or "Example Settings",
             ["Description"] = argsmaintable["Description"] or "An example script to teach how to use rise's settings.",
             ["Suffix"] = nil,
@@ -640,6 +642,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         local expanded = false
         local buttonobj = Instance.new("TextButton", scrframe)
         buttonobj.Text = ""
+        buttonobj.Name = buttonapi.Name
         buttonobj.BackgroundColor3 = Color3.fromRGB(18, 21, 27)
         buttonobj.Size = UDim2.new(0, 566, 0, 75)
         buttonobj.AutoButtonColor = false
@@ -1437,6 +1440,13 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function()
         end
     end)
 end)
+local ClickGUI = GuiLibrary.ObjectCanBeSaved.RenderWindow.CreateOptionsButton({
+    Name = "Click GUI",
+    NoSave = true,
+    Function = function()
+        tgle()
+    end
+})
 local InterfaceOptionsButton = GuiLibrary.ObjectCanBeSaved["RenderWindow"]["CreateOptionsButton"]({
     ["Name"] = "Interface",
     ["Description"] = "The clients interface with all information",
@@ -1445,89 +1455,5 @@ local InterfaceOptionsButton = GuiLibrary.ObjectCanBeSaved["RenderWindow"]["Crea
         GuiLibrary.UpdateHudEvent:Fire()
     end
 })
-if shared.RiseDeveloper then
-    InterfaceOptionsButton.CreateLabel({
-        Name = "Example Label"
-    })
-    InterfaceOptionsButton.CreateToggle({
-        Name = "Example Option",
-        Function = function(val)
-            print("Example Option: " .. tostring(val))
-        end
-    })
-    InterfaceOptionsButton.CreateLabel({
-        Name = "This is an example label that only shows when Example Option is toggled",
-        SubData = {
-            ConditionType = "Toggle",
-            ConditionMainName = "Interface",
-            ConditionName = "Example Option",
-            ConditionValue = true
-        }
-    })
-    InterfaceOptionsButton.CreateToggle({
-        Name = "Suffix",
-        SubData = {
-            ConditionType = "Toggle",
-            ConditionMainName = "Interface",
-            ConditionName = "Example Option",
-            ConditionValue = true
-        }
-    })
-    InterfaceOptionsButton.CreateSlider({
-        Name = "Intensity",
-        SubData = {
-            ConditionType = "Toggle",
-            ConditionMainName = "Interface",
-            ConditionName = "Example Option",
-            ConditionValue = true
-        }
-    })
-    InterfaceOptionsButton.CreateBoundsSlider({
-        Name = "Click Speed",
-        SubData = {
-            ConditionType = "Toggle",
-            ConditionMainName = "Interface",
-            ConditionName = "Example Option",
-            ConditionValue = true
-        }
-    })
-    InterfaceOptionsButton.CreateTextBox({
-        Name = "Mob Text T",
-        SubData = {
-            ConditionType = "Toggle",
-            ConditionMainName = "Interface",
-            ConditionName = "Example Option",
-            ConditionValue = true
-        }
-    })
-    InterfaceOptionsButton.CreateMode({
-        Options = {"Vanilla", "Strafe", "Interact", "Vulcan", "Watchdog", "NCP", "Funcraft", "Verus", "BlocksMC",
-                   "MineMenClub", "KoksCraft", "Legit", "Intave", "Sparky", "Grim"},
-        SubData = {
-            ConditionType = "Toggle",
-            ConditionMainName = "Interface",
-            ConditionName = "Example Option",
-            ConditionValue = true
-        }
-    })
-    InterfaceOptionsButton.CreateLabel({
-        Name = "Chose NCP",
-        SubData = {
-            ConditionType = "Mode",
-            ConditionMainName = "Interface",
-            ConditionName = "Mode",
-            ConditionValue = 6
-        }
-    })
-    InterfaceOptionsButton.CreateLabel({
-        Name = "Chose BlocksMC",
-        SubData = {
-            ConditionType = "Mode",
-            ConditionMainName = "Interface",
-            ConditionName = "Mode",
-            ConditionValue = 9
-        }
-    })
-end
 GuiLibrary.Loaded = true
 return GuiLibrary
