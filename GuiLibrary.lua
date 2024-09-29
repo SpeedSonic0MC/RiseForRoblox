@@ -1248,6 +1248,83 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             return api
         end
 
+        buttonapi["CreateMode"] = function(argstable)
+            local api = {
+                Type = "Mode",
+                Options = argstable["Options"] or {"Mode1"},
+                Name = argstable["Name"] or "Mode",
+                Value = table.find(argstable["Options"] or {"Mode1"}, argstable["Value"]) or 1,
+                Function = argstable["Function"] or function()
+                end,
+                SetSuffix = argstable["SetSuffix"] or false
+            }
+            local sd = argstable["SubData"]
+            local ct, cn, cn2, cv
+            if sd ~= nil and type(sd) == "table" then
+                ct = sd["ConditionType"]
+                cn = sd["ConditionMainName"]
+                cn2 = sd["ConditionName"]
+                cv = sd["ConditionValue"]
+            end
+            local item = Instance.new("TextButton", options)
+            item.LayoutOrder = #options:GetChildren() - 1
+            item.Size = UDim2.new(1, sd ~= nil and -38 or 0, 0, 15)
+            item.FontFace = shared.RiseFonts.AppleUI
+            item.Text = api.Name .. ": " .. api.Options[api.Value]
+            item.TextColor3 = Color3.new(1, 1, 1)
+            item.TextSize = 16
+            item.TextXAlignment = Enum.TextXAlignment.Left
+            item.BackgroundTransparency = 1
+            api["SetValue"] = function(val)
+                if type(val) ~= "number" or val < 1 or val > #api.Options then
+                    return false
+                end
+                api.Value = val
+                item.Text = api.Name .. ": " .. api.Options[api.Value]
+                if api.SetSuffix then
+                    buttonapi.Suffix = api.Options[api.Value]
+                end
+                return true
+            end
+            item.MouseButton1Click:Connect(function()
+                api["SetValue"](api.Value + 1)
+            end)
+            item.MouseButton2Click:Connect(function()
+                api["SetValue"](api.Value - 1)
+            end)
+            if ct and cn and cv then
+                task.spawn(function()
+                    local obj = GuiLibrary.ObjectCanBeSaved[cn .. (cn2 or "") .. ct]
+                    if obj then
+                        local valx = obj["Enabled"] or obj["Value"]
+                        if valx == cv then
+                            item.Visible = true
+                        else
+                            item.Visible = false
+                        end
+                    end
+                end)
+            end
+            if ct and cn and cv then
+                task.spawn(function()
+                    repeat
+                        local obj = GuiLibrary.ObjectCanBeSaved[cn .. (cn2 or "") .. ct]
+                        if obj then
+                            local valuex = obj["Enabled"] or obj["Value"]
+                            if valuex == cv then
+                                item.Visible = true
+                            else
+                                item.Visible = false
+                            end
+                        end
+                        task.wait(0.05)
+                    until GuiLibrary == nil
+                end)
+            end
+            GuiLibrary.ObjectCanBeSaved[buttonapi.Name .. api.Name .. "Mode"] = api
+            return api
+        end
+
         GuiLibrary.ObjectCanBeSaved[buttonapi.Name .. "OptionsButton"] = buttonapi
         return buttonapi
     end
@@ -1349,6 +1426,34 @@ if shared.RiseDeveloper then
             ConditionMainName = "Interface",
             ConditionName = "Example Option",
             ConditionValue = true
+        }
+    })
+    InterfaceOptionsButton.CreateMode({
+        Options = {"Vanilla", "Strafe", "Interact", "Vulcan", "Watchdog", "NCP", "Funcraft", "Verus", "BlocksMC",
+                   "MineMenClub", "KoksCraft", "Legit", "Intave", "Sparky", "Grim"},
+        SubData = {
+            ConditionType = "Toggle",
+            ConditionMainName = "Interface",
+            ConditionName = "Example Option",
+            ConditionValue = true
+        }
+    })
+    InterfaceOptionsButton.CreateLabel({
+        Name = "Chose NCP",
+        SubData = {
+            ConditionType = "Mode",
+            ConditionMainName = "Interface",
+            ConditionName = "Mode",
+            ConditionValue = "NCP"
+        }
+    })
+    InterfaceOptionsButton.CreateLabel({
+        Name = "Chose BlocksMC",
+        SubData = {
+            ConditionType = "Mode",
+            ConditionMainName = "Interface",
+            ConditionName = "Mode",
+            ConditionValue = "BlocksMC"
         }
     })
 end
