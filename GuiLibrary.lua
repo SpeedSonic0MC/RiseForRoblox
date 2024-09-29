@@ -29,6 +29,7 @@ local GuiLibrary = {
     DarkerThemesItems = {},
     Loaded = false
 }
+local guitweening = false
 print("Rise >> Running rise version " .. GuiLibrary.Version)
 local function RelativeXY(GuiObject, location)
     local x, y = location.X - GuiObject.AbsolutePosition.X, location.Y - GuiObject.AbsolutePosition.Y
@@ -160,6 +161,7 @@ uiscale.Scale = 0.2
 local tweening = false
 local rt = "RiseTransparency"
 local function tgle()
+    guitweening = true
     local function wefpok230(v)
         if v:IsA("Frame") then
             return "BackgroundTransparency"
@@ -217,6 +219,7 @@ local function tgle()
         end
         tweening = false
     end
+    guitweening = true
 end
 inputService.InputBegan:Connect(function(input)
     if Enum.KeyCode[GuiLibrary.Settings.Keybind] == input.KeyCode then
@@ -746,7 +749,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             end
         end)
         options.Changed:Connect(function(property)
-            if property == "AbsoluteSize" and expanded and options.AbsoluteSize ~= 0 then
+            if property == "AbsoluteSize" and expanded and not guitweening then
                 buttonobj:TweenSize(UDim2.new(0, 566, 0, (85 + options.AbsoluteSize.Y)), nil, nil, 0.1)
             end
         end) -- so we don't have to do shit
@@ -1520,20 +1523,20 @@ InterfaceOptionsButton["CreateTextBox"]({
     }
 })
 InterfaceOptionsButton["CreateToggle"]({
-    Value = true,
+    Enabled = true,
     Name = "Suffix"
 })
 InterfaceOptionsButton["CreateToggle"]({
-    Value = false,
+    Enabled = false,
     Name = "Lowercase"
 })
 InterfaceOptionsButton["CreateToggle"]({
     Name = "Remove Spaces",
-    Value = false
+    Enabled = false
 })
 InterfaceOptionsButton["CreateToggle"]({
     Name = "Toggle Notifications",
-    Value = GuiLibrary.Settings.Notifications,
+    Enabled = GuiLibrary.Settings.Notifications,
     Function = function(val)
         GuiLibrary.Settings.Notifications = val
     end
