@@ -377,14 +377,14 @@ local function colortick()
     local itemstohavegradient = table.clone(GuiLibrary.GradientItems)
     local itemstohaverainbow = table.clone(GuiLibrary.RainbowItems)
     table.sort(itemstohavegradient, function(a, b)
-        local aabsolutey = a:IsA("UIGradient") and a.Parent.AbsolutePosition.Y or a.AbsolutePosition.Y or 0
-        local babsolutey = b:IsA("UIGradient") and b.Parent.AbsolutePosition.Y or b.AbsolutePosition.Y or 0
-        return aabsolutey <= babsolutey
+        local aabsolutey = a:IsA("UIGradient") and a.Parent.AbsolutePosition.Y or a.AbsolutePosition.Y
+        local babsolutey = b:IsA("UIGradient") and b.Parent.AbsolutePosition.Y or b.AbsolutePosition.Y
+        return aabsolutey < babsolutey
     end)
     table.sort(itemstohaverainbow, function(a, b)
-        local aabsolutey = a:IsA("UIGradient") and a.Parent.AbsolutePosition.Y or a.AbsolutePosition.Y or 0
-        local babsolutey = b:IsA("UIGradient") and b.Parent.AbsolutePosition.Y or b.AbsolutePosition.Y or 0
-        return aabsolutey <= babsolutey
+        local aabsolutey = a:IsA("UIGradient") and a.Parent.AbsolutePosition.Y or a.AbsolutePosition.Y
+        local babsolutey = b:IsA("UIGradient") and b.Parent.AbsolutePosition.Y or b.AbsolutePosition.Y
+        return aabsolutey < babsolutey
     end)
     for i, v in pairs(itemstohavegradient) do
         if v == nil then
@@ -746,7 +746,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             end
         end)
         options.Changed:Connect(function(property)
-            if property == "AbsoluteSize" and expanded then
+            if property == "AbsoluteSize" and expanded and options.AbsoluteSize ~= 0 then
                 buttonobj:TweenSize(UDim2.new(0, 566, 0, (85 + options.AbsoluteSize.Y)), nil, nil, 0.1)
             end
         end) -- so we don't have to do shit
