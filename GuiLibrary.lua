@@ -576,7 +576,6 @@ selectedwindow.ScaleType = Enum.ScaleType.Slice
 selectedwindow.SliceScale = 1
 selectedwindow.SliceCenter = Rect.new(Vector2.new(9, 0), Vector2.new(21, 30))
 table.insert(GuiLibrary.GradientItems, selectedwindow)
-local sw = "Search"
 local icon = {
     Search = {3, "U"},
     Combat = {1, "a"},
@@ -597,12 +596,14 @@ shader.ZIndex = 999
 table.insert(GuiLibrary.RainbowItems, shader)
 local cr = Instance.new("UICorner", shader)
 cr.CornerRadius = UDim.new(1, 0)
-local tweeningtroll = false
 local windowdescendantstweening = false
 local selectedwindowoption = "Search"
 local function windowbuttonhandle(oldname, newname)
-    local indexes = {"Search", "Combat", "Movement", "Player", "Render", "Exploit", "Ghost", "CaS", "Themes", "Language"}
-    if oldname == newname or selectedwindowoption == newname or windowdescendantstweening then return false end
+    local indexes =
+        {"Search", "Combat", "Movement", "Player", "Render", "Exploit", "Ghost", "CaS", "Themes", "Language"}
+    if oldname == newname or selectedwindowoption == newname or windowdescendantstweening then
+        return false
+    end
     local winbutton = {
         Old = winlist[oldname],
         New = winlist[newname]
@@ -611,6 +612,7 @@ local function windowbuttonhandle(oldname, newname)
         Old = windowshit[oldname],
         New = windowshit[newname]
     }
+    -- This function tweens the window buttons
     task.spawn(function()
         local cs = selectedwindow:Clone()
         cs.Parent = winlist
@@ -618,7 +620,7 @@ local function windowbuttonhandle(oldname, newname)
             ImageTransparency = 1
         }):Play()
         tweenService:Create(winbutton.Old.TNTMinecart, TweenInfo.new(0.3), {
-            Position = UDim2.new(0, 24, 0.5, 0);
+            Position = UDim2.new(0, 24, 0.5, 0),
             TextColor3 = Color3.fromRGB(205, 204, 207)
         }):Play()
         tweenService:Create(winbutton.Old.TNTMinecart:FindFirstChildWhichIsA("TextLabel"), TweenInfo.new(0.3), {
@@ -640,6 +642,68 @@ local function windowbuttonhandle(oldname, newname)
         tweenService:Create(winbutton.New.TNTMinecart.TextLabel, TweenInfo.new(0.3), {
             TextColor3 = Color3.new(1, 1, 1)
         }):Play()
+    end)
+    -- This function hides the old window
+    task.spawn(function()
+        windowdescendantstweening = true
+        for i, v in pairs(winframe.Old.ScrollFrame:GetDescendants()) do
+            if not v:HasTag("NoTween") then
+                local property = nil
+                local value = 1
+                if v:HasTag("SpecialTween") then
+                    property = "TextTransparency"
+                else
+                    if v:IsA("TextLabel") or v:IsA("TextBox") then
+                        property = "TextTransparency"
+                    elseif v:IsA("Frame") or v:IsA("TextButton") then
+                        property = "BackgroundTransparency"
+                    elseif v:IsA("UIStroke") then
+                        property = "Transparency"
+                    end
+                end
+                if property ~= nil then
+                    tweenService:Create(v, TweenInfo.new(0.2), {
+                        [property] = value
+                    }):Play()
+                    task.delay(0.2, function()
+                        v[property] = 0
+                    end)
+                end
+            end
+        end
+        task.delay(0.2, function()
+            winframe.Old.Visible = false
+            -- This function shows the new window
+            task.spawn(function()
+                winframe.New.Visible = true
+                for i, v in pairs(winframe.New.ScrollFrame:GetDescendants()) do
+                    if not v:HasTag("NoTween") then
+                        local property = nil
+                        local value = 0
+                        if v:HasTag("SpecialTween") then
+                            property = "TextTransparency"
+                        else
+                            if v:IsA("TextLabel") or v:IsA("TextBox") then
+                                property = "TextTransparency"
+                            elseif v:IsA("Frame") or v:IsA("TextButton") then
+                                property = "BackgroundTransparency"
+                            elseif v:IsA("UIStroke") then
+                                property = "Transparency"
+                            end
+                        end
+                        if property ~= nil then
+                            v[property] = 1
+                            tweenService:Create(v, TweenInfo.new(0.2), {
+                                [property] = value
+                            }):Play()
+                        end
+                    end
+                end
+                task.delay(0.2, function()
+                    windowdescendantstweening = false
+                end)
+            end)
+        end)
     end)
     selectedwindowoption = newname
 end
