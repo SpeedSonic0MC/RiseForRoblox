@@ -741,8 +741,8 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
     cart.TextColor3 = (v == "Search" and Color3.new(1, 1, 1) or Color3.fromRGB(205, 204, 207))
     cart.TextXAlignment = Enum.TextXAlignment.Left
     cart.TextYAlignment = Enum.TextYAlignment.Center
-    cart:SetAttribute("RiseLanguageKey", "maingui.winlist." .. v:lower())
     local lab = Instance.new("TextLabel", cart)
+    lab:SetAttribute("RiseLanguageKey", "maingui.winlist." .. v:lower())
     lab.AnchorPoint = Vector2.new(0, 0.5)
     lab.FontFace = shared.RiseFonts.AppleUI
     lab.BackgroundTransparency = 1
