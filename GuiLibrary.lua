@@ -692,6 +692,11 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 end
             end
             newobj.Parent.Visible = true
+            task.delay(0.15, function()
+                oldobj.Parent.Visible = false
+                tweeningtroll = false
+                print("Test 1")
+            end)
             for i2, v2 in pairs(newobj:GetDescendants()) do
                 local property = nil
                 local value = 0
@@ -713,11 +718,6 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                     }):Play()
                 end
             end
-            task.delay(0.15, function()
-                oldobj.Parent.Visible = false
-                tweeningtroll = false
-                print("Test 1")
-            end)
         end)
         sw = v
     end)
