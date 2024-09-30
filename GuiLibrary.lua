@@ -461,7 +461,7 @@ local selectedpos = {80, 120, 162, 203, 243, 285, 325, 367, 408, 449}
 local winpos = {80, 121, 162, 203, 244, 285, 326, 367, 408, 449}
 local winize = {70, 81, 103, 65, 74, 68, 66, 52, 81, 95}
 local initWindowFunction = {
-    --[[["Themes"] = function(frame)
+    ["Themes"] = function(frame)
         frame.UIListLayout:Destroy()
         local textl = Instance.new("TextLabel", frame)
         textl.Position = UDim2.new(1, -33, 0, 20)
@@ -563,7 +563,7 @@ local initWindowFunction = {
         themesframe.BackgroundTransparency = 1
         themesframe.AnchorPoint = Vector2.new(0.5, 0)
         themesframe.Position = UDim2.new(0.5, 0, 0, 208)
-    end]]
+    end
 }
 local selectedwindow = Instance.new("ImageLabel", winlist)
 selectedwindow.Image = getriseasset("Window.png")
@@ -677,8 +677,8 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 elseif (v2:IsA("TextButton") or v2:IsA("Frame")) and
                     (not v2:HasTag("NoTween") and not v2:HasTag("SpecialTween")) then
                     property = "BackgroundTransparency"
-                elseif v2:IsA("UIStroke") then
-                    property = "Transparency"
+                --[[elseif v2:IsA("UIStroke") then
+                    property = "Transparency"]]
                 end
                 if property ~= nil then
                     tweenService:Create(v2, TweenInfo.new(0.15), {
@@ -701,8 +701,8 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 elseif (v2:IsA("TextButton") or v2:IsA("Frame")) and
                     (not v2:HasTag("NoTween") and not v2:HasTag("SpecialTween")) then
                     property = "BackgroundTransparency"
-                elseif v2:IsA("UIStroke") then
-                    property = "Transparency"
+                --[[elseif v2:IsA("UIStroke") then
+                    property = "Transparency"]]
                 end
                 if property ~= nil then
                     v2[property] = 1
