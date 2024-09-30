@@ -404,7 +404,7 @@ local function colortick()
         if v == nil then
             return
         end
-        local indexval = ((v:IsA("UIGradient") and v.Parent or v).AbsolutePosition.Y / DisplayY) * 0.05
+        local indexval = i * 0.05
         local realstep = defaultyprogress + indexval
         if realstep > 1 then
             realstep = 1 - (realstep - 1)
@@ -424,7 +424,7 @@ local function colortick()
         if v == nil or GuiLibrary.Settings.Theme ~= "Rainbow" then
             return
         end
-        local indexval = ((v:IsA("UIGradient") and v.Parent or v).AbsolutePosition.Y / DisplayY) * 0.05
+        local indexval = i * 0.05
         local realstep = defaultyprogress + indexval
         if realstep > 1 then
             realstep = 1 - realstep
