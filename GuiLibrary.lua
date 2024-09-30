@@ -474,6 +474,7 @@ local initWindowFunction = {
         textl.Position = UDim2.new(1, -33, 0, 20)
         textl.AnchorPoint = Vector2.new(1, 0)
         textl.Text = "You can click on a color to filter by it. Click again to reset."
+        textl:SetAttribute("RiseLanguageKey", "languages.main")
         textl.Size = UDim2.new(1, 0, 0, 15)
         textl.TextSize = 18
         textl.FontFace = shared.RiseFonts.AppleUI
@@ -571,6 +572,9 @@ local initWindowFunction = {
         themesframe.BackgroundTransparency = 1
         themesframe.AnchorPoint = Vector2.new(0.5, 0)
         themesframe.Position = UDim2.new(0.5, 0, 0, 190)
+        themesframe.Size = UDim2.new(1, -14, 0, 0)
+        local function createthemebutton(theme)
+        end
     end
 }
 local selectedwindow = Instance.new("ImageLabel", winlist)
@@ -1796,6 +1800,39 @@ InterfaceOptionsButton["CreateToggle"]({
         GuiLibrary.Settings.Notifications = val
     end
 })
+local InterfaceOptionsButton2 = GuiLibrary.ObjectCanBeSaved["RenderWindow"]["CreateOptionsButton"]({
+    ["Name"] = "2D ESP",
+    ["Description"] = "The clients interface with all information",
+    ["Enabled"] = true,
+    Function = function()
+        GuiLibrary.UpdateHudEvent:Fire()
+    end
+})
+local InterfaceOptionsButton3 = GuiLibrary.ObjectCanBeSaved["RenderWindow"]["CreateOptionsButton"]({
+    ["Name"] = "ESP",
+    ["Description"] = "The clients interface with all information",
+    ["Enabled"] = true,
+    Function = function()
+        GuiLibrary.UpdateHudEvent:Fire()
+    end
+})
+local InterfaceOptionsButton4 = GuiLibrary.ObjectCanBeSaved["RenderWindow"]["CreateOptionsButton"]({
+    ["Name"] = "FPS",
+    ["Description"] = "The clients interface with all information",
+    ["Enabled"] = true,
+    Function = function()
+        GuiLibrary.UpdateHudEvent:Fire()
+    end
+})
+local InterfaceOptionsButton5 = GuiLibrary.ObjectCanBeSaved["RenderWindow"]["CreateOptionsButton"]({
+    ["Name"] = "Click GUI",
+    ["Description"] = "The clients interface with all information",
+    ["Enabled"] = true,
+    Function = function()
+        GuiLibrary.UpdateHudEvent:Fire()
+    end
+})
+
 GuiLibrary["RemoveOptionsButton"] = function(key)
     local obj = GuiLibrary.ObjectCanBeSaved[key .. "OptionsButton"]
     if obj then
