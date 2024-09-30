@@ -554,7 +554,7 @@ local initWindowFunction = {
                     selectedcolorfilter = i6
                 end
                 for i2, v2 in pairs(colorfilterframe:GetChildren()) do
-                    if v2.Name ~= selectedcolorfilter then
+                    if v2.Name ~= selectedcolorfilter and selectedcolorfilter ~= nil then
                         tweenService:Create(v2, TweenInfo.new(0.1), {
                             BackgroundColor3 = ThemeService:darker(color[v2.Name]["Base"])
                         }):Play()
