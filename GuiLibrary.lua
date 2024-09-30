@@ -632,7 +632,6 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         if sw == v or tweeningtroll then
             return
         end
-        print("ClickDetection: Debug 2")
         task.spawn(function()
             local cs = selectedwindow:Clone()
             cs.Parent = winlist
@@ -664,8 +663,8 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 TextColor3 = Color3.new(1, 1, 1)
             }):Play()
         end)
+        tweeningtroll = true
         task.spawn(function() -- sw example: Combat, old: sw, new: v
-            tweeningtroll = true
             local newobj = GuiLibrary.ObjectCanBeSaved[v .. "Window"]["Object"]["ScrollingFrame"]
             local oldobj = GuiLibrary.ObjectCanBeSaved[sw .. "Window"]["Object"]["ScrollingFrame"]
             for i2, v2 in pairs(oldobj:GetDescendants()) do
@@ -692,11 +691,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 end
             end
             newobj.Parent.Visible = true
-            task.delay(0.15, function()
-                oldobj.Parent.Visible = false
-                tweeningtroll = false
-                print("Test 1")
-            end)
+            print("Old object tweened out")
             for i2, v2 in pairs(newobj:GetDescendants()) do
                 local property = nil
                 local value = 0
@@ -718,6 +713,11 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                     }):Play()
                 end
             end
+                print("New object tweened in")
+            task.delay(0.15, function()
+                oldobj.Parent.Visible = false
+                tweeningtroll = false
+            end)
         end)
         sw = v
     end)
