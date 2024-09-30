@@ -664,6 +664,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             }):Play()
         end)
         tweeningtroll = true
+        sw = v
         task.spawn(function() -- sw example: Combat, old: sw, new: v
             local newobj = GuiLibrary.ObjectCanBeSaved[v .. "Window"]["Object"]["ScrollingFrame"]
             local oldobj = GuiLibrary.ObjectCanBeSaved[sw .. "Window"]["Object"]["ScrollingFrame"]
@@ -717,7 +718,6 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             task.delay(0.15, function()
                 oldobj.Parent.Visible = false
                 tweeningtroll = false
-                sw = v
             end)
         end)
     end)
