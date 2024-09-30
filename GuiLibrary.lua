@@ -638,7 +638,12 @@ local function windowbuttonhandle(oldname, newname)
         end)
         selectedwindow.Position = UDim2.new(0, 20, 0, selectedpos[table.find(indexes, newname)])
         selectedwindow.ImageTransparency = 1
-        selectedwindow.Size = UDim2.new(0, selectedsize[table.find(indexes, newname)], 0, 30)
+        local px = Instance.new("GetTextBoundsParams")
+        px.Size = 18
+        px.Font = shared.RiseFonts.AppleUI
+        px.Width = 99999
+        px.Text = winbutton.New.TNTMinecart.TextLabel.Text
+        selectedwindow.Size = UDim2.new(0, 48 + textService:GetTextBoundsAsync(px).X, 0, 30)
         tweenService:Create(selectedwindow, TweenInfo.new(0.3), {
             ImageTransparency = 0
         }):Play()
