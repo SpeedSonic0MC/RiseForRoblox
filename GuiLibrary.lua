@@ -939,7 +939,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         desc.BackgroundTransparency = 1
         desc.Position = UDim2.new(0, 12, 0, 48)
         desc.Size = UDim2.new(0, 2000, 0, 14)
-        desc:SetAttribute("RiseLanguageKey", "optionsbutton." .. buttonapi.Name:lower():gsub(" ", "")[1] .. ".description")
+        desc:SetAttribute("RiseLanguageKey", "optionsbutton." .. buttonapi.Name:lower():gsub(" ", "") .. ".description")
         buttonapi["SetKeybind"] = function(key)
             buttonapi.Keybind = key
         end
