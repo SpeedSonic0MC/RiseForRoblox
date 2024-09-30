@@ -430,6 +430,9 @@ local function colortick()
             realstep = 1 - realstep
         end
         local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, realstep):Lerp(Color3.new(0, 0, 0), 0.1)
+        if table.find(GuiLibrary.DarkerThemesItems, v) then
+            color = ThemeService:darker(color)
+        end
         if v:IsA("Frame") then
             v.BackgroundColor3 = color
         elseif v:IsA("ImageLabel") or v:IsA("ImageButton") then
@@ -924,9 +927,9 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                         "</font>") .. "  <font size=\"15\" color=\"rgb(70, 66, 77)\">(" .. v .. ")</font>"
         name:SetAttribute("RiseLanguageKey", "optionsbutton." .. buttonapi.Name:lower() .. ".name")
         GuiLibrary.LanguageFunctions["OptionsButton" .. buttonapi.Name] = function(trans)
-            name.Text =
-                (buttonapi.Enabled and trans or "<font color=\"rgb(180, 180, 180)\">" .. trans ..
-                    "</font>") .. "  <font size=\"15\" color=\"rgb(70, 66, 77)\">(" .. keys["maingui.winlist." .. v:lower()] .. ")</font>"
+            name.Text = (buttonapi.Enabled and trans or "<font color=\"rgb(180, 180, 180)\">" .. trans .. "</font>") ..
+                            "  <font size=\"15\" color=\"rgb(70, 66, 77)\">(" .. keys["maingui.winlist." .. v:lower()] ..
+                            ")</font>"
         end
         name:SetAttribute("RLReplacement", "OptionsButton" .. buttonapi.Name)
         name.RichText = true
@@ -1131,6 +1134,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             local fra = Instance.new("Frame", toggledx)
             fra.BackgroundColor3 = ThemeService.Themes[GuiLibrary.Settings.Theme][1]
             table.insert(GuiLibrary.ThemesItems, fra)
+            table.insert(GuiLibrary.RainbowItems, fra)
             task.spawn(function()
                 fra.BackgroundColor3 = ThemeService.Themes[GuiLibrary.Settings.Theme][1]
             end)
@@ -1231,18 +1235,19 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             local value = Instance.new("TextButton", bg)
             value.BackgroundColor3 = ThemeService.Themes[GuiLibrary.Settings.Theme][1]
             table.insert(GuiLibrary.ThemesItems, value)
+            table.insert(GuiLibrary.RainbowItems, value)
             value.Position = UDim2.new(currentdec, 0, 0.5, 0)
             value.Text = ""
             value.Size = UDim2.new(0, 10, 0, 10)
             value.AnchorPoint = Vector2.new(0.5, 0.5)
             value.AutoButtonColor = false
             cc:Clone().Parent = value
-            local value2 = Instance.new("Frame", bg)
+            --[[local value2 = Instance.new("Frame", bg)
             value2.AnchorPoint = Vector2.new(0, 0.5)
             table.insert(GuiLibrary.DarkerThemesItems, value2)
             value2.Position = UDim2.new(0, 0, 0.5, 0)
             value2.Size = UDim2.new(currentdec, 0, 1, 0)
-            value2.ZIndex = 0
+            value2.ZIndex = 0]]
             local textinput = Instance.new("TextBox", label)
             textinput.BackgroundTransparency = 1
             textinput.Position = UDim2.new(0, 219 + textService:GetTextBoundsAsync(param).X, 0.5, 0)
@@ -1263,7 +1268,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 api.Value = math.floor(val)
                 textinput.Text = tostring(api.Value)
                 currentdec = (api.Value - api.MinValue) / (api.MaxValue - api.MinValue)
-                value2:TweenSize(UDim2.new(currentdec, 0, 1, 0), nil, nil, 0.1)
+                -- value2:TweenSize(UDim2.new(currentdec, 0, 1, 0), nil, nil, 0.1)
                 value:TweenPosition(UDim2.new(currentdec, 0, 0.5, 0), nil, nil, 0.1)
                 task.spawn(function()
                     api["Function"](api.Value)
@@ -1370,6 +1375,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             local currentdec2 = (api.Value[2] - api.MinValue) / (api.MaxValue - api.MinValue)
             local value1 = Instance.new("TextButton", bg)
             table.insert(GuiLibrary.ThemesItems, value1)
+            table.insert(GuiLibrary.RainbowItems, value1)
             value1.BackgroundColor3 = ThemeService.Themes[GuiLibrary.Settings.Theme][1]
             value1.Position = UDim2.new(currentdec1, 0, 0.5, 0)
             value1.Text = ""
@@ -1381,6 +1387,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             value2.Parent = bg
             value2.Position = UDim2.new(currentdec2, 0, 0.5, 0)
             table.insert(GuiLibrary.ThemesItems, value2)
+            table.insert(GuiLibrary.RainbowItems, value2)
             value2.BackgroundColor3 = ThemeService.Themes[GuiLibrary.Settings.Theme][1]
             local valuebackground = Instance.new("Frame", bg)
             valuebackground.AnchorPoint = Vector2.new(0, 0.5)
@@ -1697,6 +1704,9 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function()
     end
     task.spawn(function()
         local color = ThemeService.Themes[GuiLibrary.Settings.Theme][1]
+        if color == nil then
+            return
+        end -- rainbow
         for i, v in pairs(GuiLibrary.ThemesItems) do -- should only be frames
             v.BackgroundColor3 = color
         end
