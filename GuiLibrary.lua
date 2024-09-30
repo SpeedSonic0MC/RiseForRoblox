@@ -601,6 +601,7 @@ local tweeningtroll = false
 local windowdescendantstweening = false
 local selectedwindowoption = "Search"
 local function windowbuttonhandle(oldname, newname)
+    local indexes = {"Search", "Combat", "Movement", "Player", "Render", "Exploit", "Ghost", "CaS", "Themes", "Language"}
     if oldname == newname or selectedwindowoption == newname or windowdescendantstweening then return false end
     local winbutton = {
         Old = winlist[oldname],
@@ -626,9 +627,9 @@ local function windowbuttonhandle(oldname, newname)
         task.delay(0.3, function()
             cs:Destroy()
         end)
-        selectedwindow.Position = UDim2.new(0, 20, 0, selectedpos[table.find({"Search", "Combat", "Movement", "Player", "Render", "Exploit", "Ghost", "CaS", "Themes", "Language"}, newname)])
+        selectedwindow.Position = UDim2.new(0, 20, 0, selectedpos[table.find(indexes, newname)])
         selectedwindow.ImageTransparency = 1
-        selectedwindow.Size = UDim2.new(0, selectedsize[table.find({"Search", "Combat", "Movement", "Player", "Render", "Exploit", "Ghost", "CaS", "Themes", "Language"}, newname)], 0, 30)
+        selectedwindow.Size = UDim2.new(0, selectedsize[table.find(indexes, newname)], 0, 30)
         tweenService:Create(selectedwindow, TweenInfo.new(0.3), {
             ImageTransparency = 0
         }):Play()
@@ -670,7 +671,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
     lab.Size = UDim2.new(0, 2000, 0, 15)
     lab.Text = v
     lab.TextColor3 = (v == "Search" and Color3.new(1, 1, 1) or Color3.fromRGB(205, 204, 207))
-    lab.TextSize = 16
+    lab.TextSize = 18
     lab.TextXAlignment = Enum.TextXAlignment.Left
     textbtn.MouseButton1Click:Connect(function()
         windowbuttonhandle(selectedwindowoption, v)
