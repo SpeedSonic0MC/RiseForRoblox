@@ -1,0 +1,12 @@
+{
+    "maingui.winlist.search": "Search",
+    "maingui.winlist.combat": "Combat",
+    "maingui.winlist.movement": "Movement",
+    "maingui.winlist.player": "Player",
+    "maingui.winlist.render": "Render",
+    "maingui.winlist.exploit": "Exploit",
+    "maingui.winlist.ghost": "Ghost",
+    "maingui.winlist.cas": "CaS",
+    "maingui.winlist.themes": "Themes",
+    "maingui.winlist.language": "Language"
+}
