@@ -8,5 +8,7 @@
     "maingui.winlist.ghost": "Ghost",
     "maingui.winlist.cas": "CaS",
     "maingui.winlist.themes": "Themes",
-    "maingui.winlist.language": "Language"
+    "maingui.winlist.language": "Language",
+    "optionsbutton.interface.name": "Interface",
+    "optionsbutton.interface.description": "The clients interface with all information"
 }
