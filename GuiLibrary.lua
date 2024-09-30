@@ -691,12 +691,13 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 end
             end
             newobj.Parent.Visible = true
-            print("Old object tweened out")
             for i2, v2 in pairs(newobj:GetDescendants()) do
                 local property = nil
                 local value = 0
                 if v2:HasTag("NoTween") then
-                    do break end
+                    do
+                        break
+                    end
                 end
                 if v2:IsA("TextLabel") or (v2:IsA("TextButton") and v2:HasTag("SpecialTween")) or v2:IsA("TextBox") then
                     property = "TextTransparency"
@@ -713,13 +714,12 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                     }):Play()
                 end
             end
-            print("New object tweened in")
             task.delay(0.15, function()
                 oldobj.Parent.Visible = false
                 tweeningtroll = false
+                sw = v
             end)
         end)
-        sw = v
     end)
     local frame = Instance.new("Frame", windowshit)
     frame.Name = v
