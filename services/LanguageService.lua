@@ -12,7 +12,7 @@ function a:GetLanguage(key)
             setfpscap(9e9)
             return
         end
-        a.Languages[key] = HttpService:JSONDecode(b)
+        a.Languages[key] = HttpService:JSONDecode(c)
     end
     return a.Languages[key]
 end
