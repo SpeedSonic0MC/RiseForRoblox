@@ -153,6 +153,7 @@ maingui.BackgroundTransparency = 1
 maingui.Position = UDim2.new(0.5, GuiLibrary.Settings.UILocation[1], 0.5, GuiLibrary.Settings.UILocation[2])
 maingui.Size = UDim2.new(0, 828, 0, 628)
 maingui.Image = getriseasset("maingui.png")
+maingui.Name = "Main GUI Image"
 maingui.ImageColor3 = Color3.new(1, 1, 1)
 maingui.Visible = false
 maingui.ImageTransparency = 0
@@ -649,7 +650,7 @@ local function windowbuttonhandle(oldname, newname)
     -- This function hides the old window
     task.spawn(function()
         windowdescendantstweening = true
-        for i, v in pairs(winframe.Old.ScrollFrame:GetDescendants()) do
+        for i, v in pairs(winframe.Old.ScrollingFrame:GetDescendants()) do
             if not v:HasTag("NoTween") then
                 local property = nil
                 local value = 1
@@ -679,7 +680,7 @@ local function windowbuttonhandle(oldname, newname)
             -- This function shows the new window
             task.spawn(function()
                 winframe.New.Visible = true
-                for i, v in pairs(winframe.New.ScrollFrame:GetDescendants()) do
+                for i, v in pairs(winframe.New.ScrollingFrame:GetDescendants()) do
                     if not v:HasTag("NoTween") then
                         local property = nil
                         local value = 0
