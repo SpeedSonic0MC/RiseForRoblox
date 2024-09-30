@@ -529,6 +529,7 @@ local initWindowFunction = {
             local themepicker = Instance.new("TextButton", colorfilterframe)
             themepicker.BackgroundColor3 = v["Base"]
             themepicker.Size = UDim2.new(0, 102, 0, 32)
+            themepicker.AutoButtonColor = false
             themepicker.Name = i6
             themepicker.Position = UDim2.new(0, ({0, 117, 234, 350, 467})[i], 0, newline and 48 or 0)
             themepicker.Text = ""
@@ -746,7 +747,9 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
     uilistlayout.SortOrder = Enum.SortOrder.Name
     uilistlayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
     if initWindowFunction[v] then
-        initWindowFunction[v](scrframe)
+        task.spawn(function()
+            initWindowFunction[v](scrframe)
+        end)
     end
     windowapi["CreateOptionsButton"] = function(argsmaintable)
         local buttonapi = {
