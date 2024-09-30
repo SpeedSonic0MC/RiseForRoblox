@@ -480,7 +480,7 @@ local initWindowFunction = {
         textl.BackgroundTransparency = 1
         textl.TextColor3 = Color3.fromRGB(139, 140, 144)
         local colorfilterframe = Instance.new("Frame", frame)
-        colorfilterframe.Position = UDim2.new(0.5, 0, 0, 89)
+        colorfilterframe.Position = UDim2.new(0.5, 0, 0, 70)
         colorfilterframe.AnchorPoint = Vector2.new(0.5, 0)
         colorfilterframe:AddTag("NoTween")
         colorfilterframe.BackgroundTransparency = 1
@@ -553,7 +553,7 @@ local initWindowFunction = {
                     selectedcolorfilter = i6
                 end
                 for i2, v2 in pairs(colorfilterframe:GetChildren()) do
-                    if v2.Name == selectedcolorfilter then
+                    if v2.Name ~= selectedcolorfilter then
                         tweenService:Create(v2, TweenInfo.new(0.1), {
                             BackgroundColor3 = ThemeService:darker(color[v2.Name]["Base"])
                         }):Play()
@@ -569,7 +569,7 @@ local initWindowFunction = {
         themesframe:AddTag("NoTween")
         themesframe.BackgroundTransparency = 1
         themesframe.AnchorPoint = Vector2.new(0.5, 0)
-        themesframe.Position = UDim2.new(0.5, 0, 0, 208)
+        themesframe.Position = UDim2.new(0.5, 0, 0, 190)
     end
 }
 local selectedwindow = Instance.new("ImageLabel", winlist)
@@ -912,6 +912,12 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         name.FontFace = shared.RiseFonts.AppleUISemibold
         name.Text = (buttonapi.Enabled and buttonapi.Name or "<font color=\"rgb(180, 180, 180)\">" .. buttonapi.Name ..
                         "</font>") .. "  <font size=\"15\" color=\"rgb(70, 66, 77)\">(" .. v .. ")</font>"
+        name:SetAttribute("RiseLanguageKey", "optionsbutton." .. buttonapi.Name:lower() .. ".name")
+        name:SetAttribute("RLReplacement", function(trans)
+            name.Text =
+                (buttonapi.Enabled and trans or "<font color=\"rgb(180, 180, 180)\">" .. trans ..
+                    "</font>") .. "  <font size=\"15\" color=\"rgb(70, 66, 77)\">(" .. keys["maingui.winlist." .. v:lower()] .. ")</font>"
+        end)
         name.RichText = true
         name.TextColor3 = Color3.new(1, 1, 1)
         table.insert(GuiLibrary.GradientItems, name)
@@ -926,6 +932,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         desc.BackgroundTransparency = 1
         desc.Position = UDim2.new(0, 12, 0, 48)
         desc.Size = UDim2.new(0, 2000, 0, 14)
+        desc:SetAttribute("RiseLanguageKey", "optionsbutton." .. buttonapi.Name:lower():gsub(" ", "")[1] .. ".description")
         buttonapi["SetKeybind"] = function(key)
             buttonapi.Keybind = key
         end
@@ -1689,6 +1696,11 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function()
     keys = Lang:GetLanguage(GuiLibrary.Settings.Language)
     for i, v in pairs(GuiLibrary.TranslateItems) do
         if v == nil then
+            return
+        end
+        local funcattr = v:GetAttribute("RLReplacement")
+        if funcattr then
+            funcattr()
             return
         end
         local attr = v:GetAttribute("RiseLanguageKey")
