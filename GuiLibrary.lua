@@ -598,6 +598,50 @@ table.insert(GuiLibrary.RainbowItems, shader)
 local cr = Instance.new("UICorner", shader)
 cr.CornerRadius = UDim.new(1, 0)
 local tweeningtroll = false
+local windowdescendantstweening = false
+local selectedwindowoption = "Search"
+local function windowbuttonhandle(oldname, newname)
+    if oldname == newname or selectedwindowoption == newname or windowdescendantstweening then return false end
+    local winbutton = {
+        Old = winlist[oldname],
+        New = winlist[newname]
+    }
+    local winframe = {
+        Old = windowshit[oldname],
+        New = windowshit[newname]
+    }
+    task.spawn(function()
+        local cs = selectedwindow:Clone()
+        cs.Parent = winlist
+        tweenService:Create(cs, TweenInfo.new(0.3), {
+            ImageTransparency = 1
+        }):Play()
+        tweenService:Create(winbutton.Old.TNTMinecart, TweenInfo.new(0.3), {
+            Position = UDim2.new(0, 24, 0.5, 0);
+            TextColor3 = Color3.fromRGB(205, 204, 207)
+        }):Play()
+        tweenService:Create(winbutton.Old.TNTMinecart:FindFirstChildWhichIsA("TextLabel"), TweenInfo.new(0.3), {
+            TextColor3 = Color3.fromRGB(205, 204, 207)
+        }):Play()
+        task.delay(0.3, function()
+            cs:Destroy()
+        end)
+        selectedwindow.Position = UDim2.new(0, 20, 0, selectedpos[i])
+        selectedwindow.ImageTransparency = 1
+        selectedwindow.Size = UDim2.new(0, selectedsize[i], 0, 30)
+        tweenService:Create(selectedwindow, TweenInfo.new(0.3), {
+            ImageTransparency = 0
+        }):Play()
+        tweenService:Create(winbutton.New.TNTMinecart, TweenInfo.new(0.3), {
+            Position = UDim2.new(0, 32, 0.5, 0),
+            TextColor3 = Color3.new(1, 1, 1)
+        }):Play()
+        tweenService:Create(winbutton.New.TNTMinecart.TextLabel, TweenInfo.new(0.3), {
+            TextColor3 = Color3.new(1, 1, 1)
+        }):Play()
+    end)
+    selectedwindowoption = newname
+end
 for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit", "Ghost", "CaS", "Themes", "Language"}) do
     local textbtn = Instance.new("TextButton", winlist)
     textbtn.BackgroundTransparency = 1
@@ -615,7 +659,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
     cart.FontFace = shared.RiseFonts["Icon" .. tostring(({"a", "b", "c"})[icon[v][1]])]
     cart.TextSize = 17
     cart.Text = icon[v][2]
-    cart.TextColor3 = (v == "Search" and Color3.new(1, 1, 1) or Color3.fromRGB(170, 170, 170))
+    cart.TextColor3 = (v == "Search" and Color3.new(1, 1, 1) or Color3.fromRGB(205, 204, 207))
     cart.TextXAlignment = Enum.TextXAlignment.Left
     cart.TextYAlignment = Enum.TextYAlignment.Center
     local lab = Instance.new("TextLabel", cart)
@@ -625,11 +669,12 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
     lab.Position = UDim2.new(1, 7, 0.5, 0)
     lab.Size = UDim2.new(0, 2000, 0, 15)
     lab.Text = v
-    lab.TextColor3 = (v == "Search" and Color3.new(1, 1, 1) or Color3.fromRGB(170, 170, 170))
+    lab.TextColor3 = (v == "Search" and Color3.new(1, 1, 1) or Color3.fromRGB(205, 204, 207))
     lab.TextSize = 16
     lab.TextXAlignment = Enum.TextXAlignment.Left
     textbtn.MouseButton1Click:Connect(function()
-        if sw == v or tweeningtroll then
+        windowbuttonhandle(selectedwindowoption, v)
+        --[[if sw == v or tweeningtroll then
             return
         end
         task.spawn(function()
@@ -719,7 +764,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 tweeningtroll = false
             end)
         end)
-        sw = v
+        sw = v]]
     end)
     local frame = Instance.new("Frame", windowshit)
     frame.Name = v
