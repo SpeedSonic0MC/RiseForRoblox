@@ -29,7 +29,8 @@ local GuiLibrary = {
     ThemesItems = {},
     DarkerThemesItems = {},
     Loaded = false,
-    TranslateItems = {}
+    TranslateItems = {},
+    LanguageFunctions = {}
 }
 local guitweening = false
 local vis = false
@@ -918,11 +919,12 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         name.Text = (buttonapi.Enabled and buttonapi.Name or "<font color=\"rgb(180, 180, 180)\">" .. buttonapi.Name ..
                         "</font>") .. "  <font size=\"15\" color=\"rgb(70, 66, 77)\">(" .. v .. ")</font>"
         name:SetAttribute("RiseLanguageKey", "optionsbutton." .. buttonapi.Name:lower() .. ".name")
-        name:SetAttribute("RLReplacement", function(trans)
+        GuiLibrary.LanguageFunctions["OptionsButton" .. buttonapi.Name] = function(trans)
             name.Text =
                 (buttonapi.Enabled and trans or "<font color=\"rgb(180, 180, 180)\">" .. trans ..
                     "</font>") .. "  <font size=\"15\" color=\"rgb(70, 66, 77)\">(" .. keys["maingui.winlist." .. v:lower()] .. ")</font>"
-        end)
+        end
+        name:SetAttribute("RLReplacement", "OptionsButton" .. buttonapi.Name)
         name.RichText = true
         name.TextColor3 = Color3.new(1, 1, 1)
         table.insert(GuiLibrary.GradientItems, name)
@@ -1705,7 +1707,7 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function()
         end
         local funcattr = v:GetAttribute("RLReplacement")
         if funcattr then
-            funcattr()
+            GuiLibrary.LanguageFunctions[funcattr]()
             return
         end
         local attr = v:GetAttribute("RiseLanguageKey")
