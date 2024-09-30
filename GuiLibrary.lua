@@ -14,7 +14,8 @@ local GuiLibrary = {
         RemoveSpaces = false,
         InformationType = "Rise",
         UILocation = {0, 0},
-        Theme = "Water"
+        Theme = "Water",
+        Language = "en"
     },
     Assets = {
         ["logo.png"] = "rbxassetid://128089542278367",
@@ -27,7 +28,8 @@ local GuiLibrary = {
     RainbowItems = {},
     ThemesItems = {},
     DarkerThemesItems = {},
-    Loaded = false
+    Loaded = false,
+    TranslateItems = {}
 }
 local guitweening = false
 local vis = false
@@ -146,6 +148,7 @@ if Enum.KeyCode[GuiLibrary.Settings.Keybind] == nil then
 end
 local ThemeService = shared.Rise:GetService("ColorService")
 local Lang = shared.Rise:GetService("LanguageService")
+local keys = Lang:GetLanguage(GuiLibrary.Settings.Language)
 GuiLibrary["UpdateHudEvent"] = Instance.new "BindableEvent"
 local maingui = Instance.new("ImageLabel", gui)
 maingui.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -474,6 +477,7 @@ local initWindowFunction = {
         textl.TextSize = 18
         textl.FontFace = shared.RiseFonts.AppleUI
         textl.TextXAlignment = Enum.TextXAlignment.Right
+        textl.BackgroundTransparency = 1
         textl.TextColor3 = Color3.fromRGB(139, 140, 144)
         local colorfilterframe = Instance.new("Frame", frame)
         colorfilterframe.Position = UDim2.new(0.5, 0, 0, 89)
@@ -726,10 +730,12 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
     cart.Size = UDim2.new(0, 17, 0, 17)
     cart.FontFace = shared.RiseFonts["Icon" .. tostring(({"a", "b", "c"})[icon[v][1]])]
     cart.TextSize = 17
+    table.insert(GuiLibrary.TranslateItems, cart)
     cart.Text = icon[v][2]
     cart.TextColor3 = (v == "Search" and Color3.new(1, 1, 1) or Color3.fromRGB(205, 204, 207))
     cart.TextXAlignment = Enum.TextXAlignment.Left
     cart.TextYAlignment = Enum.TextYAlignment.Center
+    cart:SetAttribute("RiseLanguageKey", "maingui.winlist." .. v:lower())
     local lab = Instance.new("TextLabel", cart)
     lab.AnchorPoint = Vector2.new(0, 0.5)
     lab.FontFace = shared.RiseFonts.AppleUI
@@ -1680,6 +1686,19 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function()
             v.BackgroundColor3 = ThemeService:darker(color)
         end
     end)
+    keys = Lang:GetLanguage(GuiLibrary.Settings.Language)
+    for i, v in pairs(GuiLibrary.TranslateItems) do
+        if v == nil then
+            return
+        end
+        local attr = v:GetAttribute("RiseLanguageKey")
+        if attr then
+            local value = keys[attr]
+            if value then
+                v.Text = value
+            end
+        end
+    end
 end)
 local InterfaceOptionsButton = GuiLibrary.ObjectCanBeSaved["RenderWindow"]["CreateOptionsButton"]({
     ["Name"] = "Interface",
