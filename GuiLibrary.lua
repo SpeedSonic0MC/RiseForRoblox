@@ -626,9 +626,9 @@ local function windowbuttonhandle(oldname, newname)
         task.delay(0.3, function()
             cs:Destroy()
         end)
-        selectedwindow.Position = UDim2.new(0, 20, 0, selectedpos[i])
+        selectedwindow.Position = UDim2.new(0, 20, 0, selectedpos[table.find({"Search", "Combat", "Movement", "Player", "Render", "Exploit", "Ghost", "CaS", "Themes", "Language"}, newname)])
         selectedwindow.ImageTransparency = 1
-        selectedwindow.Size = UDim2.new(0, selectedsize[i], 0, 30)
+        selectedwindow.Size = UDim2.new(0, selectedsize[table.find({"Search", "Combat", "Movement", "Player", "Render", "Exploit", "Ghost", "CaS", "Themes", "Language"}, newname)], 0, 30)
         tweenService:Create(selectedwindow, TweenInfo.new(0.3), {
             ImageTransparency = 0
         }):Play()
