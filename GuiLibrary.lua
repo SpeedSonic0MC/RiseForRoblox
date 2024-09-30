@@ -627,10 +627,11 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
     lab.TextColor3 = (v == "Search" and Color3.new(1, 1, 1) or Color3.fromRGB(170, 170, 170))
     lab.TextSize = 16
     lab.TextXAlignment = Enum.TextXAlignment.Left
-    textbtn.MouseButton1Click:Connect(function()
+    textbtn.MouseButton1Click:Connect(function()print("ClickDetection: Debug 1")
         if sw == v or tweeningtroll then
             return
         end
+        print("ClickDetection: Debug 2")
         task.spawn(function()
             local cs = selectedwindow:Clone()
             cs.Parent = winlist
@@ -662,6 +663,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 TextColor3 = Color3.new(1, 1, 1)
             }):Play()
         end)
+        print("ClickDetection: Debug 3")
         task.spawn(function() -- sw example: Combat, old: sw, new: v
             tweeningtroll = true
             local newobj = GuiLibrary.ObjectCanBeSaved[v .. "Window"]["Object"]["ScrollingFrame"]
@@ -677,8 +679,8 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 elseif (v2:IsA("TextButton") or v2:IsA("Frame")) and
                     (not v2:HasTag("NoTween") and not v2:HasTag("SpecialTween")) then
                     property = "BackgroundTransparency"
-                --[[elseif v2:IsA("UIStroke") then
-                    property = "Transparency"]]
+                elseif v2:IsA("UIStroke") then
+                    property = "Transparency"
                 end
                 if property ~= nil then
                     tweenService:Create(v2, TweenInfo.new(0.15), {
@@ -701,8 +703,8 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 elseif (v2:IsA("TextButton") or v2:IsA("Frame")) and
                     (not v2:HasTag("NoTween") and not v2:HasTag("SpecialTween")) then
                     property = "BackgroundTransparency"
-                --[[elseif v2:IsA("UIStroke") then
-                    property = "Transparency"]]
+                elseif v2:IsA("UIStroke") then
+                    property = "Transparency"
                 end
                 if property ~= nil then
                     v2[property] = 1
@@ -713,9 +715,10 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             end
             task.delay(0.15, function()
                 oldobj.Parent.Visible = false
-            end)
             tweeningtroll = false
+            end)
         end)
+        print("ClickDetection: Debug 4")
         sw = v
     end)
     local frame = Instance.new("Frame", windowshit)
