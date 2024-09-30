@@ -696,7 +696,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 local property = nil
                 local value = 0
                 if v2:HasTag("NoTween") then
-                    return
+                    do break end
                 end
                 if v2:IsA("TextLabel") or (v2:IsA("TextButton") and v2:HasTag("SpecialTween")) or v2:IsA("TextBox") then
                     property = "TextTransparency"
@@ -713,7 +713,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                     }):Play()
                 end
             end
-                print("New object tweened in")
+            print("New object tweened in")
             task.delay(0.15, function()
                 oldobj.Parent.Visible = false
                 tweeningtroll = false
