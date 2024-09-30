@@ -664,7 +664,6 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             }):Play()
         end)
         tweeningtroll = true
-        sw = v
         task.spawn(function() -- sw example: Combat, old: sw, new: v
             local newobj = GuiLibrary.ObjectCanBeSaved[v .. "Window"]["Object"]["ScrollingFrame"]
             local oldobj = GuiLibrary.ObjectCanBeSaved[sw .. "Window"]["Object"]["ScrollingFrame"]
@@ -720,6 +719,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 tweeningtroll = false
             end)
         end)
+        sw = v
     end)
     local frame = Instance.new("Frame", windowshit)
     frame.Name = v
