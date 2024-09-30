@@ -523,7 +523,8 @@ local initWindowFunction = {
         } -- colors filter themes: ThemeService.ColorFilters[COLOR]
         local selectedcolorfilter = nil
         for i6, v in color do
-            local i = table.find({"Red", "Orange", "Yellow", "Lime", "DarkGreen", "Aqua", "DarkBlue", "Purple", "Pink", "Gray"}, i6)
+            local i = table.find({"Red", "Orange", "Yellow", "Lime", "DarkGreen", "Aqua", "DarkBlue", "Purple", "Pink",
+                                  "Gray"}, i6)
             local newline = i > 5
             i = i > 5 and i - 5 or i
             local themepicker = Instance.new("TextButton", colorfilterframe)
@@ -627,7 +628,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
     lab.TextColor3 = (v == "Search" and Color3.new(1, 1, 1) or Color3.fromRGB(170, 170, 170))
     lab.TextSize = 16
     lab.TextXAlignment = Enum.TextXAlignment.Left
-    textbtn.MouseButton1Click:Connect(function()print("ClickDetection: Debug 1")
+    textbtn.MouseButton1Click:Connect(function()
         if sw == v or tweeningtroll then
             return
         end
@@ -663,7 +664,6 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 TextColor3 = Color3.new(1, 1, 1)
             }):Play()
         end)
-        print("ClickDetection: Debug 3")
         task.spawn(function() -- sw example: Combat, old: sw, new: v
             tweeningtroll = true
             local newobj = GuiLibrary.ObjectCanBeSaved[v .. "Window"]["Object"]["ScrollingFrame"]
@@ -715,10 +715,10 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             end
             task.delay(0.15, function()
                 oldobj.Parent.Visible = false
-            tweeningtroll = false
+                tweeningtroll = false
+                print("Test 1")
             end)
         end)
-        print("ClickDetection: Debug 4")
         sw = v
     end)
     local frame = Instance.new("Frame", windowshit)
