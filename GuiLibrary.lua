@@ -27,6 +27,7 @@ local GuiLibrary = {
     RainbowItems = {},
     ThemesItems = {},
     DarkerThemesItems = {},
+    DarkerRainbowItems = {},
     Loaded = false,
     TranslateItems = {},
     LanguageFunctions = {}
@@ -349,8 +350,8 @@ local function colortick()
             table.remove(GuiLibrary.GradientItems, i)
             return
         end
-        local accc = ThemeService.getAccentColor(GuiLibrary.Settings.Theme,
-            (v:IsA("UIGradient") and v.Parent or v).AbsolutePosition)
+        local accc = ThemeService.getAccentColor(GuiLibrary.Settings.Theme, (v:HasTag("NotAffectedByYPos") and
+            UDim2.new(0, 0, 0, 0) or (v:IsA("UIGradient") and v.Parent or v).AbsolutePosition))
         if v:IsA("Frame") then
             v.BackgroundColor3 = accc
         elseif v:IsA("ImageLabel") or v:IsA("ImageButton") then
@@ -369,8 +370,28 @@ local function colortick()
         if GuiLibrary.Settings.Theme ~= "Rainbow" then
             return
         end
-        local accc = ThemeService.getAccentColor(GuiLibrary.Settings.Theme,
-            (v:IsA("UIGradient") and v.Parent or v).AbsolutePosition)
+        local accc = ThemeService.getAccentColor(GuiLibrary.Settings.Theme, (v:HasTag("NotAffectedByYPos") and
+            UDim2.new(0, 0, 0, 0) or (v:IsA("UIGradient") and v.Parent or v).AbsolutePosition))
+        if v:IsA("Frame") then
+            v.BackgroundColor3 = accc
+        elseif v:IsA("ImageLabel") or v:IsA("ImageButton") then
+            v.ImageColor3 = accc
+        elseif v:IsA("TextLabel") or v:IsA("TextButton") then
+            v.TextColor3 = accc
+        elseif v:IsA("UIGradient") then
+            v.Color = ColorSequence.new(accc)
+        end
+    end
+    for i, v in pairs(GuiLibrary.DarkerRainbowItems) do
+        if v == nil then
+            table.remove(GuiLibrary.DarkerRainbowItems, i)
+            return
+        end
+        if GuiLibrary.Settings.Theme ~= "Rainbow" then
+            return
+        end
+        local accc = ThemeService:darker(ThemeService.getAccentColor(GuiLibrary.Settings.Theme, (v:HasTag("NotAffectedByYPos") and
+            UDim2.new(0, 0, 0, 0) or (v:IsA("UIGradient") and v.Parent or v).AbsolutePosition)))
         if v:IsA("Frame") then
             v.BackgroundColor3 = accc
         elseif v:IsA("ImageLabel") or v:IsA("ImageButton") then
@@ -1334,6 +1355,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             valuebackground.Size = UDim2.new(currentdec2 - currentdec1, 0, 1, 0)
             valuebackground.ZIndex = 0
             table.insert(GuiLibrary.DarkerThemesItems, valuebackground)
+            table.insert(GuiLibrary.DarkerRainbowItems, valuebackground)
             local textinput = Instance.new("TextBox", label)
             textinput.BackgroundTransparency = 1
             textinput.Position = UDim2.new(0, 219 + textService:GetTextBoundsAsync(param).X, 0.5, 0)
