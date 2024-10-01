@@ -380,11 +380,48 @@ local function t()
         end
     end
 end
-local function colortick() -- soon tm cuz new system breaks
+local function colortick()
+    for i, v in pairs(GuiLibrary.GradientItems) do
+        if v == nil then
+            table.remove(GuiLibrary.GradientItems, i)
+            return
+        end
+        local accc = ThemeService.getAccentColor(GuiLibrary.Settings.Theme,
+            (v:IsA("UIGradient") and v.Parent or v).AbsolutePosition)
+        if v:IsA("Frame") then
+            v.BackgroundColor3 = accc
+        elseif v:IsA("ImageLabel") or v:IsA("ImageButton") then
+            v.ImageColor3 = accc
+        elseif v:IsA("TextLabel") or v:IsA("TextButton") then
+            v.TextColor3 = accc
+        elseif v:IsA("UIGradient") then
+            v.Color = ColorSequence.new(accc)
+        end
+    end
+    for i, v in pairs(GuiLibrary.RainbowItems) do
+        if v == nil then
+            table.remove(GuiLibrary.RainbowItems, i)
+            return
+        end
+        if GuiLibrary.Settings.Theme ~= "Rainbow" then
+            return
+        end
+        local accc = ThemeService.getAccentColor(GuiLibrary.Settings.Theme,
+            (v:IsA("UIGradient") and v.Parent or v).AbsolutePosition)
+        if v:IsA("Frame") then
+            v.BackgroundColor3 = accc
+        elseif v:IsA("ImageLabel") or v:IsA("ImageButton") then
+            v.ImageColor3 = accc
+        elseif v:IsA("TextLabel") or v:IsA("TextButton") then
+            v.TextColor3 = accc
+        elseif v:IsA("UIGradient") then
+            v.Color = ColorSequence.new(accc)
+        end
+    end
 end
 task.spawn(function()
     repeat
-        t()
+        colortick()
         task.wait()
     until not GuiLibrary
 end)

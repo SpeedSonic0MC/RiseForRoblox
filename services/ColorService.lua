@@ -151,4 +151,36 @@ Themes["getBlendFactor"] = function(screenCoordinates)
     return math.sin(DateTime.now().UnixTimestampMillis / 600.0 + screenCoordinates.X * 0.005 + screenCoordinates.Y *
                         0.06) * 0.5 + 0.5
 end
+Themes["mixColors"] = function(color1, color2, percent)
+    local inverse_percent = 1.0 - percent
+    local redPart = (color1.R * 255) * percent + (color2.R * 255) * inverse_percent
+    local greenPart = (color1.G * 255) * percent + (color2.G * 255) * inverse_percent
+    local bluePart = (color1.B * 255) * percent + (color2.B * 255) * inverse_percent
+    return Color3.fromRGB(redPart, greenPart, bluePart)
+end
+Themes["getAccentColor"] = function(theme, screenCoordinates)
+    if not theme or not Themes.Themes[theme] then
+        return false
+    end
+    local th = Themes.Themes[theme]
+    if theme ~= "Rainbow" then
+        if #th == 1 then
+            return th[1]
+        end -- Static theme, nothing to blend
+        if #th == 3 then
+            local blendFactor = Themes.getBlendFactor(screenCoordinates)
+            if blendFactor <= 0.5 then
+                return Themes.mixColors(th[2], th[1], blendFactor * 2)
+            else
+                return Themes.mixColors(th[3], th[2], (blendFactor - 0.5) * 2)
+            end
+        end
+        return Themes.mixColors(th[1], th[2], Themes.getBlendFactor(screenCoordinates))
+    else
+        local delay = screenCoordinates.X + screenCoordinates.Y * 10
+        local rainbowState = math.ceil((DateTime.now().UnixTimestampMillis + delay) / 10.0)
+        rainbowState = rainbowState % 360
+        return Color3.fromHSV(rainbowState / 360.0, 0.6, 1)
+    end
+end
 return Themes
