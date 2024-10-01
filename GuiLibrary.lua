@@ -297,7 +297,7 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
         t.Size = UDim2.new(0, size - 75, 0, 14)
         t.FontFace = shared.RiseFonts.AppleUIBold
         t.Text = title
-        t.TextColor3 = ThemeService.Themes[GuiLibrary.Settings.Theme][1]
+        t.TextColor3 = ThemeService.Themes[GuiLibrary.Settings.Theme][1] or Color3.new(1, 1, 1)
         table.insert(GuiLibrary.RainbowItems, t)
         t.TextSize = 15
         t.TextXAlignment = Enum.TextXAlignment.Left
@@ -381,72 +381,11 @@ local function t()
         end
     end
 end
-local function colortick()
-    if step >= 1 then
-        reverse = not reverse
-        step = 0
-    end
-    local defaultyprogress = reverse and 1 - step or step
-    step = step + 0.005
-    local itemstohavegradient = table.clone(GuiLibrary.GradientItems)
-    local itemstohaverainbow = table.clone(GuiLibrary.RainbowItems)
-    table.sort(itemstohavegradient, function(a, b)
-        local aabsolutey = a:IsA("UIGradient") and a.Parent.AbsolutePosition.Y or a.AbsolutePosition.Y
-        local babsolutey = b:IsA("UIGradient") and b.Parent.AbsolutePosition.Y or b.AbsolutePosition.Y
-        return aabsolutey < babsolutey
-    end)
-    table.sort(itemstohaverainbow, function(a, b)
-        local aabsolutey = a:IsA("UIGradient") and a.Parent.AbsolutePosition.Y or a.AbsolutePosition.Y
-        local babsolutey = b:IsA("UIGradient") and b.Parent.AbsolutePosition.Y or b.AbsolutePosition.Y
-        return aabsolutey < babsolutey
-    end)
-    for i, v in pairs(itemstohavegradient) do
-        if v == nil then
-            return
-        end
-        local indexval = i * 0.1
-        local realstep = defaultyprogress + indexval
-        if realstep > 1 then
-            realstep = 1 - (realstep - 1)
-        end
-        local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, realstep):Lerp(Color3.new(0, 0, 0), 0.1)
-        if v:IsA("Frame") then
-            v.BackgroundColor3 = color
-        elseif v:IsA("ImageLabel") or v:IsA("ImageButton") then
-            v.ImageColor3 = color
-        elseif v:IsA("TextLabel") or v:IsA("TextButton") then
-            v.TextColor3 = color
-        elseif v:IsA("UIGradient") then
-            v.Color = ColorSequence.new(color)
-        end
-    end
-    for i, v in pairs(itemstohaverainbow) do
-        if v == nil or GuiLibrary.Settings.Theme ~= "Rainbow" then
-            return
-        end
-        local indexval = i * 0.1
-        local realstep = defaultyprogress + indexval
-        if realstep > 1 then
-            realstep = 1 - realstep
-        end
-        local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, realstep):Lerp(Color3.new(0, 0, 0), 0.1)
-        if table.find(GuiLibrary.DarkerThemesItems, v) then
-            color = ThemeService:darker(color)
-        end
-        if v:IsA("Frame") then
-            v.BackgroundColor3 = color
-        elseif v:IsA("ImageLabel") or v:IsA("ImageButton") then
-            v.ImageColor3 = color
-        elseif v:IsA("TextLabel") or v:IsA("TextButton") then
-            v.TextColor3 = color
-        elseif v:IsA("UIGradient") then
-            v.Color = ColorSequence.new(color)
-        end
-    end
+local function colortick() -- soon tm cuz new system breaks
 end
 task.spawn(function()
     repeat
-        colortick()
+        t()
         task.wait()
     until not GuiLibrary
 end)
