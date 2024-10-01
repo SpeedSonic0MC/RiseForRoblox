@@ -20,7 +20,6 @@ local GuiLibrary = {
     Assets = {
         ["logo.png"] = "rbxassetid://128089542278367",
         ["maingui.png"] = "rbxassetid://138942713766181",
-        ["Notification.png"] = "rbxassetid://104510745030330",
         ["Window.png"] = "rbxassetid://78059882197728"
     },
     Version = "6.1.30",
@@ -527,6 +526,7 @@ selectedwindow.Size = UDim2.new(0, selectedsize[1], 0, 30)
 selectedwindow.ZIndex = 0
 selectedwindow.ScaleType = Enum.ScaleType.Slice
 selectedwindow.SliceScale = 1
+selectedwindow:AddTag("NotAffectedByYPos")
 selectedwindow.Name = "SelectedWindow"
 selectedwindow.SliceCenter = Rect.new(Vector2.new(9, 0), Vector2.new(21, 30))
 table.insert(GuiLibrary.GradientItems, selectedwindow)
