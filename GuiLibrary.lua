@@ -351,7 +351,7 @@ local function colortick()
             return
         end
         local accc = ThemeService.getAccentColor(GuiLibrary.Settings.Theme, (v:HasTag("NotAffectedByYPos") and
-            UDim2.new(0, 0, 0, 0) or (v:IsA("UIGradient") and v.Parent or v).AbsolutePosition))
+            UDim.new(0, 0) or (v:IsA("UIGradient") and v.Parent or v).AbsolutePosition))
         if v:IsA("Frame") then
             v.BackgroundColor3 = accc
         elseif v:IsA("ImageLabel") or v:IsA("ImageButton") then
