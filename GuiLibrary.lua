@@ -343,43 +343,6 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
 end
 local reverse = true
 local step = 0
-local function t()
-    if step >= 1 then
-        reverse = not reverse
-        step = 0
-    end
-    local rlpg = reverse and 1 - step or step
-    local color = ThemeService:GetColorValue(GuiLibrary.Settings.Theme, rlpg):Lerp(Color3.new(0, 0, 0), 0.1)
-    step = step + 0.005
-    for i, v in pairs(GuiLibrary.GradientItems) do
-        if v == nil then
-            return
-        end
-        if v:IsA("Frame") then
-            v.BackgroundColor3 = color
-        elseif v:IsA("ImageLabel") or v:IsA("ImageButton") then
-            v.ImageColor3 = color
-        elseif v:IsA("TextLabel") or v:IsA("TextButton") then
-            v.TextColor3 = color
-        elseif v:IsA("UIGradient") then
-            v.Color = ColorSequence.new(color)
-        end
-    end
-    for i, v in pairs(GuiLibrary.RainbowItems) do
-        if v == nil or GuiLibrary.Settings.Theme ~= "Rainbow" then
-            return
-        end
-        if v:IsA("Frame") then
-            v.BackgroundColor3 = color
-        elseif v:IsA("ImageLabel") or v:IsA("ImageButton") then
-            v.ImageColor3 = color
-        elseif v:IsA("TextLabel") or v:IsA("TextButton") then
-            v.TextColor3 = color
-        elseif v:IsA("UIGradient") then
-            v.Color = ColorSequence.new(color)
-        end
-    end
-end
 local function colortick()
     for i, v in pairs(GuiLibrary.GradientItems) do
         if v == nil then

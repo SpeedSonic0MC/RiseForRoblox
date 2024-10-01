@@ -180,6 +180,7 @@ Themes["getAccentColor"] = function(theme, screenCoordinates)
         local delay = screenCoordinates.X + screenCoordinates.Y * 10
         local rainbowState = math.ceil((DateTime.now().UnixTimestampMillis + delay) / 10.0)
         rainbowState = rainbowState % 360
+        print(delay, rainbowState)
         return Color3.fromHSV(rainbowState / 360.0, 0.6, 1)
     end
 end
