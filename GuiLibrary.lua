@@ -935,7 +935,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             options.AutomaticSize = options.AutomaticSize == Enum.AutomaticSize.None and Enum.AutomaticSize.Y or
                                         Enum.AutomaticSize.None
             buttonobj:TweenSize(UDim2.new(0, 566, 0, (options.AutomaticSize == Enum.AutomaticSize.None and 75 or
-                (options.AbsoluteSize.X ~= 0 and (85 + options.AbsoluteSize.Y) or 75))), nil, nil, 0.1)
+                (options.AbsoluteSize.Y ~= 0 and (85 + options.AbsoluteSize.Y) or 75))), nil, nil, 0.1)
             for i2, v2 in pairs(options:GetDescendants()) do
                 local prop = ""
                 if v2:IsA("TextLabel") or v2:IsA("TextButton") or v2:IsA("TextBox") then
