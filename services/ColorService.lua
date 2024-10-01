@@ -163,12 +163,12 @@ Themes["getAccentColor"] = function(theme, screenCoordinates)
         return false
     end
     local th = Themes.Themes[theme]
+    local blendFactor = Themes.getBlendFactor(screenCoordinates)
     if theme ~= "Rainbow" then
         if #th == 1 then
             return th[1]
         end -- Static theme, nothing to blend
         if #th == 3 then
-            local blendFactor = Themes.getBlendFactor(screenCoordinates)
             if blendFactor <= 0.5 then
                 return Themes.mixColors(th[2], th[1], blendFactor * 2)
             else
@@ -177,11 +177,7 @@ Themes["getAccentColor"] = function(theme, screenCoordinates)
         end
         return Themes.mixColors(th[1], th[2], Themes.getBlendFactor(screenCoordinates))
     else
-        local delay = screenCoordinates.X + screenCoordinates.Y * 10
-        local rainbowState = math.ceil((DateTime.now().UnixTimestampMillis + delay) / 10.0)
-        rainbowState = rainbowState % 360
-        print(delay, rainbowState)
-        return Color3.fromHSV(rainbowState / 360.0, 0.6, 1)
+        return Color3.fromHSV(blendFactor * 360.0, 0.6, 1)
     end
 end
 return Themes
