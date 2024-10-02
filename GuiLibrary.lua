@@ -563,7 +563,7 @@ local initWindowFunction = {
             text.TextSize = 17
         end
         for i, v in defaultorder do
-            createthemebutton(i)
+            createthemebutton(v)
         end
     end
 }
