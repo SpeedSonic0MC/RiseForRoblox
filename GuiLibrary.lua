@@ -409,7 +409,7 @@ end
 task.spawn(function()
     repeat
         colortick()
-        task.wait()
+        task.wait(1/360)
     until not GuiLibrary
 end)
 local clip = Instance.new("Frame", maingui)
@@ -552,6 +552,7 @@ local initWindowFunction = {
             themex.Image = getriseasset("theme.png")
             themex.Size = UDim2.new(0, 181, 0, 60)
             themex.Position = UDim2.new(0, xpos[themeindex % 3 + 1], 0, 114 * (themeindex % 3 ~= 0 and math.floor(themeindex / 3) or themeindex / 3 - 1))
+            themex.Name = theme
         end
     end
 }
