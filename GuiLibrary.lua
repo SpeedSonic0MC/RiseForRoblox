@@ -538,10 +538,7 @@ local initWindowFunction = {
         themesframe.AnchorPoint = Vector2.new(0.5, 0)
         themesframe.Position = UDim2.new(0.5, 0, 0, 190)
         themesframe.Size = UDim2.new(1, -14, 0, 0)
-        local defaultorder = {}
-        for i, v in pairs(ThemeService.Themes) do
-            table.insert(defaultorder, i)
-        end
+        local defaultorder = {"Aubergine", "Aqua", "Banana", "Blend", "Blossom", "Bubblegum", "Candy Cane", "Cherry", "Christmas", "Coral", "Digital Horizon", "Express", "Lime Water", "Lush", "Halogen", "Hyper", "Magic", "May", "Orange Juice", "Pastel", "Pumpkin", "Satin", "Snowy Sky", "Steel Fade", "Sundae", "Sunkist", "Water", "Legacy", "Winter", "Peony", "Shadow", "Wood", "Creida", "Creida Two", "Gothic", "Rue", "Purple", "Rainbow"}
         local function createthemebutton(theme, additionalfilter)
             additionalfilter = additionalfilter or defaultorder
             if not table.find(additionalfilter, theme) then return end
@@ -565,7 +562,7 @@ local initWindowFunction = {
             text.TextColor3 = Color3.new(1, 1, 1)
             text.TextSize = 17
         end
-        for i, v in pairs(ThemeService.Themes) do
+        for i, v in defaultorder do
             createthemebutton(i)
         end
     end
