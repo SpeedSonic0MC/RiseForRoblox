@@ -550,9 +550,20 @@ local initWindowFunction = {
             local themex = Instance.new("ImageButton", themesframe)
             themex.BackgroundTransparency = 1
             themex.Image = getriseasset("theme.png")
-            themex.Size = UDim2.new(0, 181, 0, 60)
+            themex.Size = UDim2.new(0, 181, 0, 100)
             themex.Position = UDim2.new(0, xpos[themeindex % 3 + 1], 0, 114 * (themeindex % 3 ~= 0 and math.floor(themeindex / 3) or themeindex / 3 - 1))
             themex.Name = theme
+            local colors = ThemeService:GetColorSequence(ThemeService.Themes[theme])
+            local xuigra = Instance.new("UIGradient", themex)
+            xuigra.Color = colors
+            local text = Instance.new("TextLabel")
+            text.BackgroundTransparency = 1
+            text.Position = UDim2.new(0, 0, 0, 60)
+            text.Size = UDim2.new(1, 0, 0, 40)
+            text.FontFace = shared.RiseFonts.AppleUISemibold
+            text.Text = theme
+            text.TextColor3 = Color3.new(1, 1, 1)
+            text.TextSize = 17
         end
         for i, v in pairs(ThemeService.Themes) do
             createthemebutton(i)
