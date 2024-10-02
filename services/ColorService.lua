@@ -177,7 +177,7 @@ Themes["getAccentColor"] = function(theme, screenCoordinates)
         end
         return Themes.mixColors(th[1], th[2], Themes.getBlendFactor(screenCoordinates))
     else
-        local rainbowstate = math.ceil((DateTime.now().UnixTimestampMillis + ((screenCoordinates.X + screenCoordinates.Y) * 10)) / 10)
+        local rainbowstate = math.ceil((DateTime.now().UnixTimestampMillis + ((screenCoordinates.X + screenCoordinates.Y) * 10)) / 50)
         rainbowstate = rainbowstate % 360
         return Color3.fromHSV(rainbowstate / 360.0, 0.6, 1)
     end
