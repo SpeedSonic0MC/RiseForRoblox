@@ -561,14 +561,17 @@ local initWindowFunction = {
             text.Text = theme
             text.TextColor3 = Color3.new(1, 1, 1)
             text.TextSize = 17
-            table.insert(GuiLibrary.RainbowItems, text)
             if GuiLibrary.Settings.Theme == theme then
                 text.TextColor3 = ThemeService.Themes[theme][1]
+            end
+            if theme == "Rainbow" then
+                table.insert(GuiLibrary.RainbowItems, text)
             end
             themex.MouseButton1Click:Connect(function()
                 if GuiLibrary.Settings.Theme == theme then return end
                 themesframe[theme].TextLabel.TextColor3 = Color3.new(1, 1, 1)
                 GuiLibrary.Settings.Theme = theme
+                GuiLibrary.UpdateHudEvent:Fire()
                 text.TextColor3 = ThemeService.Themes[theme][1]
             end)
         end
