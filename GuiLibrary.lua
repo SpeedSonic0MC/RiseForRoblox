@@ -554,6 +554,9 @@ local initWindowFunction = {
             themex.Position = UDim2.new(0, xpos[themeindex % 3 + 1], 0, 114 * (themeindex % 3 ~= 0 and math.floor(themeindex / 3) or themeindex / 3 - 1))
             themex.Name = theme
         end
+        for i, v in pairs(ThemeService.Themes) do
+            createthemebutton(i)
+        end
     end
 }
 local selectedwindow = Instance.new("ImageLabel", winlist)
@@ -563,7 +566,7 @@ selectedwindow.Position = UDim2.new(0, 20, 0, selectedpos[1])
 selectedwindow.Size = UDim2.new(0, selectedsize[1], 0, 30)
 selectedwindow.ZIndex = 0
 selectedwindow.ScaleType = Enum.ScaleType.Slice
-selectedwindow.ImageTransparency = .2
+selectedwindow.ImageTransparency = .25
 selectedwindow.SliceScale = 1
 selectedwindow:AddTag("NotAffectedByYPos")
 selectedwindow.Name = "SelectedWindow"
@@ -631,7 +634,7 @@ local function windowbuttonhandle(oldname, newname)
         px.Text = winbutton.New.TNTMinecart.TextLabel.Text
         selectedwindow.Size = UDim2.new(0, 48 + textService:GetTextBoundsAsync(px).X, 0, 30)
         tweenService:Create(selectedwindow, TweenInfo.new(0.3), {
-            ImageTransparency = 0.2
+            ImageTransparency = 0.25
         }):Play()
         tweenService:Create(winbutton.New.TNTMinecart, TweenInfo.new(0.3), {
             Position = UDim2.new(0, 32, 0.5, 0),
