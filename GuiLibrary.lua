@@ -1111,6 +1111,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             tdc.CornerRadius = UDim.new(1, 0)
             local fra = Instance.new("Frame", toggledx)
             fra.BackgroundColor3 = ThemeService.Themes[GuiLibrary.Settings.Theme][1]
+            fra:AddTag("NotAffectedByYPos")
             table.insert(GuiLibrary.ThemesItems, fra)
             table.insert(GuiLibrary.RainbowItems, fra)
             task.spawn(function()
@@ -1212,6 +1213,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             local currentdec = (api.Value - api.MinValue) / (api.MaxValue - api.MinValue)
             local value = Instance.new("TextButton", bg)
             value.BackgroundColor3 = ThemeService.Themes[GuiLibrary.Settings.Theme][1]
+            value:AddTag("NotAffectedByYPos")
             table.insert(GuiLibrary.ThemesItems, value)
             table.insert(GuiLibrary.RainbowItems, value)
             value.Position = UDim2.new(currentdec, 0, 0.5, 0)
@@ -1352,6 +1354,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             local currentdec1 = (api.Value[1] - api.MinValue) / (api.MaxValue - api.MinValue)
             local currentdec2 = (api.Value[2] - api.MinValue) / (api.MaxValue - api.MinValue)
             local value1 = Instance.new("TextButton", bg)
+            value1:AddTag("NotAffectedByYPos")
             table.insert(GuiLibrary.ThemesItems, value1)
             table.insert(GuiLibrary.RainbowItems, value1)
             value1.BackgroundColor3 = ThemeService.Themes[GuiLibrary.Settings.Theme][1]
@@ -1363,6 +1366,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             cc:Clone().Parent = value1
             local value2 = value1:Clone()
             value2.Parent = bg
+            value2:AddTag("NotAffectedByYPos")
             value2.Position = UDim2.new(currentdec2, 0, 0.5, 0)
             table.insert(GuiLibrary.ThemesItems, value2)
             table.insert(GuiLibrary.RainbowItems, value2)
@@ -1370,6 +1374,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             local valuebackground = Instance.new("Frame", bg)
             valuebackground.AnchorPoint = Vector2.new(0, 0.5)
             valuebackground.Position = UDim2.new(currentdec1, 0, 0.5, 0)
+            valuebackground:AddTag("NotAffectedByYPos")
             valuebackground.Size = UDim2.new(currentdec2 - currentdec1, 0, 1, 0)
             valuebackground.ZIndex = 0
             table.insert(GuiLibrary.DarkerThemesItems, valuebackground)
