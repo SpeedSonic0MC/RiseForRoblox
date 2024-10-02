@@ -32,6 +32,7 @@ local GuiLibrary = {
     TranslateItems = {},
     LanguageFunctions = {}
 }
+local languages = {"en"}
 local guitweening = false
 local vis = false
 print("Rise >> Running rise version " .. GuiLibrary.Version)
@@ -107,12 +108,14 @@ end
 local gui = Instance.new("ScreenGui", lplr.PlayerGui)
 gui.DisplayOrder = 999
 gui.Name = "Rise 6 - Main GUI"
+gui.OnTopOfCoreBlur = true
 gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 gui.ResetOnSpawn = false
 gui.SafeAreaCompatibility = Enum.SafeAreaCompatibility.None
 gui.ScreenInsets = Enum.ScreenInsets.None
 local rise2 = Instance.new("ScreenGui", lplr.PlayerGui)
 rise2.DisplayOrder = 998
+rise2.OnTopOfCoreBlur = true
 rise2.Name = "Rise 6 - HUD"
 rise2.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 rise2.ResetOnSpawn = false
@@ -535,7 +538,20 @@ local initWindowFunction = {
         themesframe.AnchorPoint = Vector2.new(0.5, 0)
         themesframe.Position = UDim2.new(0.5, 0, 0, 190)
         themesframe.Size = UDim2.new(1, -14, 0, 0)
-        local function createthemebutton(theme)
+        local defaultorder = {}
+        for i, v in pairs(ThemeService.Themes) do
+            table.insert(defaultorder, i)
+        end
+        local function createthemebutton(theme, additionalfilter)
+            additionalfilter = additionalfilter or defaultorder
+            if not table.find(additionalfilter, theme) then return end
+            local themeindex = table.find(additionalfilter, theme)
+            local xpos = {389, 0, 195}
+            local themex = Instance.new("ImageButton", themesframe)
+            themex.BackgroundTransparency = 1
+            themex.Image = getriseasset("theme.png")
+            themex.Size = UDim2.new(0, 181, 0, 60)
+            themex.Position = UDim2.new(0, xpos[themeindex % 3 + 1], 0, 114 * (themeindex % 3 ~= 0 and math.floor(themeindex / 3) or themeindex / 3 - 1))
         end
     end
 }
