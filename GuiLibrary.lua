@@ -393,8 +393,8 @@ local function colortick()
         if GuiLibrary.Settings.Theme ~= "Rainbow" then
             return
         end
-        local accc = ThemeService:darker(ThemeService.getAccentColor(GuiLibrary.Settings.Theme, (v:HasTag("NotAffectedByYPos") and
-            Vector2.new(0, 0) or (v:IsA("UIGradient") and v.Parent or v).AbsolutePosition)))
+        local accc = ThemeService:darker(ThemeService.getAccentColor(GuiLibrary.Settings.Theme, (v:HasTag(
+            "NotAffectedByYPos") and Vector2.new(0, 0) or (v:IsA("UIGradient") and v.Parent or v).AbsolutePosition)))
         if v:IsA("Frame") then
             v.BackgroundColor3 = accc
         elseif v:IsA("ImageLabel") or v:IsA("ImageButton") then
@@ -409,7 +409,7 @@ end
 task.spawn(function()
     repeat
         colortick()
-        task.wait(1/9999)
+        task.wait(1 / 9999)
     until not GuiLibrary
 end)
 local clip = Instance.new("Frame", maingui)
@@ -538,17 +538,24 @@ local initWindowFunction = {
         themesframe.AnchorPoint = Vector2.new(0.5, 0)
         themesframe.Position = UDim2.new(0.5, 0, 0, 190)
         themesframe.Size = UDim2.new(1, -14, 0, 0)
-        local defaultorder = {"Aubergine", "Aqua", "Banana", "Blend", "Blossom", "Bubblegum", "Candy Cane", "Cherry", "Christmas", "Coral", "Digital Horizon", "Express", "Lime Water", "Lush", "Halogen", "Hyper", "Magic", "May", "Orange Juice", "Pastel", "Pumpkin", "Satin", "Snowy Sky", "Steel Fade", "Sundae", "Sunkist", "Water", "Legacy", "Winter", "Peony", "Shadow", "Wood", "Creida", "Creida Two", "Gothic", "Rue", "Purple", "Rainbow"}
+        local defaultorder = {"Aubergine", "Aqua", "Banana", "Blend", "Blossom", "Bubblegum", "Candy Cane", "Cherry",
+                              "Christmas", "Coral", "Digital Horizon", "Express", "Lime Water", "Lush", "Halogen",
+                              "Hyper", "Magic", "May", "Orange Juice", "Pastel", "Pumpkin", "Satin", "Snowy Sky",
+                              "Steel Fade", "Sundae", "Sunkist", "Water", "Legacy", "Winter", "Peony", "Shadow", "Wood",
+                              "Creida", "Creida Two", "Gothic", "Rue", "Purple", "Rainbow"}
         local function createthemebutton(theme, additionalfilter)
             additionalfilter = additionalfilter or defaultorder
-            if not table.find(additionalfilter, theme) then return end
+            if not table.find(additionalfilter, theme) then
+                return
+            end
             local themeindex = table.find(additionalfilter, theme)
             local xpos = {389, 0, 195}
             local themex = Instance.new("ImageButton", themesframe)
             themex.BackgroundTransparency = 1
             themex.Image = getriseasset("theme.png")
             themex.Size = UDim2.new(0, 181, 0, 100)
-            themex.Position = UDim2.new(0, xpos[themeindex % 3 + 1], 0, 114 * (themeindex % 3 ~= 0 and math.floor(themeindex / 3) or themeindex / 3 - 1))
+            themex.Position = UDim2.new(0, xpos[themeindex % 3 + 1], 0, 114 *
+                (themeindex % 3 ~= 0 and math.floor(themeindex / 3) or themeindex / 3 - 1))
             themex.Name = theme
             local colors = ThemeService:GetColorSequence(theme)
             local xuigra = Instance.new("UIGradient", themex)
@@ -568,7 +575,9 @@ local initWindowFunction = {
                 table.insert(GuiLibrary.RainbowItems, text)
             end
             themex.MouseButton1Click:Connect(function()
-                if GuiLibrary.Settings.Theme == theme then return end
+                if GuiLibrary.Settings.Theme == theme then
+                    return
+                end
                 themesframe[theme].TextLabel.TextColor3 = Color3.new(1, 1, 1)
                 GuiLibrary.Settings.Theme = theme
                 GuiLibrary.UpdateHudEvent:Fire()
@@ -679,6 +688,8 @@ local function windowbuttonhandle(oldname, newname)
                         property = "TextTransparency"
                     elseif v:IsA("Frame") or v:IsA("TextButton") then
                         property = "BackgroundTransparency"
+                    elseif v:IsA("ImageLabel") or v:IsA("ImageButton") then
+                        property = "ImageTransparency"
                     elseif v:IsA("UIStroke") then
                         property = "Transparency"
                     end
@@ -709,6 +720,8 @@ local function windowbuttonhandle(oldname, newname)
                                 property = "TextTransparency"
                             elseif v:IsA("Frame") or v:IsA("TextButton") then
                                 property = "BackgroundTransparency"
+                            elseif v:IsA("ImageLabel") or v:IsA("ImageButton") then
+                                property = "ImageTransparency"
                             elseif v:IsA("UIStroke") then
                                 property = "Transparency"
                             end
