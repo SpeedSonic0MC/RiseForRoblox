@@ -565,6 +565,12 @@ local initWindowFunction = {
             if GuiLibrary.Settings.Theme == theme then
                 text.TextColor3 = ThemeService.Themes[theme][1]
             end
+            themex.MouseButton1Click:Connect(function()
+                if GuiLibrary.Settings.Theme == theme then return end
+                themesframe[theme].TextLabel.TextColor3 = Color3.new(1, 1, 1)
+                GuiLibrary.Settings.Theme = theme
+                text.TextColor3 = ThemeService.Themes[theme][1]
+            end)
         end
         for i, v in pairs(defaultorder) do
             createthemebutton(v)
