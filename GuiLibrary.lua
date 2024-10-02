@@ -495,6 +495,7 @@ local initWindowFunction = {
             }
         } -- colors filter themes: ThemeService.ColorFilters[COLOR]
         local selectedcolorfilter = nil
+        local updatecolors
         for i6, v in color do
             local i = table.find({"Red", "Orange", "Yellow", "Lime", "DarkGreen", "Aqua", "DarkBlue", "Purple", "Pink",
                                   "Gray"}, i6)
@@ -530,6 +531,7 @@ local initWindowFunction = {
                         }):Play()
                     end
                 end
+                updatecolors(selectedcolorfilter)
             end)
         end
         local themesframe = Instance.new("Frame", frame)
@@ -543,13 +545,13 @@ local initWindowFunction = {
                               "Hyper", "Magic", "May", "Orange Juice", "Pastel", "Pumpkin", "Satin", "Snowy Sky",
                               "Steel Fade", "Sundae", "Sunkist", "Water", "Legacy", "Winter", "Peony", "Shadow", "Wood",
                               "Creida", "Creida Two", "Gothic", "Rue", "Purple", "Rainbow"}
+        local xpos = {389, 0, 195}
         local function createthemebutton(theme, additionalfilter)
             additionalfilter = additionalfilter or defaultorder
             if not table.find(additionalfilter, theme) then
                 return
             end
             local themeindex = table.find(additionalfilter, theme)
-            local xpos = {389, 0, 195}
             local themex = Instance.new("ImageButton", themesframe)
             themex.BackgroundTransparency = 1
             themex.Image = getriseasset("theme.png")
@@ -557,6 +559,10 @@ local initWindowFunction = {
             themex.Position = UDim2.new(0, xpos[themeindex % 3 + 1], 0, 114 *
                 (themeindex % 3 ~= 0 and math.floor(themeindex / 3) or themeindex / 3 - 1))
             themex.Name = theme
+            themex.ImageTransparency = 1
+            tweenService:Create(themex, TweenInfo.new(0.2), {
+                ImageTransparency = 0
+            }):Play()
             local colors = ThemeService:GetColorSequence(theme)
             local xuigra = Instance.new("UIGradient", themex)
             xuigra.Color = colors
@@ -564,9 +570,13 @@ local initWindowFunction = {
             text.BackgroundTransparency = 1
             text.Position = UDim2.new(0, 0, 0, 60)
             text.Size = UDim2.new(1, 0, 0, 40)
-            text.FontFace = shared.RiseFonts.AppleUI
+            text.FontFace = shared.RiseFonts.AppleUISemibold
             text.Text = theme
             text.TextColor3 = Color3.new(1, 1, 1)
+            text.TextTransparency = 1
+            tweenService:Create(text, TweenInfo.new(0.2), {
+                TextTransparency = 0
+            }):Play() -- tween in
             text.TextSize = 17
             if GuiLibrary.Settings.Theme == theme then
                 text.TextColor3 = ThemeService.Themes[theme][1]
@@ -584,9 +594,56 @@ local initWindowFunction = {
                 text.TextColor3 = ThemeService.Themes[theme][1]
             end)
         end
-        for i, v in pairs(defaultorder) do
-            createthemebutton(v)
+        updatecolors = function(filter)
+            if not filter then
+                local allexistingchildrens = themesframe:GetChildren()
+                if #allexistingchildrens == 0 then
+                    for i, v in pairs(defaultorder) do
+                        createthemebutton(v)
+                    end
+                else
+                    for i, v in pairs(allexistingchildrens) do
+                        local themeindex = table.find(defaultorder, v.Name)
+                        tweenService:Create(v, TweenInfo.new(0.2), {
+                            Position = UDim2.new(0, xpos[themeindex % 3 + 1], 0, 114 *
+                                (themeindex % 3 ~= 0 and math.floor(themeindex / 3) or themeindex / 3 - 1))
+                        }):Play()
+                    end
+                    for i, v in pairs(defaultorder) do
+                        if not themesframe:FindFirstChild(v) then
+                            createthemebutton(v)
+                        end
+                    end
+                end
+            else
+                local filteredarraylist = ThemeService.ColorFilters[selectedcolorfilter]
+                for i, v in pairs(themesframe:GetChildren()) do
+                    if not table.find(filteredarraylist, v.Name) then
+                        tweenService:Create(v, TweenInfo.new(0.2), {
+                            ImageTransparency = 1
+                        }):Play()
+                        tweenService:Create(v.TextLabel, TweenInfo.new(0.2), {
+                            TextTransparency = 1
+                        }):Play()
+                        task.delay(0.2, function()
+                            v:Destroy()
+                        end)
+                    else
+                        local themeindex = table.find(filteredarraylist, v.Name)
+                        tweenService:Create(v, TweenInfo.new(0.2), {
+                            Position = UDim2.new(0, xpos[themeindex % 3 + 1], 0, 114 *
+                                (themeindex % 3 ~= 0 and math.floor(themeindex / 3) or themeindex / 3 - 1))
+                        }):Play()
+                    end
+                end
+                for i, v in pairs(filteredarraylist) do
+                    if not themesframe:FindFirstChild(v) then
+                        createthemebutton(v, filteredarraylist)
+                    end
+                end
+            end
         end
+        updatecolors(nil)
     end
 }
 local selectedwindow = Instance.new("ImageLabel", winlist)
