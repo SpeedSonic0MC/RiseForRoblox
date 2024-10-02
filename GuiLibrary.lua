@@ -409,7 +409,7 @@ end
 task.spawn(function()
     repeat
         colortick()
-        task.wait(1/360)
+        task.wait(1/999)
     until not GuiLibrary
 end)
 local clip = Instance.new("Frame", maingui)
