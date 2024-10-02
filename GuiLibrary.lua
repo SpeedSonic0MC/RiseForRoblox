@@ -553,7 +553,7 @@ local initWindowFunction = {
             themex.Size = UDim2.new(0, 181, 0, 100)
             themex.Position = UDim2.new(0, xpos[themeindex % 3 + 1], 0, 114 * (themeindex % 3 ~= 0 and math.floor(themeindex / 3) or themeindex / 3 - 1))
             themex.Name = theme
-            local colors = ThemeService:GetColorSequence(ThemeService.Themes[theme])
+            local colors = ThemeService:GetColorSequence(theme)
             local xuigra = Instance.new("UIGradient", themex)
             xuigra.Color = colors
             local text = Instance.new("TextLabel")
