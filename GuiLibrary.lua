@@ -547,51 +547,53 @@ local initWindowFunction = {
                               "Creida", "Creida Two", "Gothic", "Rue", "Purple", "Rainbow"}
         local xpos = {389, 0, 195}
         local function createthemebutton(theme, additionalfilter)
-            additionalfilter = additionalfilter or defaultorder
-            if not table.find(additionalfilter, theme) then
-                return
-            end
-            local themeindex = table.find(additionalfilter, theme)
-            local themex = Instance.new("ImageButton", themesframe)
-            themex.BackgroundTransparency = 1
-            themex.Image = getriseasset("theme.png")
-            themex.Size = UDim2.new(0, 181, 0, 100)
-            themex.Position = UDim2.new(0, xpos[themeindex % 3 + 1], 0, 114 *
-                (themeindex % 3 ~= 0 and math.floor(themeindex / 3) or themeindex / 3 - 1))
-            themex.Name = theme
-            themex.ImageTransparency = 1
-            tweenService:Create(themex, TweenInfo.new(0.2), {
-                ImageTransparency = 0
-            }):Play()
-            local colors = ThemeService:GetColorSequence(theme)
-            local xuigra = Instance.new("UIGradient", themex)
-            xuigra.Color = colors
-            local text = Instance.new("TextLabel", themex)
-            text.BackgroundTransparency = 1
-            text.Position = UDim2.new(0, 0, 0, 60)
-            text.Size = UDim2.new(1, 0, 0, 40)
-            text.FontFace = shared.RiseFonts.AppleUISemibold
-            text.Text = theme
-            text.TextColor3 = Color3.new(1, 1, 1)
-            text.TextTransparency = 1
-            tweenService:Create(text, TweenInfo.new(0.2), {
-                TextTransparency = 0
-            }):Play() -- tween in
-            text.TextSize = 17
-            if GuiLibrary.Settings.Theme == theme then
-                text.TextColor3 = ThemeService.Themes[theme][1]
-            end
-            if theme == "Rainbow" then
-                table.insert(GuiLibrary.RainbowItems, text)
-            end
-            themex.MouseButton1Click:Connect(function()
-                if GuiLibrary.Settings.Theme == theme then
+            task.spawn(function()
+                additionalfilter = additionalfilter or defaultorder
+                if not table.find(additionalfilter, theme) then
                     return
                 end
-                themesframe[GuiLibrary.Settings.Theme].TextLabel.TextColor3 = Color3.new(1, 1, 1)
-                GuiLibrary.Settings.Theme = theme
-                GuiLibrary.UpdateHudEvent:Fire()
-                text.TextColor3 = ThemeService.Themes[theme][1]
+                local themeindex = table.find(additionalfilter, theme)
+                local themex = Instance.new("ImageButton", themesframe)
+                themex.BackgroundTransparency = 1
+                themex.Image = getriseasset("theme.png")
+                themex.Size = UDim2.new(0, 181, 0, 100)
+                themex.Position = UDim2.new(0, xpos[themeindex % 3 + 1], 0, 114 *
+                    (themeindex % 3 ~= 0 and math.floor(themeindex / 3) or themeindex / 3 - 1))
+                themex.Name = theme
+                themex.ImageTransparency = 1
+                tweenService:Create(themex, TweenInfo.new(0.2), {
+                    ImageTransparency = 0
+                }):Play()
+                local colors = ThemeService:GetColorSequence(theme)
+                local xuigra = Instance.new("UIGradient", themex)
+                xuigra.Color = colors
+                local text = Instance.new("TextLabel", themex)
+                text.BackgroundTransparency = 1
+                text.Position = UDim2.new(0, 0, 0, 60)
+                text.Size = UDim2.new(1, 0, 0, 40)
+                text.FontFace = shared.RiseFonts.AppleUISemibold
+                text.Text = theme
+                text.TextColor3 = Color3.new(1, 1, 1)
+                text.TextTransparency = 1
+                tweenService:Create(text, TweenInfo.new(0.2), {
+                    TextTransparency = 0
+                }):Play() -- tween in
+                text.TextSize = 17
+                if GuiLibrary.Settings.Theme == theme then
+                    text.TextColor3 = ThemeService.Themes[theme][1]
+                end
+                if theme == "Rainbow" then
+                    table.insert(GuiLibrary.RainbowItems, text)
+                end
+                themex.MouseButton1Click:Connect(function()
+                    if GuiLibrary.Settings.Theme == theme then
+                        return
+                    end
+                    themesframe[GuiLibrary.Settings.Theme].TextLabel.TextColor3 = Color3.new(1, 1, 1)
+                    GuiLibrary.Settings.Theme = theme
+                    GuiLibrary.UpdateHudEvent:Fire()
+                    text.TextColor3 = ThemeService.Themes[theme][1]
+                end)
             end)
         end
         updatecolors = function(filter)
