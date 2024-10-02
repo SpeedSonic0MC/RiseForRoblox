@@ -633,7 +633,8 @@ local initWindowFunction = {
                         tweenService:Create(v.TextLabel, TweenInfo.new(0.2), {
                             TextTransparency = 1
                         }):Play()
-                        task.delay(0.2, function()
+                        task.spawn(function()
+                            wait(.2)
                             v:Destroy()
                         end)
                     else
