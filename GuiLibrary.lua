@@ -561,6 +561,10 @@ local initWindowFunction = {
             text.Text = theme
             text.TextColor3 = Color3.new(1, 1, 1)
             text.TextSize = 17
+            table.insert(GuiLibrary.RainbowItems, text)
+            if GuiLibrary.Settings.Theme == theme then
+                text.TextColor3 = ThemeService.Themes[theme][1]
+            end
         end
         for i, v in defaultorder do
             createthemebutton(v)
