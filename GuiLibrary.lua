@@ -578,7 +578,7 @@ local initWindowFunction = {
                 if GuiLibrary.Settings.Theme == theme then
                     return
                 end
-                themesframe[theme].TextLabel.TextColor3 = Color3.new(1, 1, 1)
+                themesframe[GuiLibrary.Settings.Theme].TextLabel.TextColor3 = Color3.new(1, 1, 1)
                 GuiLibrary.Settings.Theme = theme
                 GuiLibrary.UpdateHudEvent:Fire()
                 text.TextColor3 = ThemeService.Themes[theme][1]
