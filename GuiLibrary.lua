@@ -557,7 +557,7 @@ local initWindowFunction = {
             text.BackgroundTransparency = 1
             text.Position = UDim2.new(0, 0, 0, 60)
             text.Size = UDim2.new(1, 0, 0, 40)
-            text.FontFace = shared.RiseFonts.AppleUISemibold
+            text.FontFace = shared.RiseFonts.AppleUI
             text.Text = theme
             text.TextColor3 = Color3.new(1, 1, 1)
             text.TextSize = 17
@@ -566,7 +566,7 @@ local initWindowFunction = {
                 text.TextColor3 = ThemeService.Themes[theme][1]
             end
         end
-        for i, v in defaultorder do
+        for i, v in pairs(defaultorder) do
             createthemebutton(v)
         end
     end
