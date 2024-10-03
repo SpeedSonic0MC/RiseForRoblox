@@ -647,9 +647,9 @@ local initWindowFunction = {
                 else
                     local tv = TweenInfo.new(1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
                     local create1 = tweenService:Create(xuigra, tv, {
-                        Offset = Vector2.new(-1, 0)
+                        Offset = Vector2.new(1, 0)
                     })
-                    local startpos = Vector2.new(1, 0)
+                    local startpos = Vector2.new(-1, 0)
                     local list = {}
                     local s, kpt = ColorSequence.new, ColorSequenceKeypoint.new
                     local cntr = 0
