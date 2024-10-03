@@ -723,7 +723,7 @@ local initWindowFunction = {
                         end
                         anim()
                     end
-                    anim()
+                    task.spawn(anim)
                 end
                 local text = Instance.new("TextLabel", themex)
                 text.BackgroundTransparency = 1
