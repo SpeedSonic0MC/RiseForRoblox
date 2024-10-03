@@ -577,7 +577,7 @@ local initWindowFunction = {
                 if theme ~= "Rainbow" then
                     if #ThemeService.Themes[theme] == 2 then
                         local colorseq = ThemeService:GetColorSequence(theme)
-                        local tv = TweenInfo.new(2, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+                        local tv = TweenInfo.new(1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
                         local create1 = tweenService:Create(xuigra, tv, {
                             Offset = Vector2.new(-1, 0)
                         })
