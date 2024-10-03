@@ -68,6 +68,7 @@ local vapeCheckLoop = coroutine.wrap(function()
 end)
 task.spawn(vapeCheckLoop)
 local ContentProvider = game:GetService("ContentProvider")
+local Lighting = game:GetService("Lighting")
 local playersService = game:GetService "Players"
 local inputService = game:GetService "UserInputService"
 local lplr = playersService.LocalPlayer
@@ -572,9 +573,32 @@ local initWindowFunction = {
                     (themeindex % 3 ~= 0 and math.floor(themeindex / 3) or themeindex / 3 - 1))
                 themex.Name = theme
                 themex.ImageTransparency = 1
-                local colors = ThemeService:GetColorSequence(theme)
                 local xuigra = Instance.new("UIGradient", themex)
-                xuigra.Color = colors
+                if theme ~= "Rainbow" then
+                    local colorseq = GuiLibrary:GetColorSequence(theme)
+                    local tv = TweenInfo.new(2, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+                    local create1 = tweenService:Create(xuigra, tv, {Offset=Vector2.new(-1,0)})
+                    local startpos = Vector2.new(1, 0)
+                    local rot = 180
+                    xuigra.Offset = startpos
+                    xuigra.Rotation = 0
+                    create1:Play()
+                    local function comp()
+                        if rot == 0 then
+                            xuigra.Rotation = 180
+                            xuigra.Offset = startpos
+                            create1:Play()
+                        elseif rot == 180 then
+                            xuigra.Rotation = 0
+                            xuigra.Offset = startpos
+                            create1:Play()
+                        end
+                    end
+                    create1.Completed:Connect(function()
+                        if rot == 0 then rot = 180 elseif rot == 180 then rot = 0 end
+                        comp()
+                    end)
+                end
                 local text = Instance.new("TextLabel", themex)
                 text.BackgroundTransparency = 1
                 text.Position = UDim2.new(0, 0, 0, 60)
