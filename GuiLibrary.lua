@@ -53,7 +53,7 @@ if getcustomasset == nil then
     error(
         "Rise >> Rise 6 requires a functional getcustomasset. If the executor supports it, try to rejoin for a few times to fix it being nil.")
 end
-local vapeCheckLoop = coroutine.create(function()
+local vapeCheckLoop = coroutine.wrap(function()
     repeat
         if shared.VapeExecuted then
             if not shared.GuiLibrary or not shared.GuiLibrary.SelfDestruct then
@@ -65,7 +65,7 @@ local vapeCheckLoop = coroutine.create(function()
         task.wait(5)
     until not shared.RiseExecuted
 end)
-coroutine.resume(vapeCheckLoop)
+task.spawn(vapeCheckLoop)
 local ContentProvider = game:GetService("ContentProvider")
 local playersService = game:GetService "Players"
 local inputService = game:GetService "UserInputService"
@@ -569,6 +569,7 @@ local initWindowFunction = {
                 themex.Position = UDim2.new(0, xpos[themeindex % 3 + 1], 0, 114 *
                     (themeindex % 3 ~= 0 and math.floor(themeindex / 3) or themeindex / 3 - 1))
                 themex.Name = theme
+                themex.ImageTransparency = 1
                 local colors = ThemeService:GetColorSequence(theme)
                 local xuigra = Instance.new("UIGradient", themex)
                 xuigra.Color = colors
@@ -579,6 +580,13 @@ local initWindowFunction = {
                 text.FontFace = shared.RiseFonts.AppleUISemibold
                 text.Text = theme
                 text.TextColor3 = Color3.new(1, 1, 1)
+                text.TextTransparency = 1
+                tweenService:Create(themex, TweenInfo.new(0.15), {
+                    ImageTransparency = 0
+                }):Play()
+                tweenService:Create(text, TweenInfo.new(0.15), {
+                    TextTransparency = 0
+                }):Play() -- tween in
                 text.TextSize = 17
                 if GuiLibrary.Settings.Theme == theme then
                     text.TextColor3 = ThemeService.Themes[theme][1]
