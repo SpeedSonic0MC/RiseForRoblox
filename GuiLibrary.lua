@@ -21,7 +21,7 @@ local GuiLibrary = {
         ["logo.png"] = "rbxassetid://128089542278367",
         ["maingui.png"] = "rbxassetid://138942713766181",
         ["Window.png"] = "rbxassetid://78059882197728",
-        ["theme.png"] = "rbxassetid://121327102799313"
+        ["theme.png"] = "rbxassetid://132517235890686"
     },
     Version = "6.1.30",
     GradientItems = {},
@@ -436,6 +436,7 @@ local winize = {70, 81, 103, 65, 74, 68, 66, 52, 81, 95}
 local initWindowFunction = {
     ["Themes"] = function(frame)
         frame.UIListLayout:Destroy()
+        local themesimage = getriseasset("theme.png")
         local textl = Instance.new("TextLabel", frame)
         textl.Position = UDim2.new(1, -33, 0, 20)
         textl.AnchorPoint = Vector2.new(1, 0)
@@ -565,7 +566,7 @@ local initWindowFunction = {
                 local themeindex = table.find(additionalfilter, theme)
                 local themex = Instance.new("ImageButton", themesframe)
                 themex.BackgroundTransparency = 1
-                themex.Image = getriseasset("theme.png")
+                themex.Image = themesimage
                 themex.Size = UDim2.new(0, 181, 0, 100)
                 themex.Position = UDim2.new(0, xpos[themeindex % 3 + 1], 0, 114 *
                     (themeindex % 3 ~= 0 and math.floor(themeindex / 3) or themeindex / 3 - 1))
