@@ -612,8 +612,8 @@ local initWindowFunction = {
                         local theme2 = ThemeService.Themes[theme]
                         local colorseq = ColorSequence.new({
                             ColorSequenceKeypoint.new(0, theme2[1]),
-                            ColorSequenceKeypoint.new(0.333, theme2[2]),
-                            ColorSequenceKeypoint.new(0.666, theme2[3]),
+                            ColorSequenceKeypoint.new(0.5, theme2[2]),
+                            ColorSequenceKeypoint.new(1, theme2[3]),
                         })
                         local tv = TweenInfo.new(2, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
                         local create1 = tweenService:Create(xuigra, tv, {
