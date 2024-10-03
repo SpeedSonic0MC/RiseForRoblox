@@ -496,7 +496,7 @@ local initWindowFunction = {
         } -- colors filter themes: ThemeService.ColorFilters[COLOR]
         local selectedcolorfilter = nil
         local updatecolors
-        local spamclickdelay = false
+        --local spamclickdelay = false
         for i6, v in color do
             local i = table.find({"Red", "Orange", "Yellow", "Lime", "DarkGreen", "Aqua", "DarkBlue", "Purple", "Pink",
                                   "Gray"}, i6)
@@ -516,10 +516,10 @@ local initWindowFunction = {
             tps.Thickness = 1
             tps.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
             themepicker.MouseButton1Click:Connect(function()
-                if spamclickdelay then
+                --[[if spamclickdelay then
                     return
-                end
-                spamclickdelay = true
+                end]]
+                --spamclickdelay = true
                 if selectedcolorfilter == i6 then
                     selectedcolorfilter = nil
                 else
@@ -537,10 +537,10 @@ local initWindowFunction = {
                     end
                 end
                 updatecolors(selectedcolorfilter)
-                task.spawn(function()
+                --[[task.spawn(function()
                     task.wait(0.2)
                     spamclickdelay = false
-                end)
+                end)]]
             end)
         end
         local themesframe = Instance.new("Frame", frame)
