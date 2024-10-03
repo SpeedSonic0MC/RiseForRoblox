@@ -537,7 +537,8 @@ local initWindowFunction = {
                     end
                 end
                 updatecolors(selectedcolorfilter)
-                task.delay(0.2, function()
+                task.spawn(function()
+                    task.wait(0.2)
                     spamclickdelay = false
                 end)
             end)
