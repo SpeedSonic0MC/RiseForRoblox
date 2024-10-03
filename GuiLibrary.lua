@@ -20,7 +20,8 @@ local GuiLibrary = {
     Assets = {
         ["logo.png"] = "rbxassetid://128089542278367",
         ["maingui.png"] = "rbxassetid://138942713766181",
-        ["Window.png"] = "rbxassetid://78059882197728"
+        ["Window.png"] = "rbxassetid://78059882197728",
+        ["theme.png"] = "rbxassetid://121327102799313"
     },
     Version = "6.1.30",
     GradientItems = {},
@@ -233,7 +234,7 @@ local function tgle()
 end
 inputService.InputBegan:Connect(function(input)
     if Enum.KeyCode[GuiLibrary.Settings.Keybind] == input.KeyCode then
-        tgle()
+        task.spawn(tgle)
     end
 end)
 local ver = Instance.new("TextLabel", maingui)
