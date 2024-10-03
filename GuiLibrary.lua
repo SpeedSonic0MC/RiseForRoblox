@@ -608,6 +608,43 @@ local initWindowFunction = {
                         end)
                     elseif #ThemeService.Themes[theme] == 1 then
                         xuigra.Color = ColorSequence.new(ThemeService.Themes[theme][1])
+                    elseif #ThemeService.Themes[theme] == 3 then
+                        local theme2 = ThemeService.Themes[theme]
+                        local colorseq = ColorSequence.new({
+                            ColorSequenceKeypoint.new(0, theme2[1]),
+                            ColorSequenceKeypoint.new(0.333, theme2[2]),
+                            ColorSequenceKeypoint.new(0.666, theme2[3]),
+                            ColorSequenceKeypoint.new(1, theme2[2])
+                        })
+                        local tv = TweenInfo.new(2, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+                        local create1 = tweenService:Create(xuigra, tv, {
+                            Offset = Vector2.new(-1, 0)
+                        })
+                        local startpos = Vector2.new(1, 0)
+                        local rot = 180
+                        xuigra.Offset = startpos
+                        xuigra.Rotation = 0
+                        xuigra.Color = colorseq
+                        create1:Play()
+                        local function comp()
+                            if rot == 0 then
+                                xuigra.Rotation = 180
+                                xuigra.Offset = startpos
+                                create1:Play()
+                            elseif rot == 180 then
+                                xuigra.Rotation = 0
+                                xuigra.Offset = startpos
+                                create1:Play()
+                            end
+                        end
+                        create1.Completed:Connect(function()
+                            if rot == 0 then
+                                rot = 180
+                            elseif rot == 180 then
+                                rot = 0
+                            end
+                            comp()
+                        end)
                     end
                 end
                 local text = Instance.new("TextLabel", themex)
