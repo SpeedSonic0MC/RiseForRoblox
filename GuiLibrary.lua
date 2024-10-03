@@ -645,85 +645,28 @@ local initWindowFunction = {
                         end)
                     end
                 else
-                    local tv = TweenInfo.new(1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
-                    local create1 = tweenService:Create(xuigra, tv, {
-                        Offset = Vector2.new(1, 0)
-                    })
-                    local startpos = Vector2.new(-1, 0)
-                    local list = {}
-                    local s, kpt = ColorSequence.new, ColorSequenceKeypoint.new
-                    local cntr = 0
-                    local sts = "d"
-                    xuigra.Offset = startpos
-                    for i = 1, 15 do
-                        table.insert(list, Color3.fromHSV((i * 17) / 255, 0.6, 1))
-                    end
-                    xuigra.Color = s({
-                        kpt(0, list[#list]),
-                        kpt(0.5, list[#list - 1]),
-                        kpt(1, list[#list - 2])
-                    })
-                    cntr = #list
-                    local function anim()
-                        create1:Play()
-                        create1.Completed:Wait()
-                        xuigra.Offset = startpos
-                        xuigra.Rotation = 180
-                        if cntr == #list - 1 and sts == "d" then
-                            xuigra.Color = ({
-                                kpt(0, xuigra.Color.Keypoints[1].Value),
-                                kpt(0.5, list[#list]),
-                                kpt(1, list[1])
-                            })
-                            cntr = 1
-                            sts = "u"
-                        elseif cntr == #list and sts == "d" then
-                            xuigra.Color = s({
-                                kpt(0, xuigra.Color.Keypoints[1].Value),
-                                kpt(0.5, list[1]),
-                                kpt(1, list[2])
-                            })
-                            cntr = 2
-                            sts = "u"
-                        elseif cntr <= #list - 2 and sts == "d" then
-                            xuigra.Color = s({
-                                kpt(0, xuigra.Color.Keypoints[1].Value),
-                                kpt(0.5, list[cntr + 1]),
-                                kpt(1, list[cntr + 2])
-                            })
-                            cntr = cntr + 2
-                            sts = "u"
+                    local counter = 0
+                    local w = math.pi / 12
+                    local colors = {}
+                    local num = 15
+                    local frames = 0
+                    runService.Heartbeat:Connect(function()
+                        if math.fmod(frames, 2) == 0 then
+                            for i = 0, num do
+                                table.insert(colors, i + 1, ColorSequenceKeypoint.new(i / num, Color3.fromRGB(127 * math.sin(w * i + counter) + 128, 127 * math.sin(w * i + 2 * math.pi / 3 + counter) + 128, 127 * math.sin(w * i + 4 * math.pi / 3 + counter) + 128)))
+                            end
+                            xuigra.Color = ColorSequence.new(colors)
+                            colors = {}
+                            counter = counter + math.pi / 40
+                            if counter >= math.pi * 2 then
+                                counter = 0
+                            end
                         end
-                        create1:Play()
-                        create1.Completed:Wait()
-                        xuigra.Offset = startpos
-                        xuigra.Rotation = 0
-                        if cntr == #list - 1 and sts == "u" then
-                            xuigra.Color = s({
-                                kpt(0, list[1]),
-                                kpt(0.5, list[#list]),
-                                kpt(1, xuigra.Color.Keypoints[3].Value)
-                            })
-                            cntr = 1
-                            sts = "d"
-                        elseif cntr == #list and sts == "u" then
-                            xuigra.Color = s({
-                                kpt(0, list[2]),
-                                kpt(0.5, list[1]),
-                                kpt(1, xuigra.Color.Keypoints[3].Value)
-                            })
-                            cntr = 2
-                            sts = "d"
-                        elseif cntr <= #list - 2 and sts == "u" then
-                            xuigra.Color = s({
-                                kpt(0, list[cntr + 2]),
-                                kpt(0.5, list[cntr + 1]),
-                                kpt(1, xuigra.Color.Keypoints[3].Value)
-                            })
+                        if frames >= 1000 then
+                            frames = 0
                         end
-                        anim()
-                    end
-                    task.spawn(anim)
+                        frames = frames + 1
+                    end)
                 end
                 local text = Instance.new("TextLabel", themex)
                 text.BackgroundTransparency = 1
