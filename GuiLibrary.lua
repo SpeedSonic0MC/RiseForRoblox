@@ -516,7 +516,9 @@ local initWindowFunction = {
             tps.Thickness = 1
             tps.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
             themepicker.MouseButton1Click:Connect(function()
-                if spamclickdelay then return end
+                if spamclickdelay then
+                    return
+                end
                 spamclickdelay = true
                 if selectedcolorfilter == i6 then
                     selectedcolorfilter = nil
@@ -525,17 +527,17 @@ local initWindowFunction = {
                 end
                 for i2, v2 in pairs(colorfilterframe:GetChildren()) do
                     if v2.Name ~= selectedcolorfilter and selectedcolorfilter ~= nil then
-                        tweenService:Create(v2, TweenInfo.new(0.2), {
+                        tweenService:Create(v2, TweenInfo.new(0.15), {
                             BackgroundColor3 = ThemeService:darker(color[v2.Name]["Base"])
                         }):Play()
                     else
-                        tweenService:Create(v2, TweenInfo.new(0.2), {
+                        tweenService:Create(v2, TweenInfo.new(0.15), {
                             BackgroundColor3 = color[v2.Name]["Base"]
                         }):Play()
                     end
                 end
                 updatecolors(selectedcolorfilter)
-                task.delay(0.2, function()
+                task.delay(0.16, function()
                     spamclickdelay = false
                 end)
             end)
@@ -567,7 +569,7 @@ local initWindowFunction = {
                     (themeindex % 3 ~= 0 and math.floor(themeindex / 3) or themeindex / 3 - 1))
                 themex.Name = theme
                 themex.ImageTransparency = 1
-                tweenService:Create(themex, TweenInfo.new(0.2), {
+                tweenService:Create(themex, TweenInfo.new(0.15), {
                     ImageTransparency = 0
                 }):Play()
                 local colors = ThemeService:GetColorSequence(theme)
@@ -581,7 +583,7 @@ local initWindowFunction = {
                 text.Text = theme
                 text.TextColor3 = Color3.new(1, 1, 1)
                 text.TextTransparency = 1
-                tweenService:Create(text, TweenInfo.new(0.2), {
+                tweenService:Create(text, TweenInfo.new(0.15), {
                     TextTransparency = 0
                 }):Play() -- tween in
                 text.TextSize = 17
@@ -598,7 +600,9 @@ local initWindowFunction = {
                     themesframe[GuiLibrary.Settings.Theme].TextLabel.TextColor3 = Color3.new(1, 1, 1)
                     GuiLibrary.Settings.Theme = theme
                     GuiLibrary.UpdateHudEvent:Fire()
-                    text.TextColor3 = ThemeService.Themes[theme][1]
+                    if theme ~= "Rainbow" then
+                        text.TextColor3 = ThemeService.Themes[theme][1]
+                    end
                 end)
             end)
         end
@@ -627,19 +631,19 @@ local initWindowFunction = {
                 local filteredarraylist = ThemeService.ColorFilters[selectedcolorfilter]
                 for i, v in pairs(themesframe:GetChildren()) do
                     if not table.find(filteredarraylist, v.Name) then
-                        tweenService:Create(v, TweenInfo.new(0.2), {
+                        tweenService:Create(v, TweenInfo.new(0.15), {
                             ImageTransparency = 1
                         }):Play()
-                        tweenService:Create(v.TextLabel, TweenInfo.new(0.2), {
+                        tweenService:Create(v.TextLabel, TweenInfo.new(0.15), {
                             TextTransparency = 1
                         }):Play()
                         task.spawn(function()
-                            wait(.2)
+                            wait(.15)
                             v:Destroy()
                         end)
                     else
                         local themeindex = table.find(filteredarraylist, v.Name)
-                        tweenService:Create(v, TweenInfo.new(0.2), {
+                        tweenService:Create(v, TweenInfo.new(0.15), {
                             Position = UDim2.new(0, xpos[themeindex % 3 + 1], 0, 114 *
                                 (themeindex % 3 ~= 0 and math.floor(themeindex / 3) or themeindex / 3 - 1))
                         }):Play()
