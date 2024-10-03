@@ -577,7 +577,7 @@ local initWindowFunction = {
                 if theme ~= "Rainbow" then
                     if #ThemeService.Themes[theme] == 2 then
                         local colorseq = ThemeService:GetColorSequence(theme)
-                        local tv = TweenInfo.new(2, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+                        local tv = TweenInfo.new(1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
                         local create1 = tweenService:Create(xuigra, tv, {
                             Offset = Vector2.new(-1, 0)
                         })
@@ -610,13 +610,11 @@ local initWindowFunction = {
                         xuigra.Color = ColorSequence.new(ThemeService.Themes[theme][1])
                     elseif #ThemeService.Themes[theme] == 3 then
                         local theme2 = ThemeService.Themes[theme]
-                        local colorseq = ColorSequence.new({
-                            ColorSequenceKeypoint.new(0, theme2[1]),
-                            ColorSequenceKeypoint.new(0.4, theme2[2]),
-                            ColorSequenceKeypoint.new(0.6, theme2[2]),
-                            ColorSequenceKeypoint.new(1, theme2[3]),
-                        })
-                        local tv = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+                        local colorseq = ColorSequence.new({ColorSequenceKeypoint.new(0, theme2[1]),
+                                                            ColorSequenceKeypoint.new(0.4, theme2[2]),
+                                                            ColorSequenceKeypoint.new(0.6, theme2[2]),
+                                                            ColorSequenceKeypoint.new(1, theme2[3])})
+                        local tv = TweenInfo.new(2, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
                         local create1 = tweenService:Create(xuigra, tv, {
                             Offset = Vector2.new(-1, 0)
                         })
@@ -646,6 +644,86 @@ local initWindowFunction = {
                             comp()
                         end)
                     end
+                else
+                    local tv = TweenInfo.new(1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+                    local create1 = tweenService:Create(xuigra, tv, {
+                        Offset = Vector2.new(-1, 0)
+                    })
+                    local startpos = Vector2.new(1, 0)
+                    local list = {}
+                    local s, kpt = ColorSequence.new, ColorSequenceKeypoint.new
+                    local cntr = 0
+                    local sts = "d"
+                    xuigra.Offset = startpos
+                    for i = 1, 15 do
+                        table.insert(list, Color3.fromHSV((i * 17) / 255, 0.6, 1))
+                    end
+                    xuigra.Color = s({
+                        kpt(0, list[#list]),
+                        kpt(0.5, list[#list - 1]),
+                        kpt(1, list[#list - 2])
+                    })
+                    cntr = #list
+                    local function anim()
+                        create1:Play()
+                        create1.Completed:Wait()
+                        xuigra.Offset = startpos
+                        xuigra.Rotation = 180
+                        if cntr == #list - 1 and sts == "d" then
+                            xuigra.Color = ({
+                                kpt(0, xuigra.Color.Keypoints[1].Value),
+                                kpt(0.5, list[#list]),
+                                kpt(1, list[1])
+                            })
+                            cntr = 1
+                            sts = "u"
+                        elseif cntr == #list and sts == "d" then
+                            xuigra.Color = s({
+                                kpt(0, xuigra.Color.Keypoints[1].Value),
+                                kpt(0.5, list[1]),
+                                kpt(1, list[2])
+                            })
+                            cntr = 2
+                            sts = "u"
+                        elseif cntr <= #list - 2 and sts == "d" then
+                            xuigra.Color = s({
+                                kpt(0, xuigra.Color.Keypoints[1].Value),
+                                kpt(0.5, list[cntr + 1]),
+                                kpt(1, list[cntr + 2])
+                            })
+                            cntr = cntr + 2
+                            sts = "u"
+                        end
+                        create1:Play()
+                        create1.Completed:Wait()
+                        xuigra.Offset = startpos
+                        xuigra.Rotation = 0
+                        if cntr == #list - 1 and sts == "u" then
+                            xuigra.Color = s({
+                                kpt(0, list[1]),
+                                kpt(0.5, list[#list]),
+                                kpt(1, xuigra.Color.Keypoints[3].Value)
+                            })
+                            cntr = 1
+                            sts = "d"
+                        elseif cntr == #list and sts == "u" then
+                            xuigra.Color = s({
+                                kpt(0, list[2]),
+                                kpt(0.5, list[1]),
+                                kpt(1, xuigra.Color.Keypoints[3].Value)
+                            })
+                            cntr = 2
+                            sts = "d"
+                        elseif cntr <= #list - 2 and sts == "u" then
+                            xuigra.Color = s({
+                                kpt(0, list[cntr + 2]),
+                                kpt(0.5, list[cntr + 1]),
+                                kpt(1, xuigra.Color.Keypoints[3].Value)
+                            })
+                        end
+                        anim()
+                    end
+                    anim()
                 end
                 local text = Instance.new("TextLabel", themex)
                 text.BackgroundTransparency = 1
