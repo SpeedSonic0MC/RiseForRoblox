@@ -582,6 +582,7 @@ local initWindowFunction = {
                     local rot = 180
                     xuigra.Offset = startpos
                     xuigra.Rotation = 0
+                    xuigra.Color = colorseq
                     create1:Play()
                     local function comp()
                         if rot == 0 then
