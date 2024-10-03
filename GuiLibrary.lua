@@ -569,9 +569,6 @@ local initWindowFunction = {
                     (themeindex % 3 ~= 0 and math.floor(themeindex / 3) or themeindex / 3 - 1))
                 themex.Name = theme
                 themex.ImageTransparency = 1
-                tweenService:Create(themex, TweenInfo.new(0.15), {
-                    ImageTransparency = 0
-                }):Play()
                 local colors = ThemeService:GetColorSequence(theme)
                 local xuigra = Instance.new("UIGradient", themex)
                 xuigra.Color = colors
@@ -583,6 +580,9 @@ local initWindowFunction = {
                 text.Text = theme
                 text.TextColor3 = Color3.new(1, 1, 1)
                 text.TextTransparency = 1
+                tweenService:Create(themex, TweenInfo.new(0.15), {
+                    ImageTransparency = 0
+                }):Play()
                 tweenService:Create(text, TweenInfo.new(0.15), {
                     TextTransparency = 0
                 }):Play() -- tween in
