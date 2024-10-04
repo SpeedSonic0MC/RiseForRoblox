@@ -260,7 +260,7 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
         task.spawn(function()
             local check2 = GuiLibrary.ObjectCanBeSaved["InterfaceToggle NotificationsToggle"]
             if not GuiLibrary["ObjectCanBeSaved"]["InterfaceOptionsButton"] or check2 == nil or not check2.Enabled then
-                check = false
+                check = true
                 return
             end
             check = not GuiLibrary["ObjectCanBeSaved"]["InterfaceOptionsButton"]["Enabled"]
