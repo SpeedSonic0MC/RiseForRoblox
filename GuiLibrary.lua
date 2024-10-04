@@ -1957,6 +1957,7 @@ GuiLibrary["LoadSettings"] = function(customsave)
     if isfile("rise/configs/" .. GuiLibrary.Settings.Profile .. tostring(game.PlaceId) .. ".rscfg") then
         loadfile = "rise/configs/" .. GuiLibrary.Settings.Profile .. tostring(game.PlaceId) .. ".rscfg"
     end
+    if not isfile(loadfile) then return end
     local decoded = httpService:JSONDecode(readfile(loadfile))
     if decoded ~= nil and type(decoded) == "table" then
         for i, v in pairs(decoded) do
