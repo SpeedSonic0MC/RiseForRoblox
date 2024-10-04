@@ -256,14 +256,11 @@ table.insert(GuiLibrary.RainbowItems, vergra)
 local notif = false
 GuiLibrary["ShowNotification"] = function(title, description, time)
     task.spawn(function()
-        if not GuiLibrary["ObjectCanBeSaved"]["InterfaceOptionsButton"]["Enabled"] then
-            return --not GuiLibrary.ObjectCanBeSaved["InterfaceToggle NotificationsToggle"]["Enabled"]
+        if not GuiLibrary["ObjectCanBeSaved"]["InterfaceOptionsButton"]["Enabled"] or not GuiLibrary.ObjectCanBeSaved["InterfaceToggle NotificationsToggle"]["Enabled"] then
+            return
         end
         title = description ~= nil and title or "Toggled"
         description = description or title
-        if not GuiLibrary.Settings.Notifications then
-            return
-        end
         if notif then
             repeat
                 task.wait()
