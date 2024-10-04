@@ -2030,4 +2030,19 @@ GuiLibrary.Loaded = true
 task.spawn(function()
     coroutine.resume(mainsettingssaveloop)
 end)
+local tps = false
+local tpc = lplr.OnTeleport:Connect(function()
+    if (not tps) then
+        tps = true
+        local tpss = [[
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/SpeedSonic0MC/RiseForRoblox/main/MainScript.lua"))()
+        ]]
+        if shared.RiseDeveloper then
+            tpss = "shared.RiseDeveloper = true\n"..tpss
+        end
+        GuiLibrary.SaveSettings()
+        local qot = syn and syn.queue_on_teleport or queue_on_teleport or function () end
+        qot(tpss)
+    end
+end)
 return GuiLibrary
