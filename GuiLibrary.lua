@@ -4,17 +4,7 @@ local GuiLibrary = {
     Settings = {
         Keybind = shared.RiseDeveloper and "M" or "RightShift",
         Profile = "latest",
-        Notifications = true,
-        ArrayListMode = "Fade",
-        Sidebar = true,
-        ArrayListBackground = true,
-        CustomClientName = "",
-        Suffix = true,
-        Lowercase = false,
-        RemoveSpaces = false,
-        InformationType = "Rise",
-        UILocation = {0, 0},
-        Theme = "Water",
+        Theme = "Blend",
         Language = "en"
     },
     Assets = {
@@ -67,13 +57,19 @@ local vapeCheckLoop = coroutine.wrap(function()
     until not shared.RiseExecuted
 end)
 task.spawn(vapeCheckLoop)
+local httpService = game:GetService "HttpService"
+local mainsettingssaveloop = coroutine.create(function()
+    repeat
+        writefile("rise/configs/GUI.rscfg", httpService:JSONEncode(GuiLibrary.Settings))
+        task.wait(1)
+    until GuiLibrary == nil
+end)
 local ContentProvider = game:GetService("ContentProvider")
 local Lighting = game:GetService("Lighting")
 local playersService = game:GetService "Players"
 local inputService = game:GetService "UserInputService"
 local lplr = playersService.LocalPlayer
 local runService = game:GetService "RunService"
-local httpService = game:GetService "HttpService"
 local tweenService = game:GetService "TweenService"
 local textService = game:GetService "TextService"
 local delfile = delfile or function(_1)
@@ -237,6 +233,11 @@ inputService.InputBegan:Connect(function(input)
     if Enum.KeyCode[GuiLibrary.Settings.Keybind] == input.KeyCode then
         task.spawn(tgle)
     end
+    for i, v in pairs(GuiLibrary.ObjectCanBeSaved) do
+        if v.Type == "OptionsButton" and Enum.KeyCode[v.Keybind] == input.KeyCode then
+            task.spawn(v["ToggleButton"])
+        end
+    end
 end)
 local ver = Instance.new("TextLabel", maingui)
 ver.Position = UDim2.new(0, 97, 0, 37) --  we use UIScale now so finally yay no more scales
@@ -256,7 +257,8 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
     task.spawn(function()
         local check = false
         task.spawn(function()
-            if not GuiLibrary["ObjectCanBeSaved"]["InterfaceOptionsButton"] then
+            local check2 = GuiLibrary.ObjectCanBeSaved["InterfaceToggle NotificationsToggle"]
+            if not GuiLibrary["ObjectCanBeSaved"]["InterfaceOptionsButton"] or check2 == nil or not check2.Enabled then
                 check = false
                 return
             end
@@ -653,7 +655,10 @@ local initWindowFunction = {
                     runService.Heartbeat:Connect(function()
                         if math.fmod(frames, 2) == 0 then
                             for i = 0, num do
-                                table.insert(colors, i + 1, ColorSequenceKeypoint.new(i / num, Color3.fromRGB(127 * math.sin(w * i + counter) + 128, 127 * math.sin(w * i + 2 * math.pi / 3 + counter) + 128, 127 * math.sin(w * i + 4 * math.pi / 3 + counter) + 128)))
+                                table.insert(colors, i + 1, ColorSequenceKeypoint.new(i / num,
+                                    Color3.fromRGB(127 * math.sin(w * i + counter) + 128,
+                                        127 * math.sin(w * i + 2 * math.pi / 3 + counter) + 128,
+                                        127 * math.sin(w * i + 4 * math.pi / 3 + counter) + 128)))
                             end
                             xuigra.Color = ColorSequence.new(colors)
                             colors = {}
@@ -697,7 +702,7 @@ local initWindowFunction = {
                     GuiLibrary.Settings.Theme = theme
                     GuiLibrary.UpdateHudEvent:Fire()
                     if theme ~= "Rainbow" then
-                        text.TextColor3 = ThemeService.Themes[theme][1]
+                        text.TextColor3 = ThemeService.Themes[theme][1] or Color3.new(1, 1, 1)
                     end
                 end)
             end)
@@ -1264,7 +1269,8 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 ["Name"] = argstable["Name"] or "Example",
                 ["Enabled"] = argstable["Enabled"] or false,
                 ["Function"] = argstable["Function"] or function(_unused)
-                end
+                end,
+                Parent = argsmaintable["Name"]
             }
             local subdata = argstable["SubData"]
             local conditiontype = nil
@@ -1366,7 +1372,8 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 MaxValue = argstable["MaxValue"] or 100,
                 MinValue = argstable["MinValue"] or 0,
                 ["Function"] = argstable["Function"] or function(_unused)
-                end
+                end,
+                Parent = argsmaintable["Name"]
             }
             local subdata = argstable["SubData"]
             local conditiontype = nil
@@ -1510,7 +1517,8 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 MaxValue = argstable["MaxValue"] or 100,
                 MinValue = argstable["MinValue"] or 0,
                 ["Function"] = argstable["Function"] or function(_unused)
-                end
+                end,
+                Parent = argsmaintable["Name"]
             }
             local subdata = argstable["SubData"]
             local ct, cn, cn2, cv
@@ -1715,7 +1723,8 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 Type = "TextBox",
                 Value = argstable["Value"] or "",
                 Function = argstable["Function"] or function(_unused)
-                end
+                end,
+                Parent = argsmaintable["Name"]
             }
             local sd = argstable["SubData"]
             local ct, cn, cn2, cv
@@ -1736,11 +1745,14 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             item.ClearTextOnFocus = false
             item.TextSize = 16
             item.TextXAlignment = Enum.TextXAlignment.Left
-            item.FocusLost:Connect(function()
-                api.Value = item.Text
+            api["SetValue"] = function(val)
+                api.Value = val
                 task.spawn(function()
                     api["Function"](api.Value)
                 end)
+            end
+            item.FocusLost:Connect(function()
+                api.SetValue(item.Text)
             end)
             if ct and cn and cv then
                 task.spawn(function()
@@ -1783,7 +1795,8 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                 Value = table.find(argstable["Options"] or {"Mode1"}, argstable["Value"]) or 1,
                 Function = argstable["Function"] or function()
                 end,
-                SetSuffix = argstable["SetSuffix"] or false
+                SetSuffix = argstable["SetSuffix"] or false,
+                Parent = argsmaintable["Name"]
             }
             local sd = argstable["SubData"]
             local ct, cn, cn2, cv
@@ -1924,112 +1937,14 @@ local InterfaceOptionsButton = GuiLibrary.ObjectCanBeSaved["RenderWindow"]["Crea
     ["Name"] = "Interface",
     ["Description"] = "The clients interface with all information",
     ["Enabled"] = true,
-    Function = function()
+    Function = function(val)
         GuiLibrary.UpdateHudEvent:Fire()
     end
-})
-InterfaceOptionsButton["CreateMode"]({
-    Options = {"Modern"},
-    Value = 1,
-    Function = function()
-        GuiLibrary.UpdateHudEvent:Fire()
-    end,
-    SetSuffix = true
-})
-InterfaceOptionsButton["CreateMode"]({
-    Name = "ArrayList Color Mode",
-    Options = {"Fade", "Breathe", "Static"},
-    Value = 1,
-    Function = function()
-        GuiLibrary.UpdateHudEvent:Fire()
-    end,
-    SubData = {
-        ConditionType = "Mode",
-        ConditionMainName = "Interface",
-        ConditionName = "Mode",
-        ConditionValue = 1
-    }
-})
-InterfaceOptionsButton["CreateMode"]({
-    Name = "ArrayList Font",
-    Options = {"Apple UI", "Minecraft"},
-    Value = 1,
-    Function = function()
-        GuiLibrary.UpdateHudEvent:Fire()
-    end,
-    SubData = {
-        ConditionType = "Mode",
-        ConditionMainName = "Interface",
-        ConditionName = "Mode",
-        ConditionValue = 1
-    }
-})
-InterfaceOptionsButton["CreateMode"]({
-    Name = "BackGround",
-    Options = {"Normal", "Off"},
-    Value = 1,
-    Function = function()
-        GuiLibrary.UpdateHudEvent:Fire()
-    end,
-    SubData = {
-        ConditionType = "Mode",
-        ConditionMainName = "Interface",
-        ConditionName = "Mode",
-        ConditionValue = 1
-    }
-})
-InterfaceOptionsButton["CreateToggle"]({
-    Enabled = true,
-    Name = "Suffix"
-})
-InterfaceOptionsButton["CreateToggle"]({
-    Enabled = false,
-    Name = "Lowercase"
-})
-InterfaceOptionsButton["CreateToggle"]({
-    Name = "Remove Spaces",
-    Enabled = false
 })
 InterfaceOptionsButton["CreateToggle"]({
     Name = "Toggle Notifications",
-    Enabled = GuiLibrary.Settings.Notifications,
-    Function = function(val)
-        GuiLibrary.Settings.Notifications = val
-    end
+    Enabled = true
 })
-local InterfaceOptionsButton2 = GuiLibrary.ObjectCanBeSaved["RenderWindow"]["CreateOptionsButton"]({
-    ["Name"] = "2D ESP",
-    ["Description"] = "The clients interface with all information",
-    ["Enabled"] = true,
-    Function = function()
-        GuiLibrary.UpdateHudEvent:Fire()
-    end
-})
-local InterfaceOptionsButton3 = GuiLibrary.ObjectCanBeSaved["RenderWindow"]["CreateOptionsButton"]({
-    ["Name"] = "ESP",
-    ["Description"] = "The clients interface with all information",
-    ["Enabled"] = true,
-    Function = function()
-        GuiLibrary.UpdateHudEvent:Fire()
-    end
-})
-local InterfaceOptionsButton4 = GuiLibrary.ObjectCanBeSaved["RenderWindow"]["CreateOptionsButton"]({
-    ["Name"] = "FPS",
-    ["Description"] = "The clients interface with all information",
-    ["Enabled"] = true,
-    Function = function()
-        GuiLibrary.UpdateHudEvent:Fire()
-    end
-})
-local InterfaceOptionsButton5 = GuiLibrary.ObjectCanBeSaved["RenderWindow"]["CreateOptionsButton"]({
-    ["Name"] = "Click GUI",
-    ["Description"] = "The clients interface with all information",
-    ["Enabled"] = true,
-    Function = function()
-        GuiLibrary.UpdateHudEvent:Fire()
-    end
-})
-
 GuiLibrary["RemoveOptionsButton"] = function(key)
     local obj = GuiLibrary.ObjectCanBeSaved[key .. "OptionsButton"]
     if obj then
@@ -2037,5 +1952,89 @@ GuiLibrary["RemoveOptionsButton"] = function(key)
         GuiLibrary.ObjectCanBeSaved[key .. "OptionsButton"] = nil
     end
 end
+GuiLibrary["LoadSettings"] = function(customsave)
+    local loadfile = "rise/configs/" .. (customsave or game.PlaceId) .. ".rscfg"
+    if isfile("rise/configs/" .. GuiLibrary.Settings.Profile .. tostring(game.PlaceId) .. ".rscfg") then
+        loadfile = "rise/configs/" .. GuiLibrary.Settings.Profile .. tostring(game.PlaceId) .. ".rscfg"
+    end
+    local decoded = httpService:JSONDecode(readfile(loadfile))
+    if decoded ~= nil and type(decoded) == "table" then
+        for i, v in pairs(decoded) do
+            local obj = GuiLibrary.ObjectCanBeSaved[i]
+            if obj then
+                if v.Type == "OptionsButton" then
+                    obj["ToggleButton"](v["Enabled"] or false, true)
+                    if v["Keybind"] and v["Keybind"] ~= "" then
+                        obj["Keybind"] = v["Keybind"]
+                    end
+                elseif v.Type == "Toggle" then
+                    obj["ToggleButton"](v["Enabled"] or false, true)
+                elseif v.Type == "Slider" then
+                    if v["Value"] then
+                        obj["SetValue"](v["Value"])
+                    end
+                elseif v.Type == "BoundsSlider" then
+                    if v["Value"] and type(v["Value"]) == "table" and type(v["Value"][1]) == "number" and
+                        type(v["Value"][2]) == "number" then
+                        obj["SetValue"](v["Value"][1], v["Value"][2])
+                    end
+                elseif v.Type == "TextBox" then
+                    if v["Value"] then
+                        obj["SetValue"](v["Value"])
+                    end
+                elseif v.Type == "Mode" then
+                    if v["Value"] and type(v["Value"]) == "number" then
+                        obj["SetValue"](v["Value"])
+                    end
+                end
+            end
+        end
+    end
+end
+GuiLibrary["SaveSettings"] = function()
+    if not GuiLibrary.Loaded then
+        return
+    end
+    local file = "rise/configs/" .. GuiLibrary.Settings.Profile .. tostring(game.PlaceId) .. ".rscfg"
+    local savetable = {}
+    for i, v in pairs(GuiLibrary.ObjectCanBeSaved) do
+        if v.Type == "OptionsButton" then
+            savetable[i] = {
+                Type = "OptionsButton",
+                Enabled = v["Enabled"],
+                Keybind = v["Keybind"]
+            }
+        elseif v.Type == "Toggle" then
+            savetable[i] = {
+                Type = "Toggle",
+                Enabled = v["Enabled"]
+            }
+        elseif v.Type == "Slider" then
+            savetable[i] = {
+                Type = "Slider",
+                Value = v["Value"]
+            }
+        elseif v.Type == "BoundsSlider" then
+            savetable[i] = {
+                Type = "BoundsSlider",
+                Value = v["Value"]
+            }
+        elseif v.Type == "TextBox" then
+            savetable[i] = {
+                Type = "TextBox",
+                Value = v["Value"]
+            }
+        elseif v.Type == "Mode" then
+            savetable[i] = {
+                Type = "Mode",
+                Value = v["Value"]
+            }
+        end
+    end
+    writefile(file, httpService:JSONEncode(savetable))
+end
 GuiLibrary.Loaded = true
+task.spawn(function()
+    coroutine.resume(mainsettingssaveloop)
+end)
 return GuiLibrary
