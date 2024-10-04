@@ -234,6 +234,7 @@ inputService.InputBegan:Connect(function(input)
         task.spawn(tgle)
     end
     for i, v in pairs(GuiLibrary.ObjectCanBeSaved) do
+        if v.Keybind == nil then return end
         if v.Type == "OptionsButton" and Enum.KeyCode[v.Keybind] == input.KeyCode then
             task.spawn(v["ToggleButton"])
         end
@@ -1965,7 +1966,7 @@ GuiLibrary["LoadSettings"] = function(customsave)
             if obj then
                 if v.Type == "OptionsButton" then
                     obj["ToggleButton"](v["Enabled"] or false, true)
-                    if v["Keybind"] and v["Keybind"] ~= "" then
+                    if v["Keybind"] and v["Keybind"] ~= nil then
                         obj["Keybind"] = v["Keybind"]
                     end
                 elseif v.Type == "Toggle" then
