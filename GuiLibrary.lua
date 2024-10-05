@@ -832,6 +832,16 @@ local initWindowFunction = {
                 selectedwindow.Size = UDim2.new(0, 48 + textService:GetTextBoundsAsync(px2).X, 0, 30)
             end)
         end
+    end,
+    CaS = function(frame)
+        frame.UIListLayout:Destroy()
+        local stupiduselesslilframe = Instance.new("Frame", frame)
+        stupiduselesslilframe.BackgroundColor3 = Color3.fromRGB(14, 16, 21)
+        stupiduselesslilframe.Position = UDim2.new(0.5, 0, 6, 0)
+        stupiduselesslilframe.AnchorPoint = Vector2.new(0.5, 0)
+        stupiduselesslilframe.Size = UDim2.new(1, 0, 0, 220)
+        local lilfrc = Instance.new("UICorner", stupiduselesslilframe)
+        lilfrc.CornerRadius = UDim.new(0, 17)
     end
 }
 selectedwindow = Instance.new("ImageLabel", winlist)
