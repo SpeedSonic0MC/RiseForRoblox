@@ -812,7 +812,7 @@ local initWindowFunction = {
                 if GuiLibrary.Settings.Language == v then return end
                 colorfilterframe[GuiLibrary.Settings.Language].Text = Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i]
                 GuiLibrary.Settings.Language = v
-                text.Text = v == (GuiLibrary.Settings.Language and Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] or
+                text.Text = (v == GuiLibrary.Settings.Language and Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] or
                 "<font color=\"rgb(255, 255, 255)\">" .. Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] ..
                 "</font>")
                 GuiLibrary.UpdateHudEvent:Fire()
