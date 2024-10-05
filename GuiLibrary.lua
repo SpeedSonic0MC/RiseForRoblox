@@ -839,8 +839,13 @@ local initWindowFunction = {
 selectedwindow = Instance.new("ImageLabel", winlist)
 selectedwindow.Image = getriseasset("Window.png")
 selectedwindow.BackgroundTransparency = 1
+local px = Instance.new("GetTextBoundsParams")
+px.Size = 18
+px.Font = shared.RiseFonts.AppleUI
+px.Width = 99999
+px.Text = keys["maingui.winlist.search"]
+selectedwindow.Size = UDim2.new(0, 48 + textService:GetTextBoundsAsync(px).X, 0, 30)
 selectedwindow.Position = UDim2.new(0, 20, 0, selectedpos[1])
-selectedwindow.Size = UDim2.new(0, selectedsize[1], 0, 30)
 selectedwindow.ZIndex = 0
 selectedwindow.ScaleType = Enum.ScaleType.Slice
 selectedwindow.ImageTransparency = .25
@@ -2011,6 +2016,12 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function()
             end
         end
     end
+    local px = Instance.new("GetTextBoundsParams")
+    px.Size = 18
+    px.Font = shared.RiseFonts.AppleUI
+    px.Width = 99999
+    px.Text = keys["maingui.winlist." .. selectedwindowoption:lower()]
+    selectedwindow.Size = UDim2.new(0, 48 + textService:GetTextBoundsAsync(px).X, 0, 30)
 end)
 local InterfaceOptionsButton = GuiLibrary.ObjectCanBeSaved["RenderWindow"]["CreateOptionsButton"]({
     ["Name"] = "Interface",
