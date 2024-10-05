@@ -816,7 +816,7 @@ local initWindowFunction = {
                 "<font color=\"rgb(255, 255, 255)\">" .. Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] ..
                 "</font>")
                 GuiLibrary.UpdateHudEvent:Fire()
-                windowbuttonhandle("Language", "Language")
+                windowbuttonhandle("Language", "Search")
             end)
         end
     end
