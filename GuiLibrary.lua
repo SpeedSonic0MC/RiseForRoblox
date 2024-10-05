@@ -850,6 +850,7 @@ local initWindowFunction = {
         featured.RichText = true
         featured.TextSize = 19
         featured.Size = UDim2.new(0, 0, 0, 17)
+        featured.TextXAlignment = Enum.TextXAlignment.Left
         featured:AddTag("NotAffectedByYPos")
         table.insert(GuiLibrary.ThemesItems, featured)
         table.insert(GuiLibrary.RainbowItems, featured)
@@ -857,6 +858,7 @@ local initWindowFunction = {
         yourcfg.BackgroundTransparency = 1
         yourcfg.FontFace = shared.RiseFonts.AppleUISemibold
         yourcfg.Position = UDim2.new(0, 12, 0, 519)
+        yourcfg.TextXAlignment = Enum.TextXAlignment.Left
         yourcfg.TextWrapped = false
         yourcfg.RichText = true
         yourcfg.TextSize = 19
@@ -883,6 +885,7 @@ local initWindowFunction = {
         scrs.RichText = true
         scrs.TextSize = 19
         scrs.Size = UDim2.new(0, 0, 0, 17)
+        scrs.TextXAlignment = Enum.TextXAlignment.Left
     end
 }
 selectedwindow = Instance.new("ImageLabel", winlist)
@@ -1952,11 +1955,19 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function(ignore)
         if color == nil then
             return
         end -- rainbow
-        for i, v in pairs(GuiLibrary.ThemesItems) do -- should only be frames
-            v.BackgroundColor3 = color
+        for i, v in pairs(GuiLibrary.ThemesItems) do
+            if v:IsA("TextLabel") then
+                v.TextColor3 = color
+            else
+                v.BackgroundColor3 = color
+            end
         end
         for i, v in pairs(GuiLibrary.DarkerThemesItems) do
-            v.BackgroundColor3 = ThemeService:darker(color)
+            if v:IsA("TextLabel") then
+                v.TextColor3 = ThemeService:darker(color)
+            else
+                v.BackgroundColor3 = ThemeService:darker(color)
+            end
         end
     end)
     keys = Lang:GetLanguage(GuiLibrary.Settings.Language)
