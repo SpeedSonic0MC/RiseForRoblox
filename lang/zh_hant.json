@@ -1,0 +1,16 @@
+{
+    "maingui.winlist.search": "搜尋",
+    "maingui.winlist.combat": "戰鬥",
+    "maingui.winlist.movement": "移動",
+    "maingui.winlist.player": "玩家",
+    "maingui.winlist.render": "顯示",
+    "maingui.winlist.exploit": "外掛",
+    "maingui.winlist.ghost": "鬼魂",
+    "maingui.winlist.cas": "配置和腳本",
+    "maingui.winlist.themes": "主題",
+    "maingui.winlist.language": "語言",
+    "optionsbutton.interface.name": "界面",
+    "optionsbutton.interface.description": "客戶端與所有資訊交互",
+    "themes.main": "您可以單擊一種顏色來進行過濾。再次單擊即可重置。",
+    "languages.main": "選擇您希望 Rise 使用的語言。"
+}
