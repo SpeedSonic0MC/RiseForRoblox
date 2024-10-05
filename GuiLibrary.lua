@@ -341,8 +341,6 @@ GuiLibrary["ShowNotification"] = function(title, description, time)
         notif = false
     end)
 end
-local reverse = true
-local step = 0
 local function colortick()
     for i, v in pairs(GuiLibrary.GradientItems) do
         if v == nil then
@@ -1124,7 +1122,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         desc.BackgroundTransparency = 1
         desc.Position = UDim2.new(0, 12, 0, 48)
         desc.Size = UDim2.new(0, 2000, 0, 14)
-        desc:SetAttribute("RiseLanguageKey", "optionsbutton." .. buttonapi.Name:lower() .. ".description")
+        desc:SetAttribute("RiseLanguageKey", "optionsbutton." .. buttonapi.Name:lower() .. ".desc")
         table.insert(GuiLibrary.TranslateItems, desc)
         buttonapi["SetKeybind"] = function(key)
             buttonapi.Keybind = key
@@ -1912,7 +1910,6 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function(ignore)
         if v == nil then
             return
         end
-        print("RLP: " .. (v:GetAttribute("RLReplacement") or "Null"), "RLK: " .. (v:GetAttribute("RiseLanguageKey") or "Null"))
         local funcattr = v:GetAttribute("RLReplacement")
         if funcattr ~= nil then
             GuiLibrary.LanguageFunctions[funcattr](keys[v:GetAttribute("RiseLanguageKey")])
@@ -2004,6 +2001,7 @@ GuiLibrary["SaveSettings"] = function()
     local savetable = {}
     for i, v in pairs(GuiLibrary.ObjectCanBeSaved) do
         if v.Type == "OptionsButton" then
+            if v["NoSave"] then return end
             savetable[i] = {
                 Type = "OptionsButton",
                 Enabled = v["Enabled"],

@@ -10,7 +10,7 @@
     "maingui.winlist.themes": "Themes",
     "maingui.winlist.language": "Language",
     "optionsbutton.interface.name": "Interface",
-    "optionsbutton.interface.description": "The clients interface with all information",
+    "optionsbutton.interface.desc": "The clients interface with all information",
     "themes.main": "You can click on a color to filter by it. Click again to reset.",
     "languages.main": "Select which language you want Rise to be in"
 }
