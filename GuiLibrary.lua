@@ -828,6 +828,12 @@ local initWindowFunction = {
                 GuiLibrary.UpdateHudEvent:Fire()
             end)
         end
+        local px2 = Instance.new("GetTextBoundsParams")
+        px2.Size = 18
+        px2.Font = shared.RiseFonts.AppleUI
+        px2.Width = 99999
+        px2.Text = keys["maingui.winlist.language"]
+        selectedwindow.Size = UDim2.new(0, 48 + textService:GetTextBoundsAsync(px2).X, 0, 30)
     end
 }
 selectedwindow = Instance.new("ImageLabel", winlist)
