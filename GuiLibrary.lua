@@ -826,6 +826,7 @@ local initWindowFunction = {
                                 Lang["AvailableFlag"][i] or "<font color=\"rgb(255, 255, 255)\">" ..
                                 Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] .. "</font>")
                 GuiLibrary.UpdateHudEvent:Fire()
+                task.wait()
                 local px2 = Instance.new("GetTextBoundsParams")
                 px2.Size = 18
                 px2.Font = shared.RiseFonts.AppleUI
@@ -2003,6 +2004,7 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function()
         if v == nil then
             return
         end
+        print("RLP: " .. v:GetAttribute("RLReplacement"), "RLK: " .. v:GetAttribute("RiseLanguageKey"))
         local funcattr = v:GetAttribute("RLReplacement")
         if funcattr then
             GuiLibrary.LanguageFunctions[funcattr](keys[v:GetAttribute("RiseLanguageKey")])
