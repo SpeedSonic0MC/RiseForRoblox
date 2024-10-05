@@ -53,8 +53,7 @@ image.AnchorPoint = Vector2.new(0.5, 0.5)
 image.Position = UDim2.new(0.5, 0, 0.5, 0)
 image.ImageTransparency = 1
 local uiscale = Instance.new("UIScale", image)
-local displayport = workspace.CurrentCamera.ViewportSize.Y
-local maxscale = displayport / 1080
+local maxscale = 1
 uiscale.Scale = maxscale / 5
 tweenService:Create(uiscale, TweenInfo.new(0.2), {
     Scale = maxscale / 5
