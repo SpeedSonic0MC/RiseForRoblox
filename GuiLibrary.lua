@@ -1123,7 +1123,10 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         desc.Position = UDim2.new(0, 12, 0, 48)
         desc.Size = UDim2.new(0, 2000, 0, 14)
         desc:SetAttribute("RiseLanguageKey", "optionsbutton." .. buttonapi.Name:lower() .. ".desc")
-        table.insert(GuiLibrary.TranslateItems, desc)
+        task.spawn(function()
+            task.wait()
+            table.insert(GuiLibrary.TranslateItems, desc)
+        end)
         buttonapi["SetKeybind"] = function(key)
             buttonapi.Keybind = key
         end
