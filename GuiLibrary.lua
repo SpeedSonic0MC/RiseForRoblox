@@ -234,7 +234,9 @@ inputService.InputBegan:Connect(function(input)
         task.spawn(tgle)
     end
     for i, v in pairs(GuiLibrary.ObjectCanBeSaved) do
-        if v.Keybind == nil then return end
+        if v.Keybind == nil then
+            return
+        end
         if v.Type == "OptionsButton" and Enum.KeyCode[v.Keybind] == input.KeyCode then
             task.spawn(v["ToggleButton"])
         end
@@ -256,7 +258,8 @@ table.insert(GuiLibrary.RainbowItems, vergra)
 local notif = false
 GuiLibrary["ShowNotification"] = function(title, description, time)
     task.spawn(function()
-        if not GuiLibrary["ObjectCanBeSaved"]["InterfaceOptionsButton"]["Enabled"] or not GuiLibrary.ObjectCanBeSaved["InterfaceToggle NotificationsToggle"]["Enabled"] then
+        if not GuiLibrary["ObjectCanBeSaved"]["InterfaceOptionsButton"]["Enabled"] or
+            not GuiLibrary.ObjectCanBeSaved["InterfaceToggle NotificationsToggle"]["Enabled"] then
             return
         end
         title = description ~= nil and title or "Toggled"
@@ -433,7 +436,7 @@ local initWindowFunction = {
         textl.Position = UDim2.new(1, -33, 0, 20)
         textl.AnchorPoint = Vector2.new(1, 0)
         textl.Text = "You can click on a color to filter by it. Click again to reset."
-        textl:SetAttribute("RiseLanguageKey", "languages.main")
+        textl:SetAttribute("RiseLanguageKey", "themes.main")
         textl.Size = UDim2.new(1, 0, 0, 15)
         textl.TextSize = 18
         textl.FontFace = shared.RiseFonts.AppleUI
@@ -747,6 +750,20 @@ local initWindowFunction = {
             end
         end
         updatecolors(nil)
+    end,
+    ["Language"] = function(frame)
+        frame.UIListLayout:Destroy()
+        local textl = Instance.new("TextLabel", frame)
+        textl.Position = UDim2.new(1, -33, 0, 20)
+        textl.AnchorPoint = Vector2.new(1, 0)
+        textl.Text = "You can click on a color to filter by it. Click again to reset."
+        textl:SetAttribute("RiseLanguageKey", "languages.main")
+        textl.Size = UDim2.new(1, 0, 0, 15)
+        textl.TextSize = 18
+        textl.FontFace = shared.RiseFonts.AppleUI
+        textl.TextXAlignment = Enum.TextXAlignment.Right
+        textl.BackgroundTransparency = 1
+        textl.TextColor3 = Color3.fromRGB(139, 140, 144)
     end
 }
 local selectedwindow = Instance.new("ImageLabel", winlist)
@@ -1946,7 +1963,9 @@ GuiLibrary["LoadSettings"] = function(customsave)
     if isfile("rise/configs/" .. GuiLibrary.Settings.Profile .. tostring(game.PlaceId) .. ".rscfg") then
         loadfile = "rise/configs/" .. GuiLibrary.Settings.Profile .. tostring(game.PlaceId) .. ".rscfg"
     end
-    if not isfile(loadfile) then return end
+    if not isfile(loadfile) then
+        return
+    end
     local decoded = httpService:JSONDecode(readfile(loadfile))
     if decoded ~= nil and type(decoded) == "table" then
         for i, v in pairs(decoded) do
@@ -2035,10 +2054,11 @@ local tpc = lplr.OnTeleport:Connect(function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/SpeedSonic0MC/RiseForRoblox/main/MainScript.lua"))()
         ]]
         if shared.RiseDeveloper then
-            tpss = "shared.RiseDeveloper = true\n"..tpss
+            tpss = "shared.RiseDeveloper = true\n" .. tpss
         end
         GuiLibrary.SaveSettings()
-        local qot = syn and syn.queue_on_teleport or queue_on_teleport or function () end
+        local qot = syn and syn.queue_on_teleport or queue_on_teleport or function()
+        end
         qot(tpss)
     end
 end)
