@@ -858,7 +858,7 @@ local initWindowFunction = {
         featuredcfgs.BackgroundTransparency = 1
         featuredcfgs.ClipsDescendants = false
         featuredcfgs.Position = UDim2.new(0, 12, 0, 307)
-        featuredcfgs.Size = UDim2.new(0, 173, 0, 173)
+        featuredcfgs.Size = UDim2.new(0, 559, 0, 173)
         featuredcfgs.ScrollingDirection = Enum.ScrollingDirection.X
         featuredcfgs.AutomaticCanvasSize = Enum.AutomaticSize.X
         featuredcfgs.ScrollBarThickness = 0
@@ -867,7 +867,7 @@ local initWindowFunction = {
         uipagelayout.Circular = false
         uipagelayout.EasingStyle = Enum.EasingStyle.Back
         uipagelayout.EasingDirection = Enum.EasingDirection.Out
-        uipagelayout.Padding = UDim.new(0, 20)
+        uipagelayout.Padding = UDim.new(0, -366)
         uipagelayout.TweenTime = 0.5
         uipagelayout.FillDirection = Enum.FillDirection.Horizontal
         uipagelayout.VerticalAlignment = Enum.VerticalAlignment.Center
@@ -883,32 +883,65 @@ local initWindowFunction = {
         yourcfg:AddTag("NotAffectedByYPos")
         table.insert(GuiLibrary.ThemesItems, yourcfg)
         table.insert(GuiLibrary.RainbowItems, yourcfg)
-        task.spawn(function()
-            repeat
-                local cfgCount = 0
-                for i, v in pairs(listfiles("rise/configs")) do
-                    if string.find(v, tostring(shared.CustomRiseSave or game.PlaceId)) then
-                        cfgCount = cfgCount + 1
-                    end
-                end
-                yourcfg.Text = "<font color=\"rgb(255, 255, 255)\">Your Configs</font>  " .. cfgCount
-                task.wait(1)
-            until GuiLibrary == nil
-        end)
         local ycfgs = Instance.new("ScrollingFrame", frame)
         ycfgs.BackgroundTransparency = 1
         ycfgs.ClipsDescendants = false
         ycfgs.Position = UDim2.new(0, 12, 0, 561)
-        ycfgs.Size = UDim2.new(0, 173, 0, 173)
+        ycfgs.Size = UDim2.new(0, 559, 0, 173)
         ycfgs.ScrollingDirection = Enum.ScrollingDirection.X
         ycfgs.AutomaticCanvasSize = Enum.AutomaticSize.X
         ycfgs.ScrollBarThickness = 0
+        task.spawn(function()
+            repeat
+                local cfgCount = 0
+                local configs = {}
+                for i, v in pairs(listfiles("rise/configs")) do
+                    if string.find(v, tostring(shared.CustomRiseSave or game.PlaceId)) then
+                        cfgCount = cfgCount + 1
+                        table.insert(configs, string.gsub(v, tostring(shared.CustomRiseSave or game.PlaceId), ""))
+                    end
+                end
+                yourcfg.Text = "<font color=\"rgb(255, 255, 255)\">Your Configs</font>  " .. cfgCount
+                for i, v in pairs(configs) do
+                    if not ycfgs[v] then
+                        local configbutton = Instance.new("TextButton", ycfgs)
+                        configbutton.Text = ""
+                        configbutton.Size = UDim2.new(0, 137, 0, 137)
+                        configbutton.BackgroundColor3 = Color3.fromRGB(18, 21, 27)
+                        local corner = Instance.new("UICorner", configbutton)
+                        corner.CornerRadius = UDim.new(0, 13)
+                        local configname = Instance.new("TextLabel", configbutton)
+                        configname.FontFace = shared.RiseFonts.AppleUISemibold
+                        configname.AnchorPoint = Vector2.new(0.5, 0)
+                        configname.Size = UDim2.new(1, 0, 0, 19)
+                        configname.TextSize = 21
+                        configname.TextColor3 = Color3.new(1, 1, 1)
+                        configname.Text = v
+                        configname.BackgroundTransparency = 1
+                        configname.Position = UDim2.new(0.5, 0, 0, 70)
+                        local ctl = Instance.new("TextLabel", configbutton)
+                        ctl.FontFace = shared.RiseFonts.AppleUI
+                        ctl.Size = UDim2.new(1, 0, 0, 16)
+                        ctl.TextSize = 18
+                        ctl.Position = UDim2.new(0.5, 0, 0, 103)
+                        ctl.Text = "Click to load"
+                        ctl.BackgroundTransparency = 1
+                        ctl.TextColor3 = Color3.fromRGB(139, 140, 143)
+                        configbutton.MouseButton1Click:Connect(function()
+                            GuiLibrary.LoadSettings(nil, v)
+                        end)
+                    end
+                end
+                task.wait(1)
+            until GuiLibrary == nil
+        end)
         local wer = Instance.new("UIPageLayout", ycfgs)
         wer.Animated = true
+        wer.Name = httpService:GenerateGUID(true)
         wer.Circular = false
         wer.EasingStyle = Enum.EasingStyle.Back
         wer.EasingDirection = Enum.EasingDirection.Out
-        wer.Padding = UDim.new(0, 20)
+        wer.Padding = UDim.new(0, -366)
         wer.TweenTime = 0.5
         wer.FillDirection = Enum.FillDirection.Horizontal
         wer.VerticalAlignment = Enum.VerticalAlignment.Center
@@ -2056,9 +2089,9 @@ GuiLibrary["RemoveOptionsButton"] = function(key)
         GuiLibrary.ObjectCanBeSaved[key .. "OptionsButton"] = nil
     end
 end
-GuiLibrary["LoadSettings"] = function(customsave)
-    local loadfile = "rise/configs/" .. (customsave or game.PlaceId) .. ".rscfg"
-    if isfile("rise/configs/latest" .. tostring(game.PlaceId) .. ".rscfg") then
+GuiLibrary["LoadSettings"] = function(customsave, config)
+    local loadfile = "rise/configs/" .. config or "" .. (customsave or game.PlaceId) .. ".rscfg"
+    if isfile("rise/configs/latest" .. tostring(game.PlaceId) .. ".rscfg") and not config then
         loadfile = "rise/configs/latest" .. tostring(game.PlaceId) .. ".rscfg"
     end
     if not isfile(loadfile) then
