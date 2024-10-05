@@ -1030,97 +1030,6 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
     lab.TextXAlignment = Enum.TextXAlignment.Left
     textbtn.MouseButton1Click:Connect(function()
         windowbuttonhandle(selectedwindowoption, v)
-        --[[if sw == v or tweeningtroll then
-            return
-        end
-        task.spawn(function()
-            local cs = selectedwindow:Clone()
-            cs.Parent = winlist
-            tweenService:Create(cs, TweenInfo.new(0.3), {
-                ImageTransparency = 1
-            }):Play()
-            tweenService:Create(winlist:FindFirstChild(sw).TNTMinecart, TweenInfo.new(0.3), {
-                Position = UDim2.new(0, 24, 0.5, 0),
-                TextColor3 = Color3.fromRGB(170, 170, 170)
-            }):Play()
-            tweenService:Create(winlist:FindFirstChild(sw).TNTMinecart:FindFirstChildWhichIsA "TextLabel",
-                TweenInfo.new(0.3), {
-                    TextColor3 = Color3.fromRGB(170, 170, 170)
-                }):Play()
-            task.delay(0.3, function()
-                cs:Destroy()
-            end)
-            selectedwindow.Position = UDim2.new(0, 20, 0, selectedpos[i])
-            selectedwindow.ImageTransparency = 1
-            selectedwindow.Size = UDim2.new(0, selectedsize[i], 0, 30)
-            tweenService:Create(selectedwindow, TweenInfo.new(0.3), {
-                ImageTransparency = 0
-            }):Play()
-            tweenService:Create(cart, TweenInfo.new(0.3), {
-                Position = UDim2.new(0, 32, 0.5, 0),
-                TextColor3 = Color3.new(1, 1, 1)
-            }):Play()
-            tweenService:Create(lab, TweenInfo.new(0.3), {
-                TextColor3 = Color3.new(1, 1, 1)
-            }):Play()
-        end)
-        tweeningtroll = true
-        task.spawn(function() -- sw example: Combat, old: sw, new: v
-            local newobj = GuiLibrary.ObjectCanBeSaved[v .. "Window"]["Object"]["ScrollingFrame"]
-            local oldobj = GuiLibrary.ObjectCanBeSaved[sw .. "Window"]["Object"]["ScrollingFrame"]
-            for i2, v2 in pairs(oldobj:GetDescendants()) do
-                local property = nil
-                local value = 1
-                if v2:HasTag("NoTween") then
-                    return
-                end
-                if v2:IsA("TextLabel") or (v2:IsA("TextButton") and v2:HasTag("SpecialTween")) or v2:IsA("TextBox") then
-                    property = "TextTransparency"
-                elseif (v2:IsA("TextButton") or v2:IsA("Frame")) and
-                    (not v2:HasTag("NoTween") and not v2:HasTag("SpecialTween")) then
-                    property = "BackgroundTransparency"
-                elseif v2:IsA("UIStroke") then
-                    property = "Transparency"
-                end
-                if property ~= nil then
-                    tweenService:Create(v2, TweenInfo.new(0.15), {
-                        [property] = value
-                    }):Play()
-                    task.delay(0.15, function()
-                        v2[property] = 0
-                    end)
-                end
-            end
-            newobj.Parent.Visible = true
-            for i2, v2 in pairs(newobj:GetDescendants()) do
-                local property = nil
-                local value = 0
-                if v2:HasTag("NoTween") then
-                    do
-                        break
-                    end
-                end
-                if v2:IsA("TextLabel") or (v2:IsA("TextButton") and v2:HasTag("SpecialTween")) or v2:IsA("TextBox") then
-                    property = "TextTransparency"
-                elseif (v2:IsA("TextButton") or v2:IsA("Frame")) and
-                    (not v2:HasTag("NoTween") and not v2:HasTag("SpecialTween")) then
-                    property = "BackgroundTransparency"
-                elseif v2:IsA("UIStroke") then
-                    property = "Transparency"
-                end
-                if property ~= nil then
-                    v2[property] = 1
-                    tweenService:Create(v2, TweenInfo.new(0.15), {
-                        [property] = value
-                    }):Play()
-                end
-            end
-            task.delay(0.15, function()
-                oldobj.Parent.Visible = false
-                tweeningtroll = false
-            end)
-        end)
-        sw = v]]
     end)
     local frame = Instance.new("Frame", windowshit)
     frame.Name = v
@@ -2005,7 +1914,7 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function()
             return
         end
         local funcattr = v:GetAttribute("RLReplacement")
-        if funcattr then
+        if funcattr ~= nil then
             GuiLibrary.LanguageFunctions[funcattr](keys[v:GetAttribute("RiseLanguageKey")])
             return
         end
@@ -2132,7 +2041,7 @@ task.spawn(function()
     coroutine.resume(mainsettingssaveloop)
 end)
 local tps = false
-local tpc = lplr.OnTeleport:Connect(function()
+lplr.OnTeleport:Connect(function()
     if (not tps) then
         tps = true
         local tpss = [[
