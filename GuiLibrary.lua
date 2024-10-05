@@ -428,6 +428,7 @@ local selectedsize = {96, 102, 120, 88, 96, 94, 88, 76, 102, 114}
 local selectedpos = {80, 120, 162, 203, 243, 285, 325, 367, 408, 449}
 local winpos = {80, 121, 162, 203, 244, 285, 326, 367, 408, 449}
 local winize = {70, 81, 103, 65, 74, 68, 66, 52, 81, 95}
+local windowbuttonhandle
 local initWindowFunction = {
     ["Themes"] = function(frame)
         frame.UIListLayout:Destroy()
@@ -815,6 +816,7 @@ local initWindowFunction = {
                 "<font color=\"rgb(255, 255, 255)\">" .. Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] ..
                 "</font>")
                 GuiLibrary.UpdateHudEvent:Fire()
+                windowbuttonhandle("Language", "Language")
             end)
         end
     end
@@ -854,7 +856,7 @@ local cr = Instance.new("UICorner", shader)
 cr.CornerRadius = UDim.new(1, 0)
 local windowdescendantstweening = false
 local selectedwindowoption = "Search"
-local function windowbuttonhandle(oldname, newname)
+windowbuttonhandle = function (oldname, newname)
     local indexes =
         {"Search", "Combat", "Movement", "Player", "Render", "Exploit", "Ghost", "CaS", "Themes", "Language"}
     if oldname == newname or selectedwindowoption == newname or windowdescendantstweening then
