@@ -1912,6 +1912,7 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function(ignore)
         if v == nil then
             return
         end
+        print("RLP: " .. (v:GetAttribute("RLReplacement") or "Null"), "RLK: " .. (v:GetAttribute("RiseLanguageKey") or "Null"))
         local funcattr = v:GetAttribute("RLReplacement")
         if funcattr ~= nil then
             GuiLibrary.LanguageFunctions[funcattr](keys[v:GetAttribute("RiseLanguageKey")])
