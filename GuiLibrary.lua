@@ -3,7 +3,6 @@ local GuiLibrary = {
     ObjectCanBeSaved = {},
     Settings = {
         Keybind = shared.RiseDeveloper and "M" or "RightShift",
-        Profile = "latest",
         Theme = "Blend",
         Language = "en"
     },
@@ -806,7 +805,7 @@ local initWindowFunction = {
             desc.Position = UDim2.new(0, 21, 0, 47)
             desc.Size = UDim2.new(0, 0, 0, 16)
             desc.TextSize = 18
-            desc.Text = Lang["AvailableName"][i]
+            desc.Text = Lang["AvailableDesc"][i]
             desc.TextXAlignment = Enum.TextXAlignment.Left
             desc.TextYAlignment = Enum.TextYAlignment.Top
             desc.TextWrapped = false
@@ -833,13 +832,13 @@ local initWindowFunction = {
             end)
         end
     end,
-    CaS = function(frame)
+    ["CaS"] = function(frame)
         frame.UIListLayout:Destroy()
         local stupiduselesslilframe = Instance.new("Frame", frame)
         stupiduselesslilframe.BackgroundColor3 = Color3.fromRGB(14, 16, 21)
-        stupiduselesslilframe.Position = UDim2.new(0.5, 0, 6, 0)
+        stupiduselesslilframe.Position = UDim2.new(0.5, 0, 0, 6)
         stupiduselesslilframe.AnchorPoint = Vector2.new(0.5, 0)
-        stupiduselesslilframe.Size = UDim2.new(1, 0, 0, 220)
+        stupiduselesslilframe.Size = UDim2.new(1, -12, 0, 220)
         local lilfrc = Instance.new("UICorner", stupiduselesslilframe)
         lilfrc.CornerRadius = UDim.new(0, 17)
     end
@@ -1969,8 +1968,8 @@ GuiLibrary["RemoveOptionsButton"] = function(key)
 end
 GuiLibrary["LoadSettings"] = function(customsave)
     local loadfile = "rise/configs/" .. (customsave or game.PlaceId) .. ".rscfg"
-    if isfile("rise/configs/" .. GuiLibrary.Settings.Profile .. tostring(game.PlaceId) .. ".rscfg") then
-        loadfile = "rise/configs/" .. GuiLibrary.Settings.Profile .. tostring(game.PlaceId) .. ".rscfg"
+    if isfile("rise/configs/latest" .. tostring(game.PlaceId) .. ".rscfg") then
+        loadfile = "rise/configs/latest" .. tostring(game.PlaceId) .. ".rscfg"
     end
     if not isfile(loadfile) then
         return
@@ -2013,7 +2012,7 @@ GuiLibrary["SaveSettings"] = function()
     if not GuiLibrary.Loaded then
         return
     end
-    local file = "rise/configs/" .. GuiLibrary.Settings.Profile .. tostring(game.PlaceId) .. ".rscfg"
+    local file = "rise/configs/latest" .. tostring(game.PlaceId) .. ".rscfg" -- don't ask why its only latest. Try rise yourself.
     local savetable = {}
     for i, v in pairs(GuiLibrary.ObjectCanBeSaved) do
         if v.Type == "OptionsButton" then

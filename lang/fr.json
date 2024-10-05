@@ -1,0 +1,16 @@
+{
+    "maingui.winlist.search": "Recherche",
+    "maingui.winlist.combat": "Combat",
+    "maingui.winlist.movement": "Mouvement",
+    "maingui.winlist.player": "Joueur",
+    "maingui.winlist.render": "Rendu",
+    "maingui.winlist.exploit": "Exploitation",
+    "maingui.winlist.ghost": "Fantôme",
+    "maingui.winlist.cas": "Script",
+    "maingui.winlist.themes": "Thèmes",
+    "maingui.winlist.language": "Langue",
+    "optionsbutton.interface.name": "Interface",
+    "optionsbutton.interface.desc": "Montre tout les infos ingame",
+    "themes.main": "Vous pouvez clicker sur une couleur pour le filtrer. Clique encore pour reset.",
+    "languages.main": "Selectionnez le language que vous vouliez que votre client soit."
+}

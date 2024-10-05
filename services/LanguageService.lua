@@ -1,11 +1,14 @@
 local HttpService = game:GetService("HttpService")
 local a = {
     Languages = {},
-    Available = {"en", "zh_hant"},
+    Available = {"en", "zh_hant", "fr"},
     AvailableName = { -- love windows breaking the flag
-    [[English (Global)]], [[Chinese Traditional (Hong Kong)]]},
+    [[English (Global)]], [[Chinese Traditional (Hong Kong)]], [[French (France)]]},
     AvailableFlag = {
-        "🇺🇸", "🇭🇰"
+        "🇺🇸", "🇭🇰", "🇫🇷"
+    },
+    AvailableDesc = {
+        [[English (Global)]], [[繁體中文 （香港）]], [[Français (France)]]
     }
 }
 function a:GetLanguage(key)
