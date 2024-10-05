@@ -906,7 +906,7 @@ local initWindowFunction = {
                 end
                 yourcfg.Text = "<font color=\"rgb(255, 255, 255)\">Your Configs</font>  " .. cfgCount
                 for i, v in pairs(configs) do
-                    if not ycfgs[v] then
+                    if not ycfgs:FindFirstChild(v) then
                         local configbutton = Instance.new("TextButton", ycfgs)
                         configbutton.Text = ""
                         configbutton.Name = v
