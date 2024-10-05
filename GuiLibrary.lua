@@ -1210,6 +1210,10 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         desc.Position = UDim2.new(0, 12, 0, 48)
         desc.Size = UDim2.new(0, 2000, 0, 14)
         desc:SetAttribute("RiseLanguageKey", "optionsbutton." .. buttonapi.Name:lower() .. ".description")
+        desc:SetAttribute("RLReplacement", "OptionsButton" .. buttonapi.Name .. "Description")
+        GuiLibrary.LanguageFunctions["OptionsButton" .. buttonapi.Name] = function(trans)
+            desc.Text = trans
+        end
         table.insert(GuiLibrary.TranslateItems, desc)
         buttonapi["SetKeybind"] = function(key)
             buttonapi.Keybind = key
@@ -2003,7 +2007,6 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function()
             return
         end
         local attr = v:GetAttribute("RiseLanguageKey")
-        print(attr)
         if attr then
             local value = keys[attr]
             if value then
