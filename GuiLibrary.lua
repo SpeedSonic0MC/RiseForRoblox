@@ -789,14 +789,13 @@ local initWindowFunction = {
             text.TextColor3 = Color3.new(1, 1, 1)
             text.FontFace = shared.RiseFonts.AppleUISemibold
             text.TextWrapped = false
-            text.Text = Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i]
+            text.RichText = true
+            text.Text = v == (GuiLibrary.Settings.Language and Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] or "<font color=\"rgb(255, 255, 255)\">" .. Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] .. "</font>")
             text.Size = UDim2.new(0, 0, 0, 19)
             text.TextSize = 21
             text.TextXAlignment = Enum.TextXAlignment.Left
             text.TextYAlignment = Enum.TextYAlignment.Top
-            if GuiLibrary.Settings.Language == v then
-                table.insert(GuiLibrary.GradientItems, text)
-            end
+            table.insert(GuiLibrary.GradientItems, text)
             local desc = Instance.new("TextLabel", langbutton)
             desc.BackgroundTransparency = 1
             desc.TextColor3 = Color3.fromRGB(114, 113, 116)
@@ -810,10 +809,12 @@ local initWindowFunction = {
             desc.TextWrapped = false
             langbutton.MouseButton1Click:Connect(function()
                 if GuiLibrary.Settings.Language == v then return end
+                colorfilterframe[GuiLibrary.Settings.Language].Text = Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i]
                 GuiLibrary.Settings.Language = v
+                text.Text = v == (GuiLibrary.Settings.Language and Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] or
+                "<font color=\"rgb(255, 255, 255)\">" .. Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] ..
+                "</font>")
                 GuiLibrary.UpdateHudEvent:Fire()
-                table.remove(GuiLibrary.GradientItems, table.find(GuiLibrary.GradientItems, colorfilterframe:FindFirstChild(GuiLibrary.Settings.Language)))
-                table.insert(GuiLibrary.GradientItems, langbutton)
             end)
         end
     end
