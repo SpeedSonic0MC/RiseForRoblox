@@ -1932,7 +1932,7 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function()
         end
         local funcattr = v:GetAttribute("RLReplacement")
         if funcattr then
-            GuiLibrary.LanguageFunctions[funcattr]()
+            GuiLibrary.LanguageFunctions[funcattr](keys[v:GetAttribute("RiseLanguageKey")])
             return
         end
         local attr = v:GetAttribute("RiseLanguageKey")

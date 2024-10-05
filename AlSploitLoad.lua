@@ -56,11 +56,6 @@ local uiscale = Instance.new("UIScale", image)
 local displayport = workspace.CurrentCamera.ViewportSize.Y
 local maxscale = displayport / 1080
 uiscale.Scale = maxscale / 5
-if not image.IsLoaded then
-    repeat
-        task.wait()
-    until image.IsLoaded
-end
 tweenService:Create(uiscale, TweenInfo.new(0.2), {
     Scale = maxscale / 5
 }):Play() -- why change image size or scale when you can just scale the UI instead?
@@ -93,6 +88,7 @@ loadingtext.Position = UDim2.new(0, 0, 0, 182)
 loadingtext.Size = UDim2.new(0, 600, 0, 36)
 loadingtext.TextColor3 = Color3.new(1, 1, 1)
 loadingtext.TextTransparency = 1
+loadingtext.BackgroundTransparency = 1
 tweenService:Create(loadingtext, TweenInfo.new(0.6), {
     TextTransparency = 0
 }):Play()
