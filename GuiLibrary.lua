@@ -2003,6 +2003,7 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function()
             return
         end
         local attr = v:GetAttribute("RiseLanguageKey")
+        print(attr)
         if attr then
             local value = keys[attr]
             if value then
