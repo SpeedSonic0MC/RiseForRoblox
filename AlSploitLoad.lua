@@ -116,6 +116,13 @@ else
     end)
     if not suc then
         changetext("AlSploit Failed To Load")
+        task.wait(2)
+        tweenService:Create(uiscale, TweenInfo.new(0.4), {
+            Scale = maxscale / 5
+        }):Play()
+        tweenService:Create(image, TweenInfo.new(0.2), {
+            ImageTransparency = 1
+        }):Play()
     else
         callbacktime = tick() - currenttick
         local pgb = Instance.new("Frame", rm)
@@ -155,12 +162,12 @@ else
             loadstring(game:HttpGet(
                 "https://raw.githubusercontent.com/AlSploit/AlSploit/refs/heads/main/AlSploit/Bedwars/Executed"))()
         end)
+        task.wait(2)
+        tweenService:Create(uiscale, TweenInfo.new(0.4), {
+            Scale = maxscale / 5
+        }):Play()
+        tweenService:Create(image, TweenInfo.new(0.2), {
+            ImageTransparency = 1
+        }):Play()
     end
 end
-task.wait(2)
-tweenService:Create(uiscale, TweenInfo.new(0.4), {
-    Scale = maxscale / 5
-}):Play()
-tweenService:Create(image, TweenInfo.new(0.2), {
-    ImageTransparency = 1
-}):Play()
