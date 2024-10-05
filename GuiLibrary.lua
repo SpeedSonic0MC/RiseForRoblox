@@ -843,7 +843,7 @@ local initWindowFunction = {
         lilfrc.CornerRadius = UDim.new(0, 17)
         local featured = Instance.new("TextLabel", frame)
         featured.BackgroundTransparency = 1
-        featured.Text = "<font color=\"rgb(255, 255, 255)\">Featured Configs</font> 0"
+        featured.Text = "<font color=\"rgb(255, 255, 255)\">Featured Configs</font>  0"
         featured.FontFace = shared.RiseFonts.AppleUISemibold
         featured.Position = UDim2.new(0, 12, 0, 265)
         featured.TextWrapped = false
@@ -854,6 +854,13 @@ local initWindowFunction = {
         featured:AddTag("NotAffectedByYPos")
         table.insert(GuiLibrary.ThemesItems, featured)
         table.insert(GuiLibrary.RainbowItems, featured)
+        local featuredcfgs = Instance.new("ScrollingFrame", frame)
+        featuredcfgs.BackgroundTransparency = 1
+        featuredcfgs.ClipsDescendants = false
+        featuredcfgs.AnchorPoint = Vector2.new(0.5, 0)
+        featuredcfgs.Position = UDim2.new(0.5, 0, 0, 307)
+        featuredcfgs.Size = UDim2.new(0, 559, 0, 173)
+        featuredcfgs.ScrollBarImageColor3 = Color3.fromRGB(255, 255, 255)
         local yourcfg = Instance.new("TextLabel", frame)
         yourcfg.BackgroundTransparency = 1
         yourcfg.FontFace = shared.RiseFonts.AppleUISemibold
@@ -867,13 +874,16 @@ local initWindowFunction = {
         table.insert(GuiLibrary.ThemesItems, yourcfg)
         table.insert(GuiLibrary.RainbowItems, yourcfg)
         task.spawn(function()
-            local cfgCount = 0
-            for i, v in pairs(listfiles("rise/configs")) do
-                if not string.find(v, "latest") and string.find(v, tostring(shared.CustomRiseSave)) then
-                    cfgCount = cfgCount + 1
+            repeat
+                local cfgCount = 0
+                for i, v in pairs(listfiles("rise/configs")) do
+                    if string.find(v, tostring(shared.CustomRiseSave)) then
+                        cfgCount = cfgCount + 1
+                    end
                 end
-            end
-            yourcfg.Text = "<font color=\"rgb(255, 255, 255)\">Your Configs</font> " .. cfgCount
+                yourcfg.Text = "<font color=\"rgb(255, 255, 255)\">Your Configs</font>  " .. cfgCount
+                task.wait(1)
+            until GuiLibrary == nil
         end)
         local scrs = Instance.new("TextLabel", frame)
         scrs.BackgroundTransparency = 1
