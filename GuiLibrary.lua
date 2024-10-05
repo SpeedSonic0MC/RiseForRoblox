@@ -776,7 +776,9 @@ local initWindowFunction = {
         layot.Padding = UDim.new(0, 16)
         for i, v in pairs(languages) do
             local langbutton = Instance.new("TextButton", colorfilterframe)
+            langbutton.Name = v
             langbutton.Text = ""
+            langbutton.AutoButtonColor = false
             langbutton.BackgroundColor3 = Color3.fromRGB(19, 22, 27)
             langbutton.Size = UDim2.new(1, 0, 0, 76)
             local corner = Instance.new("UICorner", langbutton)
@@ -792,6 +794,9 @@ local initWindowFunction = {
             text.TextSize = 21
             text.TextXAlignment = Enum.TextXAlignment.Left
             text.TextYAlignment = Enum.TextYAlignment.Top
+            if GuiLibrary.Settings.Language == v then
+                table.insert(GuiLibrary.GradientItems, text)
+            end
             local desc = Instance.new("TextLabel", langbutton)
             desc.BackgroundTransparency = 1
             desc.TextColor3 = Color3.fromRGB(114, 113, 116)
@@ -799,9 +804,17 @@ local initWindowFunction = {
             desc.Position = UDim2.new(0, 21, 0, 47)
             desc.Size = UDim2.new(0, 0, 0, 16)
             desc.TextSize = 18
+            desc.Text = Lang["AvailableName"][i]
             desc.TextXAlignment = Enum.TextXAlignment.Left
             desc.TextYAlignment = Enum.TextYAlignment.Top
             desc.TextWrapped = false
+            langbutton.MouseButton1Click:Connect(function()
+                if GuiLibrary.Settings.Language == v then return end
+                GuiLibrary.Settings.Language = v
+                GuiLibrary.UpdateHudEvent:Fire()
+                table.remove(GuiLibrary.GradientItems, table.find(GuiLibrary.GradientItems, colorfilterframe:FindFirstChild(GuiLibrary.Settings.Language)))
+                table.insert(GuiLibrary.GradientItems, langbutton)
+            end)
         end
     end
 }
