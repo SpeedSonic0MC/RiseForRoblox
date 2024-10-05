@@ -1910,21 +1910,25 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function(ignore)
     end)
     keys = Lang:GetLanguage(GuiLibrary.Settings.Language)
     for i, v in pairs(GuiLibrary.TranslateItems) do
-        if v == nil then
-            return
-        end
-        local funcattr = v:GetAttribute("RLReplacement")
-        if funcattr ~= nil then
-            GuiLibrary.LanguageFunctions[funcattr](keys[v:GetAttribute("RiseLanguageKey")])
-            return
-        end
-        local attr = v:GetAttribute("RiseLanguageKey")
-        if attr then
-            local value = keys[attr]
-            if value then
-                v.Text = value
+        task.spawn(function()
+            if v == nil then
+                repeat
+                    task.wait()
+                until v ~= nil
             end
-        end
+            local funcattr = v:GetAttribute("RLReplacement")
+            if funcattr ~= nil then
+                GuiLibrary.LanguageFunctions[funcattr](keys[v:GetAttribute("RiseLanguageKey")])
+            else
+                local attr = v:GetAttribute("RiseLanguageKey")
+                if attr then
+                    local value = keys[attr]
+                    if value then
+                        v.Text = value
+                    end
+                end
+            end
+        end)
     end
     if not ignore then
         local px2 = Instance.new("GetTextBoundsParams")
@@ -2004,7 +2008,9 @@ GuiLibrary["SaveSettings"] = function()
     local savetable = {}
     for i, v in pairs(GuiLibrary.ObjectCanBeSaved) do
         if v.Type == "OptionsButton" then
-            if v["NoSave"] then return end
+            if v["NoSave"] then
+                return
+            end
             savetable[i] = {
                 Type = "OptionsButton",
                 Enabled = v["Enabled"],
