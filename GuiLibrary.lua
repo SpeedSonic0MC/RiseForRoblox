@@ -841,6 +841,48 @@ local initWindowFunction = {
         stupiduselesslilframe.Size = UDim2.new(1, -12, 0, 220)
         local lilfrc = Instance.new("UICorner", stupiduselesslilframe)
         lilfrc.CornerRadius = UDim.new(0, 17)
+        local featured = Instance.new("TextLabel", frame)
+        featured.BackgroundTransparency = 1
+        featured.Text = "<font color=\"rgb(255, 255, 255)\">Featured Configs</font> 0"
+        featured.FontFace = shared.RiseFonts.AppleUISemibold
+        featured.Position = UDim2.new(0, 12, 0, 265)
+        featured.TextWrapped = false
+        featured.RichText = true
+        featured.TextSize = 19
+        featured.Size = UDim2.new(0, 0, 0, 17)
+        featured:AddTag("NotAffectedByYPos")
+        table.insert(GuiLibrary.ThemesItems, featured)
+        table.insert(GuiLibrary.RainbowItems, featured)
+        local yourcfg = Instance.new("TextLabel", frame)
+        yourcfg.BackgroundTransparency = 1
+        yourcfg.FontFace = shared.RiseFonts.AppleUISemibold
+        yourcfg.Position = UDim2.new(0, 12, 0, 519)
+        yourcfg.TextWrapped = false
+        yourcfg.RichText = true
+        yourcfg.TextSize = 19
+        yourcfg.Size = UDim2.new(0, 0, 0, 17)
+        yourcfg:AddTag("NotAffectedByYPos")
+        table.insert(GuiLibrary.ThemesItems, yourcfg)
+        table.insert(GuiLibrary.RainbowItems, yourcfg)
+        task.spawn(function()
+            local cfgCount = 0
+            for i, v in pairs(listfiles("rise/configs")) do
+                if not string.find(v, "latest") and string.find(v, tostring(shared.CustomRiseSave)) then
+                    cfgCount = cfgCount + 1
+                end
+            end
+            yourcfg.Text = "<font color=\"rgb(255, 255, 255)\">Your Configs</font> " .. cfgCount
+        end)
+        local scrs = Instance.new("TextLabel", frame)
+        scrs.BackgroundTransparency = 1
+        scrs.FontFace = shared.RiseFonts.AppleUISemibold
+        scrs.Position = UDim2.new(0, 12, 0, 772)
+        scrs.TextWrapped = false
+        scrs.Text = "Your Scripts"
+        scrs.TextColor3 = Color3.new(1, 1, 1)
+        scrs.RichText = true
+        scrs.TextSize = 19
+        scrs.Size = UDim2.new(0, 0, 0, 17)
     end
 }
 selectedwindow = Instance.new("ImageLabel", winlist)
