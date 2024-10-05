@@ -228,19 +228,7 @@ local function tgle()
     end
     guitweening = true
 end
-inputService.InputBegan:Connect(function(input)
-    if Enum.KeyCode[GuiLibrary.Settings.Keybind] == input.KeyCode then
-        task.spawn(tgle)
-    end
-    for i, v in pairs(GuiLibrary.ObjectCanBeSaved) do
-        if v.Keybind == nil then
-            return
-        end
-        if v.Type == "OptionsButton" and Enum.KeyCode[v.Keybind] == input.KeyCode then
-            task.spawn(v["ToggleButton"])
-        end
-    end
-end)
+local selectedwindowoption
 local ver = Instance.new("TextLabel", maingui)
 ver.Position = UDim2.new(0, 97, 0, 37) --  we use UIScale now so finally yay no more scales
 ver.Size = UDim2.new(0, 2000, 0, 13)
@@ -1008,7 +996,7 @@ table.insert(GuiLibrary.RainbowItems, shader)
 local cr = Instance.new("UICorner", shader)
 cr.CornerRadius = UDim.new(1, 0)
 local windowdescendantstweening = false
-local selectedwindowoption = "Search"
+selectedwindowoption = "Search"
 windowbuttonhandle = function(oldname, newname)
     local indexes =
         {"Search", "Combat", "Movement", "Player", "Render", "Exploit", "Ghost", "CaS", "Themes", "Language"}
@@ -2006,6 +1994,29 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
     end
     GuiLibrary.ObjectCanBeSaved[v .. "Window"] = windowapi
 end
+inputService.InputBegan:Connect(function(input)
+    local closing = false
+    if Enum.KeyCode[GuiLibrary.Settings.Keybind] == input.KeyCode then
+        task.spawn(tgle)
+        closing = true
+    end
+    if vis and not closing and not guitweening then
+        local acceptedRedirs = "abcdefghijklmnopqrstuvwxyz1234567890"
+        local keycode, _unused = tostring(input.KeyCode):gsub("Enum.KeyCode.", ""):lower()
+        if acceptedRedirs:find(keycode) and selectedwindowoption and selectedwindowoption ~= "Search" then
+            windowbuttonhandle(selectedwindowoption, "Search")
+        end
+        return
+    end
+    for i, v in pairs(GuiLibrary.ObjectCanBeSaved) do
+        if v.Keybind == nil then
+            return
+        end
+        if v.Type == "OptionsButton" and Enum.KeyCode[v.Keybind] == input.KeyCode then
+            task.spawn(v["ToggleButton"])
+        end
+    end
+end)
 GuiLibrary["SelfDestruct"] = function()
     gui:Destroy()
     rise2:Destroy()
