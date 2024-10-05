@@ -826,12 +826,6 @@ local initWindowFunction = {
                                 Lang["AvailableFlag"][i] or "<font color=\"rgb(255, 255, 255)\">" ..
                                 Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] .. "</font>")
                 GuiLibrary.UpdateHudEvent:Fire()
-                local px = Instance.new("GetTextBoundsParams")
-                px.Size = 18
-                px.Font = shared.RiseFonts.AppleUI
-                px.Width = 99999
-                px.Text = keys["maingui.winlist.language"]
-                selectedwindow.Size = UDim2.new(0, 48 + textService:GetTextBoundsAsync(px).X, 0, 30)
             end)
         end
     end
