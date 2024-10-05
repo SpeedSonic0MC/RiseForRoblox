@@ -1911,15 +1911,10 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function(ignore)
     keys = Lang:GetLanguage(GuiLibrary.Settings.Language)
     for i, v in pairs(GuiLibrary.TranslateItems) do
         task.spawn(function()
-            print("---== ===== ==---")
-            print(i, v)
-            print("---== ===== ==---")
+            task.wait()
             if v == nil then
                 return
             end
-            print("---== ===== ==---")
-            print(i, v)
-            print("---== ===== ==---")
             local funcattr = v:GetAttribute("RLReplacement")
             if funcattr ~= nil then
                 GuiLibrary.LanguageFunctions[funcattr](keys[v:GetAttribute("RiseLanguageKey")])
