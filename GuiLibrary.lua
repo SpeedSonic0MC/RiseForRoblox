@@ -826,18 +826,14 @@ local initWindowFunction = {
                 text.Text = (v == GuiLibrary.Settings.Language and Lang["AvailableName"][i] .. "  " ..
                                 Lang["AvailableFlag"][i] or "<font color=\"rgb(255, 255, 255)\">" ..
                                 Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] .. "</font>")
-                                print("Debug 2")
-                GuiLibrary.UpdateHudEvent:Fire()
-                print("Debug 3")
-                task.wait()
-                print("Debug 4")
+                print("Debug 2")
+                GuiLibrary.UpdateHudEvent:Fire(true)
                 local px2 = Instance.new("GetTextBoundsParams")
                 px2.Size = 18
                 px2.Font = shared.RiseFonts.AppleUI
                 px2.Width = 99999
-                px2.Text = keys["maingui.winlist.language"]
+                px2.Text = Lang:GetLanguage(v)["maingui.winlist.language"]
                 selectedwindow.Size = UDim2.new(0, 48 + textService:GetTextBoundsAsync(px2).X, 0, 30)
-                print("Debug 5")
             end)
         end
     end
@@ -1881,7 +1877,7 @@ GuiLibrary["SelfDestruct"] = function()
     rise2:Destroy()
     GuiLibrary = nil
 end
-GuiLibrary.UpdateHudEvent.Event:Connect(function()
+GuiLibrary.UpdateHudEvent.Event:Connect(function(ignore)
     local theme = ThemeService.Themes[GuiLibrary.Settings.Theme]
     if not theme then
         theme = ThemeService.Themes["Water"]
@@ -1931,12 +1927,14 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function()
             end
         end
     end
-    local px2 = Instance.new("GetTextBoundsParams")
-    px2.Size = 18
-    px2.Font = shared.RiseFonts.AppleUI
-    px2.Width = 99999
-    px2.Text = keys["maingui.winlist." .. selectedwindowoption:lower()]
-    selectedwindow.Size = UDim2.new(0, 48 + textService:GetTextBoundsAsync(px2).X, 0, 30)
+    if not ignore then
+        local px2 = Instance.new("GetTextBoundsParams")
+        px2.Size = 18
+        px2.Font = shared.RiseFonts.AppleUI
+        px2.Width = 99999
+        px2.Text = keys["maingui.winlist." .. selectedwindowoption:lower()]
+        selectedwindow.Size = UDim2.new(0, 48 + textService:GetTextBoundsAsync(px2).X, 0, 30)
+    end
 end)
 local InterfaceOptionsButton = GuiLibrary.ObjectCanBeSaved["RenderWindow"]["CreateOptionsButton"]({
     ["Name"] = "Interface",
