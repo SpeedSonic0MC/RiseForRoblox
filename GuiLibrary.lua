@@ -429,6 +429,7 @@ local selectedpos = {80, 120, 162, 203, 243, 285, 325, 367, 408, 449}
 local winpos = {80, 121, 162, 203, 244, 285, 326, 367, 408, 449}
 local winize = {70, 81, 103, 65, 74, 68, 66, 52, 81, 95}
 local windowbuttonhandle
+local selectedwindow
 local initWindowFunction = {
     ["Themes"] = function(frame)
         frame.UIListLayout:Destroy()
@@ -792,7 +793,9 @@ local initWindowFunction = {
             text.TextWrapped = false
             text.Name = "LanguageTitle"
             text.RichText = true
-            text.Text = (GuiLibrary.Settings.Language == v and Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] or "<font color=\"rgb(255, 255, 255)\">" .. Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] .. "</font>")
+            text.Text = (GuiLibrary.Settings.Language == v and Lang["AvailableName"][i] .. "  " ..
+                            Lang["AvailableFlag"][i] or "<font color=\"rgb(255, 255, 255)\">" ..
+                            Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] .. "</font>")
             text.Size = UDim2.new(0, 0, 0, 19)
             text.TextSize = 21
             text.TextXAlignment = Enum.TextXAlignment.Left
@@ -810,19 +813,30 @@ local initWindowFunction = {
             desc.TextYAlignment = Enum.TextYAlignment.Top
             desc.TextWrapped = false
             langbutton.MouseButton1Click:Connect(function()
-                if GuiLibrary.Settings.Language == v then return end
-                colorfilterframe[GuiLibrary.Settings.Language].LanguageTitle.Text = "<font color=\"rgb(255, 255, 255)\">" .. Lang["AvailableName"][table.find(Lang["Available"], GuiLibrary["Settings"]["Language"])] .. "  " .. Lang["AvailableFlag"][table.find(Lang["Available"], GuiLibrary["Settings"]["Language"])] .. "</font>"
+                if GuiLibrary.Settings.Language == v then
+                    return
+                end
+                colorfilterframe[GuiLibrary.Settings.Language].LanguageTitle.Text =
+                    "<font color=\"rgb(255, 255, 255)\">" ..
+                        Lang["AvailableName"][table.find(Lang["Available"], GuiLibrary["Settings"]["Language"])] .. "  " ..
+                        Lang["AvailableFlag"][table.find(Lang["Available"], GuiLibrary["Settings"]["Language"])] ..
+                        "</font>"
                 GuiLibrary.Settings.Language = v
-                text.Text = (v == GuiLibrary.Settings.Language and Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] or
-                "<font color=\"rgb(255, 255, 255)\">" .. Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] ..
-                "</font>")
+                text.Text = (v == GuiLibrary.Settings.Language and Lang["AvailableName"][i] .. "  " ..
+                                Lang["AvailableFlag"][i] or "<font color=\"rgb(255, 255, 255)\">" ..
+                                Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] .. "</font>")
                 GuiLibrary.UpdateHudEvent:Fire()
-                windowbuttonhandle("Language", "Search")
+                local px = Instance.new("GetTextBoundsParams")
+                px.Size = 18
+                px.Font = shared.RiseFonts.AppleUI
+                px.Width = 99999
+                px.Text = keys["maingui.winlist.language"]
+                selectedwindow.Size = UDim2.new(0, 48 + textService:GetTextBoundsAsync(px).X, 0, 30)
             end)
         end
     end
 }
-local selectedwindow = Instance.new("ImageLabel", winlist)
+selectedwindow = Instance.new("ImageLabel", winlist)
 selectedwindow.Image = getriseasset("Window.png")
 selectedwindow.BackgroundTransparency = 1
 selectedwindow.Position = UDim2.new(0, 20, 0, selectedpos[1])
@@ -857,7 +871,7 @@ local cr = Instance.new("UICorner", shader)
 cr.CornerRadius = UDim.new(1, 0)
 local windowdescendantstweening = false
 local selectedwindowoption = "Search"
-windowbuttonhandle = function (oldname, newname)
+windowbuttonhandle = function(oldname, newname)
     local indexes =
         {"Search", "Combat", "Movement", "Player", "Render", "Exploit", "Ghost", "CaS", "Themes", "Language"}
     if oldname == newname or selectedwindowoption == newname or windowdescendantstweening then
