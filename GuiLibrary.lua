@@ -23,7 +23,6 @@ local GuiLibrary = {
     TranslateItems = {},
     LanguageFunctions = {}
 }
-local languages = {"en"}
 local guitweening = false
 local vis = false
 print("Rise >> Running rise version " .. GuiLibrary.Version)
@@ -150,6 +149,7 @@ if Enum.KeyCode[GuiLibrary.Settings.Keybind] == nil then
 end
 local ThemeService = shared.Rise:GetService("ColorService")
 local Lang = shared.Rise:GetService("LanguageService")
+local languages = Lang["Available"]
 local keys = Lang:GetLanguage(GuiLibrary.Settings.Language)
 GuiLibrary["UpdateHudEvent"] = Instance.new "BindableEvent"
 local maingui = Instance.new("ImageLabel", gui)
@@ -766,6 +766,32 @@ local initWindowFunction = {
         textl.TextXAlignment = Enum.TextXAlignment.Right
         textl.BackgroundTransparency = 1
         textl.TextColor3 = Color3.fromRGB(139, 140, 144)
+        local colorfilterframe = Instance.new("Frame", frame)
+        colorfilterframe.Position = UDim2.new(0.5, 0, 0, 70)
+        colorfilterframe.AnchorPoint = Vector2.new(0.5, 0)
+        colorfilterframe:AddTag("NoTween")
+        colorfilterframe.BackgroundTransparency = 1
+        colorfilterframe.Size = UDim2.new(1, -16, 0, 0)
+        local layot = Instance.new("UIListLayout", colorfilterframe)
+        layot.Padding = UDim.new(0, 16)
+        for i, v in pairs(languages) do
+            local langbutton = Instance.new("TextButton", colorfilterframe)
+            langbutton.Text = ""
+            langbutton.BackgroundColor3 = Color3.fromRGB(19, 22, 27)
+            langbutton.Size = UDim2.new(1, 0, 0, 76)
+            local corner = Instance.new("UICorner", langbutton)
+            corner.CornerRadius = UDim.new(0, 9)
+            local text = Instance.new("TextLabel", langbutton)
+            text.BackgroundTransparency = 1
+            text.Position = UDim2.new(0, 21, 0, 17)
+            text.TextColor3 = Color3.new(1, 1, 1)
+            text.FontFace = shared.RiseFonts.AppleUISemibold
+            text.TextWrapped = false
+            text.Text = Lang["AvailableName"][v] .. " " .. Lang["AvailableFlag"][v]
+            text.Size = UDim2.new(0, 0, 0, 19)
+            text.TextXAlignment = Enum.TextXAlignment.Left
+            text.TextYAlignment = Enum.TextYAlignment.Top
+        end
     end
 }
 local selectedwindow = Instance.new("ImageLabel", winlist)

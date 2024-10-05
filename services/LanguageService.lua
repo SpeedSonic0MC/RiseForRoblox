@@ -1,6 +1,12 @@
 local HttpService = game:GetService("HttpService")
 local a = {
-    Languages = {}
+    Languages = {},
+    Available = {"en", "zh_hant"},
+    AvailableName = { -- love windows not showing the flag
+    [[English (Global)]], [[Chinese Traditional (Hong Kong)]]},
+    AvailableFlag = {[[
+]], [[
+]]}
 }
 function a:GetLanguage(key)
     if not a.Languages[key] then
