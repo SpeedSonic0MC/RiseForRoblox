@@ -5,9 +5,7 @@ local a = {
     AvailableName = { -- love windows not showing the flag
     [[English (Global)]], [[Chinese Traditional (Hong Kong)]]},
     AvailableFlag = {
-        [[
-]],[[
-]]
+        
     }
 }
 function a:GetLanguage(key)
