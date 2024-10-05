@@ -1211,7 +1211,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         desc.Size = UDim2.new(0, 2000, 0, 14)
         desc:SetAttribute("RiseLanguageKey", "optionsbutton." .. buttonapi.Name:lower() .. ".description")
         desc:SetAttribute("RLReplacement", "OptionsButton" .. buttonapi.Name .. "Description")
-        GuiLibrary.LanguageFunctions["OptionsButton" .. buttonapi.Name] = function(trans)
+        GuiLibrary.LanguageFunctions["OptionsButton" .. buttonapi.Name .. "Description"] = function(trans)
             desc.Text = trans
         end
         table.insert(GuiLibrary.TranslateItems, desc)
