@@ -790,6 +790,7 @@ local initWindowFunction = {
             text.TextColor3 = Color3.new(1, 1, 1)
             text.FontFace = shared.RiseFonts.AppleUISemibold
             text.TextWrapped = false
+            text.Name = "LanguageTitle"
             text.RichText = true
             text.Text = (GuiLibrary.Settings.Language == v and Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] or "<font color=\"rgb(255, 255, 255)\">" .. Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] .. "</font>")
             text.Size = UDim2.new(0, 0, 0, 19)
@@ -810,7 +811,7 @@ local initWindowFunction = {
             desc.TextWrapped = false
             langbutton.MouseButton1Click:Connect(function()
                 if GuiLibrary.Settings.Language == v then return end
-                colorfilterframe[GuiLibrary.Settings.Language].Text = Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i]
+                colorfilterframe[GuiLibrary.Settings.Language].LanguageTitle.Text = Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i]
                 GuiLibrary.Settings.Language = v
                 text.Text = (v == GuiLibrary.Settings.Language and Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] or
                 "<font color=\"rgb(255, 255, 255)\">" .. Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] ..
