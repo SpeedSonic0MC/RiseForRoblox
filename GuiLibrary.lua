@@ -816,7 +816,6 @@ local initWindowFunction = {
                 if GuiLibrary.Settings.Language == v then
                     return
                 end
-                print("Debug 1")
                 colorfilterframe[GuiLibrary.Settings.Language].LanguageTitle.Text =
                     "<font color=\"rgb(255, 255, 255)\">" ..
                         Lang["AvailableName"][table.find(Lang["Available"], GuiLibrary["Settings"]["Language"])] .. "  " ..
@@ -826,7 +825,6 @@ local initWindowFunction = {
                 text.Text = (v == GuiLibrary.Settings.Language and Lang["AvailableName"][i] .. "  " ..
                                 Lang["AvailableFlag"][i] or "<font color=\"rgb(255, 255, 255)\">" ..
                                 Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] .. "</font>")
-                print("Debug 2")
                 GuiLibrary.UpdateHudEvent:Fire(true)
                 local px2 = Instance.new("GetTextBoundsParams")
                 px2.Size = 18
