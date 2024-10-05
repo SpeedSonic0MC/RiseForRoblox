@@ -787,10 +787,21 @@ local initWindowFunction = {
             text.TextColor3 = Color3.new(1, 1, 1)
             text.FontFace = shared.RiseFonts.AppleUISemibold
             text.TextWrapped = false
-            text.Text = Lang["AvailableName"][v] .. " " .. Lang["AvailableFlag"][v]
+            text.Text = Lang["AvailableName"][i] .. " " .. Lang["AvailableFlag"][i]
             text.Size = UDim2.new(0, 0, 0, 19)
+            text.TextSize = 21
             text.TextXAlignment = Enum.TextXAlignment.Left
             text.TextYAlignment = Enum.TextYAlignment.Top
+            local desc = Instance.new("TextLabel", langbutton)
+            desc.BackgroundTransparency = 1
+            desc.TextColor3 = Color3.fromRGB(114, 113, 116)
+            desc.FontFace = shared.RiseFonts.AppleUISemibold
+            desc.Position = UDim2.new(0, 21, 0, 47)
+            desc.Size = UDim2.new(0, 0, 0, 16)
+            desc.TextSize = 18
+            desc.TextXAlignment = Enum.TextXAlignment.Left
+            desc.TextYAlignment = Enum.TextYAlignment.Top
+            desc.TextWrapped = false
         end
     end
 }
