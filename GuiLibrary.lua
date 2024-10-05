@@ -1215,7 +1215,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         desc.BackgroundTransparency = 1
         desc.Position = UDim2.new(0, 12, 0, 48)
         desc.Size = UDim2.new(0, 2000, 0, 14)
-        desc:SetAttribute("RiseLanguageKey", "optionsbutton." .. buttonapi.Name:lower():gsub(" ", "") .. ".description")
+        desc:SetAttribute("RiseLanguageKey", "optionsbutton." .. buttonapi.Name:lower() .. ".description")
         table.insert(GuiLibrary.TranslateItems, desc)
         buttonapi["SetKeybind"] = function(key)
             buttonapi.Keybind = key
@@ -2016,12 +2016,12 @@ GuiLibrary.UpdateHudEvent.Event:Connect(function()
             end
         end
     end
-    local px = Instance.new("GetTextBoundsParams")
-    px.Size = 18
-    px.Font = shared.RiseFonts.AppleUI
-    px.Width = 99999
-    px.Text = keys["maingui.winlist." .. selectedwindowoption:lower()]
-    selectedwindow.Size = UDim2.new(0, 48 + textService:GetTextBoundsAsync(px).X, 0, 30)
+    local px2 = Instance.new("GetTextBoundsParams")
+    px2.Size = 18
+    px2.Font = shared.RiseFonts.AppleUI
+    px2.Width = 99999
+    px2.Text = keys["maingui.winlist." .. selectedwindowoption:lower()]
+    selectedwindow.Size = UDim2.new(0, 48 + textService:GetTextBoundsAsync(px2).X, 0, 30)
 end)
 local InterfaceOptionsButton = GuiLibrary.ObjectCanBeSaved["RenderWindow"]["CreateOptionsButton"]({
     ["Name"] = "Interface",
