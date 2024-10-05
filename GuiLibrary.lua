@@ -826,14 +826,14 @@ local initWindowFunction = {
                                 Lang["AvailableFlag"][i] or "<font color=\"rgb(255, 255, 255)\">" ..
                                 Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] .. "</font>")
                 GuiLibrary.UpdateHudEvent:Fire()
+                local px2 = Instance.new("GetTextBoundsParams")
+                px2.Size = 18
+                px2.Font = shared.RiseFonts.AppleUI
+                px2.Width = 99999
+                px2.Text = keys["maingui.winlist.language"]
+                selectedwindow.Size = UDim2.new(0, 48 + textService:GetTextBoundsAsync(px2).X, 0, 30)
             end)
         end
-        local px2 = Instance.new("GetTextBoundsParams")
-        px2.Size = 18
-        px2.Font = shared.RiseFonts.AppleUI
-        px2.Width = 99999
-        px2.Text = keys["maingui.winlist.language"]
-        selectedwindow.Size = UDim2.new(0, 48 + textService:GetTextBoundsAsync(px2).X, 0, 30)
     end
 }
 selectedwindow = Instance.new("ImageLabel", winlist)
@@ -1216,10 +1216,6 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         desc.Position = UDim2.new(0, 12, 0, 48)
         desc.Size = UDim2.new(0, 2000, 0, 14)
         desc:SetAttribute("RiseLanguageKey", "optionsbutton." .. buttonapi.Name:lower() .. ".description")
-        desc:SetAttribute("RLReplacement", "OptionsButton" .. buttonapi.Name .. "Description")
-        GuiLibrary.LanguageFunctions["OptionsButton" .. buttonapi.Name .. "Description"] = function(trans)
-            desc.Text = trans
-        end
         table.insert(GuiLibrary.TranslateItems, desc)
         buttonapi["SetKeybind"] = function(key)
             buttonapi.Keybind = key
