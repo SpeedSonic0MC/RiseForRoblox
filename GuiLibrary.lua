@@ -436,6 +436,7 @@ local initWindowFunction = {
         textl.Position = UDim2.new(1, -33, 0, 20)
         textl.AnchorPoint = Vector2.new(1, 0)
         textl.Text = "You can click on a color to filter by it. Click again to reset."
+        table.insert(GuiLibrary.TranslateItems, textl)
         textl:SetAttribute("RiseLanguageKey", "themes.main")
         textl.Size = UDim2.new(1, 0, 0, 15)
         textl.TextSize = 18
@@ -757,6 +758,7 @@ local initWindowFunction = {
         textl.Position = UDim2.new(1, -33, 0, 20)
         textl.AnchorPoint = Vector2.new(1, 0)
         textl.Text = "You can click on a color to filter by it. Click again to reset."
+        table.insert(GuiLibrary.TranslateItems, textl)
         textl:SetAttribute("RiseLanguageKey", "languages.main")
         textl.Size = UDim2.new(1, 0, 0, 15)
         textl.TextSize = 18
@@ -942,6 +944,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
     cart.TextYAlignment = Enum.TextYAlignment.Center
     local lab = Instance.new("TextLabel", cart)
     lab:SetAttribute("RiseLanguageKey", "maingui.winlist." .. v:lower())
+    table.insert(GuiLibrary.TranslateItems, lab)
     lab.AnchorPoint = Vector2.new(0, 0.5)
     lab.FontFace = shared.RiseFonts.AppleUI
     lab.BackgroundTransparency = 1
@@ -1127,6 +1130,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         name.RichText = true
         name.TextColor3 = Color3.new(1, 1, 1)
         table.insert(GuiLibrary.GradientItems, name)
+        table.insert(GuiLibrary.TranslateItems, name)
         name.TextSize = 20
         name.TextXAlignment = Enum.TextXAlignment.Left
         local desc = Instance.new("TextLabel", buttonobj)
@@ -1139,6 +1143,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         desc.Position = UDim2.new(0, 12, 0, 48)
         desc.Size = UDim2.new(0, 2000, 0, 14)
         desc:SetAttribute("RiseLanguageKey", "optionsbutton." .. buttonapi.Name:lower():gsub(" ", "") .. ".description")
+        table.insert(GuiLibrary.TranslateItems, desc)
         buttonapi["SetKeybind"] = function(key)
             buttonapi.Keybind = key
         end
