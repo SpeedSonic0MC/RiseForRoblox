@@ -898,7 +898,8 @@ local initWindowFunction = {
                 for i, v in pairs(listfiles("rise/configs")) do
                     if string.find(v, tostring(shared.CustomRiseSave or game.PlaceId)) then
                         cfgCount = cfgCount + 1
-                        table.insert(configs, string.gsub(v, tostring(shared.CustomRiseSave or game.PlaceId), ""))
+                        local val, _unused = string.gsub(v, tostring(shared.CustomRiseSave or game.PlaceId), "")
+                        table.insert(configs, val)
                     end
                 end
                 yourcfg.Text = "<font color=\"rgb(255, 255, 255)\">Your Configs</font>  " .. cfgCount
@@ -906,6 +907,7 @@ local initWindowFunction = {
                     if not ycfgs[v] then
                         local configbutton = Instance.new("TextButton", ycfgs)
                         configbutton.Text = ""
+                        configbutton.Name = v
                         configbutton.Size = UDim2.new(0, 137, 0, 137)
                         configbutton.BackgroundColor3 = Color3.fromRGB(18, 21, 27)
                         local corner = Instance.new("UICorner", configbutton)
@@ -930,6 +932,11 @@ local initWindowFunction = {
                         configbutton.MouseButton1Click:Connect(function()
                             GuiLibrary.LoadSettings(nil, v)
                         end)
+                    end
+                end
+                for i, v in pairs(ycfgs:GetChildren()) do
+                    if not table.find(configs, v.Name) then
+                        v:Destroy()
                     end
                 end
                 task.wait(1)
@@ -2090,7 +2097,7 @@ GuiLibrary["RemoveOptionsButton"] = function(key)
     end
 end
 GuiLibrary["LoadSettings"] = function(customsave, config)
-    local loadfile = "rise/configs/" .. config or "" .. (customsave or game.PlaceId) .. ".rscfg"
+    local loadfile = "rise/configs/" .. (config or "") .. (customsave or game.PlaceId) .. ".rscfg"
     if isfile("rise/configs/latest" .. tostring(game.PlaceId) .. ".rscfg") and not config then
         loadfile = "rise/configs/latest" .. tostring(game.PlaceId) .. ".rscfg"
     end
