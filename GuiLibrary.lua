@@ -898,7 +898,9 @@ local initWindowFunction = {
                 for i, v in pairs(listfiles("rise/configs")) do
                     if string.find(v, tostring(shared.CustomRiseSave or game.PlaceId)) then
                         cfgCount = cfgCount + 1
-                        local val, _unused = string.gsub(v, tostring(shared.CustomRiseSave or game.PlaceId), "")
+                        local z2val, _unused = string.gsub(v, tostring(shared.CustomRiseSave or game.PlaceId), "")
+                        local z3val, _unused = string.gsub(z2val, "rise/configs/", "")
+                        local val, _unused = string.gsub(z3val, ".rscfg", "")
                         table.insert(configs, val)
                     end
                 end
