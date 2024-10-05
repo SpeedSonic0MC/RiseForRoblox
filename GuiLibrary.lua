@@ -816,6 +816,7 @@ local initWindowFunction = {
                 if GuiLibrary.Settings.Language == v then
                     return
                 end
+                print("Debug 1")
                 colorfilterframe[GuiLibrary.Settings.Language].LanguageTitle.Text =
                     "<font color=\"rgb(255, 255, 255)\">" ..
                         Lang["AvailableName"][table.find(Lang["Available"], GuiLibrary["Settings"]["Language"])] .. "  " ..
@@ -825,14 +826,18 @@ local initWindowFunction = {
                 text.Text = (v == GuiLibrary.Settings.Language and Lang["AvailableName"][i] .. "  " ..
                                 Lang["AvailableFlag"][i] or "<font color=\"rgb(255, 255, 255)\">" ..
                                 Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] .. "</font>")
+                                print("Debug 2")
                 GuiLibrary.UpdateHudEvent:Fire()
+                print("Debug 3")
                 task.wait()
+                print("Debug 4")
                 local px2 = Instance.new("GetTextBoundsParams")
                 px2.Size = 18
                 px2.Font = shared.RiseFonts.AppleUI
                 px2.Width = 99999
                 px2.Text = keys["maingui.winlist.language"]
                 selectedwindow.Size = UDim2.new(0, 48 + textService:GetTextBoundsAsync(px2).X, 0, 30)
+                print("Debug 5")
             end)
         end
     end
