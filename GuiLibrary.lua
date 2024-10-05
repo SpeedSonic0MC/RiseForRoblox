@@ -811,7 +811,7 @@ local initWindowFunction = {
             desc.TextWrapped = false
             langbutton.MouseButton1Click:Connect(function()
                 if GuiLibrary.Settings.Language == v then return end
-                colorfilterframe[GuiLibrary.Settings.Language].LanguageTitle.Text = Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i]
+                colorfilterframe[GuiLibrary.Settings.Language].LanguageTitle.Text = "<font color=\"rgb(255, 255, 255)\">" .. Lang["AvailableName"][table.find(Lang["Available"], GuiLibrary["Settings"]["Language"])] .. "  " .. Lang["AvailableFlag"][table.find(Lang["Available"], GuiLibrary["Settings"]["Language"])] .. "</font>"
                 GuiLibrary.Settings.Language = v
                 text.Text = (v == GuiLibrary.Settings.Language and Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] or
                 "<font color=\"rgb(255, 255, 255)\">" .. Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] ..
