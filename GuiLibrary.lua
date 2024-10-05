@@ -791,7 +791,7 @@ local initWindowFunction = {
             text.FontFace = shared.RiseFonts.AppleUISemibold
             text.TextWrapped = false
             text.RichText = true
-            text.Text = v == (GuiLibrary.Settings.Language and Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] or "<font color=\"rgb(255, 255, 255)\">" .. Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] .. "</font>")
+            text.Text = (GuiLibrary.Settings.Language == v and Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] or "<font color=\"rgb(255, 255, 255)\">" .. Lang["AvailableName"][i] .. "  " .. Lang["AvailableFlag"][i] .. "</font>")
             text.Size = UDim2.new(0, 0, 0, 19)
             text.TextSize = 21
             text.TextXAlignment = Enum.TextXAlignment.Left
