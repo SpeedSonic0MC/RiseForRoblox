@@ -887,7 +887,7 @@ local initWindowFunction = {
             repeat
                 local cfgCount = 0
                 for i, v in pairs(listfiles("rise/configs")) do
-                    if string.find(v, tostring(shared.CustomRiseSave)) then
+                    if string.find(v, tostring(shared.CustomRiseSave or game.PlaceId)) then
                         cfgCount = cfgCount + 1
                     end
                 end
@@ -895,6 +895,23 @@ local initWindowFunction = {
                 task.wait(1)
             until GuiLibrary == nil
         end)
+        local ycfgs = Instance.new("ScrollingFrame", frame)
+        ycfgs.BackgroundTransparency = 1
+        ycfgs.ClipsDescendants = false
+        ycfgs.Position = UDim2.new(0, 12, 0, 561)
+        ycfgs.Size = UDim2.new(0, 173, 0, 173)
+        ycfgs.ScrollingDirection = Enum.ScrollingDirection.X
+        ycfgs.AutomaticCanvasSize = Enum.AutomaticSize.X
+        ycfgs.ScrollBarThickness = 0
+        local wer = Instance.new("UIPageLayout", ycfgs)
+        wer.Animated = true
+        wer.Circular = false
+        wer.EasingStyle = Enum.EasingStyle.Back
+        wer.EasingDirection = Enum.EasingDirection.Out
+        wer.Padding = UDim.new(0, 20)
+        wer.TweenTime = 0.5
+        wer.FillDirection = Enum.FillDirection.Horizontal
+        wer.VerticalAlignment = Enum.VerticalAlignment.Center
         local scrs = Instance.new("TextLabel", frame)
         scrs.BackgroundTransparency = 1
         scrs.FontFace = shared.RiseFonts.AppleUISemibold
