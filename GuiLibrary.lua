@@ -2152,7 +2152,15 @@ GuiLibrary["RemoveOptionsButton"] = function(key)
         GuiLibrary.ObjectCanBeSaved[key .. "OptionsButton"] = nil
     end
 end
+GuiLibrary["ClearOptions"] = function()
+    for i, v in pairs(GuiLibrary.ObjectCanBeSaved) do
+        if v["Type"] == "OptionsButton" then
+            v["ToggleButton"](false, true)
+        end
+    end
+end
 GuiLibrary["LoadSettings"] = function(customsave, config)
+    GuiLibrary.ClearOptions()
     local loadfile = "rise/configs/" .. (config or "") .. (customsave or game.PlaceId) .. ".rscfg"
     if isfile("rise/configs/latest" .. tostring(game.PlaceId) .. ".rscfg") and not config then
         loadfile = "rise/configs/latest" .. tostring(game.PlaceId) .. ".rscfg"
