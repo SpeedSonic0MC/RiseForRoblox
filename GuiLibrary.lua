@@ -2001,7 +2001,7 @@ inputService.InputBegan:Connect(function(input)
         task.spawn(tgle)
         closing = true
     end
-    if vis and not closing and not guitweening then
+    if vis and not closing then
         local acceptedRedirs = "abcdefghijklmnopqrstuvwxyz1234567890"
         local keycode, _unused = tostring(input.KeyCode):gsub("Enum.KeyCode.", ""):lower()
         print(keycode)
