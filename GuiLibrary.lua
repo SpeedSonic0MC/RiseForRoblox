@@ -1025,7 +1025,7 @@ local cr = Instance.new("UICorner", shader)
 cr.CornerRadius = UDim.new(1, 0)
 local windowdescendantstweening = false
 selectedwindowoption = "Search"
-windowbuttonhandle = function(oldname, newname)
+windowbuttonhandle = function(oldname, newname, focus)
     local indexes =
         {"Search", "Combat", "Movement", "Player", "Render", "Exploit", "Ghost", "CaS", "Themes", "Language"}
     if oldname == newname or selectedwindowoption == newname or windowdescendantstweening then
@@ -1140,6 +1140,12 @@ windowbuttonhandle = function(oldname, newname)
                 end)
             end)
         end)
+    end)
+    task.delay(0.4, function()
+        if focus and newname == "Search" then
+            searchtextbox:CaptureFocus()
+            searchtextbox.Text = ""
+        end
     end)
     selectedwindowoption = newname
 end
@@ -2032,9 +2038,7 @@ inputService.InputBegan:Connect(function(input)
         local acceptedRedirs = "abcdefghijklmnopqrstuvwxyz1234567890"
         local keycode, _unused = tostring(input.KeyCode):gsub("Enum.KeyCode.", ""):lower()
         if acceptedRedirs:find(keycode) and selectedwindowoption ~= "Search" then
-            windowbuttonhandle(selectedwindowoption, "Search")
-            searchtextbox:CaptureFocus()
-            searchtextbox.Text = ""
+            windowbuttonhandle(selectedwindowoption, "Search", true)
         end
         return
     end
