@@ -2003,7 +2003,7 @@ inputService.InputBegan:Connect(function(input)
     if vis and not closing and not guitweening then
         local acceptedRedirs = "abcdefghijklmnopqrstuvwxyz1234567890"
         local keycode, _unused = tostring(input.KeyCode):gsub("Enum.KeyCode.", ""):lower()
-        if acceptedRedirs:find(keycode) and selectedwindowoption and selectedwindowoption ~= "Search" then
+        if acceptedRedirs:find(keycode) and selectedwindowoption ~= "Search" then
             windowbuttonhandle(selectedwindowoption, "Search")
         end
         return
