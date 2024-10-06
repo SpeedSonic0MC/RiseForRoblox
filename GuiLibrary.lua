@@ -1147,13 +1147,13 @@ windowbuttonhandle = function(oldname, newname, focus)
             end)
         end)
     end)
-    task.delay(0.4, function()
-        if focus and newname == "Search" then
+    if focus and newname == "Search" then
+        searchtextbox.Text = ""
+        task.delay(0.4, function()
             searchtextbox:CaptureFocus()
-            searchtextbox.Text = ""
             searchscrollframe.CanvasPosition = Vector2.new(0, 0)
-        end
-    end)
+        end)
+    end
     selectedwindowoption = newname
 end
 for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit", "Ghost", "CaS", "Themes", "Language"}) do
