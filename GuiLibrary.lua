@@ -923,6 +923,7 @@ local initWindowFunction = {
                         ctl.TextColor3 = Color3.fromRGB(139, 140, 143)
                         configbutton.MouseButton1Click:Connect(function()
                             GuiLibrary.LoadSettings(nil, v)
+                            GuiLibrary.ShowNotification("Config", "Loaded " .. v .. " config", 2)
                         end)
                     end
                 end
@@ -2003,6 +2004,7 @@ inputService.InputBegan:Connect(function(input)
     if vis and not closing and not guitweening then
         local acceptedRedirs = "abcdefghijklmnopqrstuvwxyz1234567890"
         local keycode, _unused = tostring(input.KeyCode):gsub("Enum.KeyCode.", ""):lower()
+        print(keycode)
         if acceptedRedirs:find(keycode) and selectedwindowoption ~= "Search" then
             windowbuttonhandle(selectedwindowoption, "Search")
         end
