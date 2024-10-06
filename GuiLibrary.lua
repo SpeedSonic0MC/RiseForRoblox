@@ -34,10 +34,6 @@ local function RelativeXY(GuiObject, location)
     y = math.clamp(y, 0, ym)
     return x, y, x / xm, y / ym, x2 / xm
 end
-local DisplayY = workspace.CurrentCamera.ViewportSize.Y
-workspace.CurrentCamera:GetPropertyChangedSignal("ViewportSize"):Connect(function()
-    DisplayY = workspace.CurrentCamera.ViewportSize.Y
-end)
 if getcustomasset == nil then
     error(
         "Rise >> Rise 6 requires a functional getcustomasset. If the executor supports it, try to rejoin for a few times to fix it being nil.")
@@ -63,8 +59,6 @@ local mainsettingssaveloop = coroutine.create(function()
         task.wait(1)
     until GuiLibrary == nil
 end)
-local ContentProvider = game:GetService("ContentProvider")
-local Lighting = game:GetService("Lighting")
 local playersService = game:GetService "Players"
 local inputService = game:GetService "UserInputService"
 local lplr = playersService.LocalPlayer
