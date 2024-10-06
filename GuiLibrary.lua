@@ -415,6 +415,7 @@ local winpos = {80, 121, 162, 203, 244, 285, 326, 367, 408, 449}
 local winize = {70, 81, 103, 65, 74, 68, 66, 52, 81, 95}
 local windowbuttonhandle
 local selectedwindow
+local searchtextbox
 local initWindowFunction = {
     ["Themes"] = function(frame)
         frame.UIListLayout:Destroy()
@@ -956,6 +957,32 @@ local initWindowFunction = {
         scrs.TextSize = 19
         scrs.Size = UDim2.new(0, 0, 0, 17)
         scrs.TextXAlignment = Enum.TextXAlignment.Left
+    end,
+    ["Search"] = function(scrframe)
+        local frame = scrframe.Parent
+        frame.UIPadding:Destroy()
+        frame.ScrollingFrame:Destroy()
+        local uipadding = Instance.new("UIPadding", frame)
+        uipadding.PaddingBottom = UDim.new(0, 14)
+        uipadding.PaddingTop = UDim.new(0, 70)
+        local scrollframe = Instance.new("ScrollingFrame", frame)
+        scrollframe.ClipsDescendants = false
+        scrollframe.AnchorPoint = Vector2.new(0.5, 0.5)
+        scrollframe.BackgroundTransparency = 1
+        scrollframe.Position = UDim2.new(0.5, 0, 0.5, 0)
+        scrollframe.Size = UDim2.new(1, -12, 1, 0)
+        searchtextbox = Instance.new("TextBox", scrollframe)
+        searchtextbox.AnchorPoint = Vector2.new(0.5, 0)
+        searchtextbox.BackgroundTransparency = 1
+        searchtextbox.ClearTextOnFocus = false
+        searchtextbox.Position = UDim2.new(0.5, 0, 0, -37)
+        searchtextbox.Size = UDim2.new(1, 0, 0, 19)
+        searchtextbox.FontFace = shared.RiseFonts.AppleUISemibold
+        searchtextbox.PlaceholderColor3 = Color3.fromRGB(69, 72, 78)
+        searchtextbox.PlaceholderText = "Start typing to search..."
+        searchtextbox.Text = ""
+        searchtextbox.TextColor3 = Color3.new(1, 1, 1)
+        searchtextbox.TextSize = 21
     end
 }
 selectedwindow = Instance.new("ImageLabel", winlist)
@@ -2004,9 +2031,10 @@ inputService.InputBegan:Connect(function(input)
     if vis and not closing then
         local acceptedRedirs = "abcdefghijklmnopqrstuvwxyz1234567890"
         local keycode, _unused = tostring(input.KeyCode):gsub("Enum.KeyCode.", ""):lower()
-        print(keycode)
         if acceptedRedirs:find(keycode) and selectedwindowoption ~= "Search" then
             windowbuttonhandle(selectedwindowoption, "Search")
+            searchtextbox:CaptureFocus()
+            searchtextbox.Text = ""
         end
         return
     end
