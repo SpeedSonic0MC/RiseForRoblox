@@ -42,6 +42,7 @@ if getcustomasset == nil then
     error(
         "Rise >> Rise 6 requires a functional getcustomasset. If the executor supports it, try to rejoin for a few times to fix it being nil.")
 end
+local searchscrollframe
 local vapeCheckLoop = coroutine.wrap(function()
     repeat
         if shared.VapeExecuted then
@@ -965,13 +966,18 @@ local initWindowFunction = {
         local uipadding = Instance.new("UIPadding", frame)
         uipadding.PaddingBottom = UDim.new(0, 14)
         uipadding.PaddingTop = UDim.new(0, 70)
-        local scrollframe = Instance.new("ScrollingFrame", frame)
-        scrollframe.ClipsDescendants = false
-        scrollframe.AnchorPoint = Vector2.new(0.5, 0.5)
-        scrollframe.BackgroundTransparency = 1
-        scrollframe.Position = UDim2.new(0.5, 0, 0.5, 0)
-        scrollframe.Size = UDim2.new(1, -12, 1, 0)
-        searchtextbox = Instance.new("TextBox", scrollframe)
+        searchscrollframe = Instance.new("ScrollingFrame", frame)
+        searchscrollframe.ClipsDescendants = false
+        searchscrollframe.AnchorPoint = Vector2.new(0.5, 0.5)
+        searchscrollframe.BackgroundTransparency = 1
+        searchscrollframe.Position = UDim2.new(0.5, 0, 0.5, 0)
+        searchscrollframe.Size = UDim2.new(1, -12, 1, 0)
+        searchscrollframe.AutomaticCanvasSize = Enum.AutomaticSize.Y
+        searchscrollframe.CanvasSize = UDim.new(0, 0)
+        searchscrollframe.ElasticBehavior = Enum.ElasticBehavior.Always
+        searchscrollframe.ScrollingDirection = Enum.ScrollingDirection.Y
+        searchscrollframe.ScrollBarImageColor3 = Color3.fromRGB(39, 72, 77)
+        searchtextbox = Instance.new("TextBox", searchscrollframe)
         searchtextbox.AnchorPoint = Vector2.new(0.5, 0)
         searchtextbox.BackgroundTransparency = 1
         searchtextbox.ClearTextOnFocus = false
@@ -1145,6 +1151,7 @@ windowbuttonhandle = function(oldname, newname, focus)
         if focus and newname == "Search" then
             searchtextbox:CaptureFocus()
             searchtextbox.Text = ""
+            searchscrollframe.CanvasPosition = Vector2.new(0, 0)
         end
     end)
     selectedwindowoption = newname
