@@ -1015,7 +1015,7 @@ local initWindowFunction = {
                 return
             end
             local key, _unused = tostring(input.KeyCode):gsub("Enum.KeyCode.", "")
-            if string.find("abcdefghijklmnopqrstuvwxyz1234567890", key) and selectedwindowoption == "Search" and
+            if string.find("abcdefghijklmnopqrstuvwxyz1234567890", key:lower()) and selectedwindowoption == "Search" and
                 not guitweening then
                 handling = true
                 local Api = awaittextinput(34)
