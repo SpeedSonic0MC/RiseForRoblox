@@ -1170,7 +1170,7 @@ windowbuttonhandle = function(oldname, newname, focus)
             local func = awaittextinput()
             repeat
                 print(func.Text)
-                task.wait()
+                task.wait(.2)
             until not GuiLibrary.AwaitingTextInput
             searchscrollframe.CanvasPosition = Vector2.new(0, 0)
         end)
