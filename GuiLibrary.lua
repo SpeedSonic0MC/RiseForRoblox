@@ -1027,7 +1027,7 @@ local initWindowFunction = {
                         searchtextbox.TextColor3 = Color3.fromRGB(255, 255, 255)
                         searchtextbox.Text = text
                     end
-                    task.wait()
+                    task.wait(0.1)
                 until not GuiLibrary.AwaitingTextInput
                 handling = false
             end
