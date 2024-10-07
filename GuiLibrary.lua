@@ -1010,7 +1010,7 @@ local initWindowFunction = {
         searchtextbox.TextSize = 21
         local handling = false
         inputService.InputBegan:Connect(function(input)
-            if GuiLibrary == nil or handling then
+            if GuiLibrary == nil or handling or not vis then
                 return
             end
             local key, _unused = tostring(input.KeyCode):gsub("Enum.KeyCode.", "")
