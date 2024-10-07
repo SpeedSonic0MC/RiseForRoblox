@@ -249,7 +249,7 @@ local function tgle()
         end
         tweening = false
     end
-    guitweening = true
+    guitweening = false
 end
 local selectedwindowoption
 local ver = Instance.new("TextLabel", maingui)
@@ -1010,10 +1010,28 @@ local initWindowFunction = {
         searchtextbox.Text = "Start typing to search..."
         searchtextbox.TextColor3 = Color3.new(1, 1, 1)
         searchtextbox.TextSize = 21
+        local handling = false
         inputService.InputBegan:Connect(function(input)
-            if GuiLibrary == nil then return end
+            if GuiLibrary == nil or handling then
+                return
+            end
             local key, _unused = tostring(input.KeyCode):gsub("Enum.KeyCode.", "")
-            if string.find("abcdefghijklmnopqrstuvwxyz1234567890", key) and selectedwindowoption == "Search" then
+            if string.find("abcdefghijklmnopqrstuvwxyz1234567890", key) and selectedwindowoption == "Search" and
+                not guitweening then
+                handling = true
+                local Api = awaittextinput(34)
+                repeat
+                    local text = Api.Text
+                    if text:len() == 0 then
+                        searchtextbox.TextColor3 = Color3.fromRGB(69, 72, 78)
+                        searchtextbox.Text = "Start typing to search..."
+                    else
+                        searchtextbox.TextColor3 = Color3.fromRGB(255, 255, 255)
+                        searchtextbox.Text = text
+                    end
+                    task.wait()
+                until not GuiLibrary.AwaitingTextInput
+                handling = false
             end
         end)
     end
