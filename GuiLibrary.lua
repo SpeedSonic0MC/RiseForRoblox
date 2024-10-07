@@ -139,7 +139,7 @@ if isfile("rise/configs/GUI.rscfg") then
         error("Rise >> Rise 6 Failed to load (core)")
     end
 end
-local function awaittextinput(maxsize)
+local function awaittextinput(maxsize, deftext)
     if GuiLibrary.AwaitingTextInput then
         return false
     end
@@ -150,7 +150,7 @@ local function awaittextinput(maxsize)
     local textlabel = Instance.new("TextBox", rise2)
     textlabel.Position = UDim2.new(999, 0, 999, 0)
     textlabel.ClearTextOnFocus = false
-    textlabel.Text = ""
+    textlabel.Text = deftext or ""
     textlabel:CaptureFocus()
     local textlistener
     textlistener = textlabel:GetPropertyChangedSignal("Text"):Connect(function()
@@ -1017,7 +1017,7 @@ local initWindowFunction = {
             if string.find("abcdefghijklmnopqrstuvwxyz1234567890", key:lower()) and selectedwindowoption == "Search" and
                 not guitweening then
                 handling = true
-                local Api = awaittextinput(34)
+                local Api = awaittextinput(34, (searchtextbox.TextColor3 == Color3.fromRGB(69, 72, 78) and "" or searchtextbox.Text))
                 repeat
                     local text = Api.Text
                     if text:len() == 0 then

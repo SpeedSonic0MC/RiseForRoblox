@@ -9,3 +9,4 @@ This project (SpeedSonic0MC/RiseForRoblox) is not made by 7GrandDadPGN & does no
 Rise For Roblox is not compatible with mobile. (use Mobile Emulators instead)
 
 PC executors gets you ban waved :)
+If your screen goes white when executing this, stop using WSA its shit.
