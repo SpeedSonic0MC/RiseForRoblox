@@ -20,7 +20,8 @@ local GuiLibrary = {
     DarkerRainbowItems = {},
     Loaded = false,
     TranslateItems = {},
-    LanguageFunctions = {}
+    LanguageFunctions = {},
+    AwaitingTextInput = false
 }
 local guitweening = false
 local vis = false
@@ -137,6 +138,28 @@ if isfile("rise/configs/GUI.rscfg") then
     if not suc then
         error("Rise >> Rise 6 Failed to load (core)")
     end
+end
+local function awaittextinput()
+    if GuiLibrary.AwaitingTextInput then
+        return false
+    end
+    GuiLibrary.AwaitingTextInput = true
+    local api = {
+        ["Text"] = ""
+    }
+    local textlabel = Instance.new("TextBox", rise2)
+    textlabel.Position = UDim2.new(999, 0, 999, 0)
+    textlabel.ClearTextOnFocus = false
+    textlabel:CaptureFocus()
+    local textlistener
+    textlistener = textlabel:GetPropertyChangedSignal("Text"):Connect(function()
+        api.Text = textlabel.Text
+    end)
+    textlabel.FocusLost:Connect(function()
+        textlistener:Disconnect()
+        GuiLibrary.AwaitingTextInput = false
+    end)
+    return api
 end
 if Enum.KeyCode[GuiLibrary.Settings.Keybind] == nil then
     GuiLibrary.Settings.Keybind = "RightShift"
@@ -1144,7 +1167,11 @@ windowbuttonhandle = function(oldname, newname, focus)
     if focus and newname == "Search" then
         searchtextbox.Text = ""
         task.delay(0.4, function()
-            searchtextbox:CaptureFocus()
+            local func = awaittextinput()
+            repeat
+                print(func.Text)
+                task.wait()
+            until not GuiLibrary.AwaitingTextInput
             searchscrollframe.CanvasPosition = Vector2.new(0, 0)
         end)
     end
