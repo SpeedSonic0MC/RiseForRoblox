@@ -1007,7 +1007,6 @@ local initWindowFunction = {
         searchtextbox.FontFace = shared.RiseFonts.AppleUISemibold
         searchtextbox.TextColor3 = Color3.fromRGB(69, 72, 78)
         searchtextbox.Text = "Start typing to search..."
-        searchtextbox.TextColor3 = Color3.new(1, 1, 1)
         searchtextbox.TextSize = 21
         local handling = false
         inputService.InputBegan:Connect(function(input)
