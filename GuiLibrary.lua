@@ -139,7 +139,7 @@ if isfile("rise/configs/GUI.rscfg") then
         error("Rise >> Rise 6 Failed to load (core)")
     end
 end
-local function awaittextinput()
+local function awaittextinput(maxsize)
     if GuiLibrary.AwaitingTextInput then
         return false
     end
@@ -150,10 +150,15 @@ local function awaittextinput()
     local textlabel = Instance.new("TextBox", rise2)
     textlabel.Position = UDim2.new(999, 0, 999, 0)
     textlabel.ClearTextOnFocus = false
+    textlabel.Text = ""
     textlabel:CaptureFocus()
     local textlistener
     textlistener = textlabel:GetPropertyChangedSignal("Text"):Connect(function()
-        api.Text = textlabel.Text
+        if textlabel.Text:len() > (maxsize or math.huge) then
+            textlabel.Text = api.Text
+        else
+            api.Text = textlabel.Text
+        end
     end)
     textlabel.FocusLost:Connect(function()
         textlistener:Disconnect()
@@ -408,6 +413,7 @@ end
 task.spawn(function()
     repeat
         colortick()
+        print(guitweening)
         task.wait(1 / 9999)
     until not GuiLibrary
 end)
@@ -994,18 +1000,22 @@ local initWindowFunction = {
         searchscrollframe.ElasticBehavior = Enum.ElasticBehavior.Always
         searchscrollframe.ScrollingDirection = Enum.ScrollingDirection.Y
         searchscrollframe.ScrollBarImageColor3 = Color3.fromRGB(39, 72, 77)
-        searchtextbox = Instance.new("TextBox", searchscrollframe)
+        searchtextbox = Instance.new("TextLabel", searchscrollframe)
         searchtextbox.AnchorPoint = Vector2.new(0.5, 0)
         searchtextbox.BackgroundTransparency = 1
-        searchtextbox.ClearTextOnFocus = false
         searchtextbox.Position = UDim2.new(0.5, 0, 0, -37)
         searchtextbox.Size = UDim2.new(1, 0, 0, 19)
         searchtextbox.FontFace = shared.RiseFonts.AppleUISemibold
-        searchtextbox.PlaceholderColor3 = Color3.fromRGB(69, 72, 78)
-        searchtextbox.PlaceholderText = "Start typing to search..."
-        searchtextbox.Text = ""
+        searchtextbox.TextColor3 = Color3.fromRGB(69, 72, 78)
+        searchtextbox.Text = "Start typing to search..."
         searchtextbox.TextColor3 = Color3.new(1, 1, 1)
         searchtextbox.TextSize = 21
+        inputService.InputBegan:Connect(function(input)
+            if GuiLibrary == nil then return end
+            local key, _unused = tostring(input.KeyCode):gsub("Enum.KeyCode.", "")
+            if string.find("abcdefghijklmnopqrstuvwxyz1234567890", key) and selectedwindowoption == "Search" then
+            end
+        end)
     end
 }
 selectedwindow = Instance.new("ImageLabel", winlist)
@@ -1166,15 +1176,7 @@ windowbuttonhandle = function(oldname, newname, focus)
     end)
     if focus and newname == "Search" then
         searchtextbox.Text = ""
-        task.delay(0.4, function()
-            local func = awaittextinput()
-            repeat
-                print(func.Text)
-                task.wait(.2)
-            until not GuiLibrary.AwaitingTextInput
-            print(func.Text)
-            searchscrollframe.CanvasPosition = Vector2.new(0, 0)
-        end)
+        searchscrollframe.CanvasPosition = Vector2.new(0, 0)
     end
     selectedwindowoption = newname
 end
