@@ -1025,6 +1025,7 @@ local initWindowFunction = {
                         searchtextbox.Text = "Start typing to search..."
                     else
                         searchtextbox.TextColor3 = Color3.fromRGB(255, 255, 255)
+                        if searchtextbox.Text == text then return end
                         searchtextbox.Text = text
                     end
                     task.wait(0.1)
