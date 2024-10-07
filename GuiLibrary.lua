@@ -413,7 +413,6 @@ end
 task.spawn(function()
     repeat
         colortick()
-        print(guitweening)
         task.wait(1 / 9999)
     until not GuiLibrary
 end)
