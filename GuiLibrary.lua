@@ -139,33 +139,6 @@ if isfile("rise/configs/GUI.rscfg") then
         error("Rise >> Rise 6 Failed to load (core)")
     end
 end
-local function awaittextinput(maxsize, deftext)
-    if GuiLibrary.AwaitingTextInput then
-        return false
-    end
-    GuiLibrary.AwaitingTextInput = true
-    local api = {
-        ["Text"] = ""
-    }
-    local textlabel = Instance.new("TextBox", rise2)
-    textlabel.Position = UDim2.new(999, 0, 999, 0)
-    textlabel.ClearTextOnFocus = false
-    textlabel.Text = deftext or ""
-    textlabel:CaptureFocus()
-    local textlistener
-    textlistener = textlabel:GetPropertyChangedSignal("Text"):Connect(function()
-        if textlabel.Text:len() > (maxsize or math.huge) then
-            textlabel.Text = api.Text
-        else
-            api.Text = textlabel.Text
-        end
-    end)
-    textlabel.FocusLost:Connect(function()
-        textlistener:Disconnect()
-        GuiLibrary.AwaitingTextInput = false
-    end)
-    return api
-end
 if Enum.KeyCode[GuiLibrary.Settings.Keybind] == nil then
     GuiLibrary.Settings.Keybind = "RightShift"
 end
@@ -999,40 +972,15 @@ local initWindowFunction = {
         searchscrollframe.ElasticBehavior = Enum.ElasticBehavior.Always
         searchscrollframe.ScrollingDirection = Enum.ScrollingDirection.Y
         searchscrollframe.ScrollBarImageColor3 = Color3.fromRGB(39, 72, 77)
-        searchtextbox = Instance.new("TextLabel", searchscrollframe)
+        searchtextbox = Instance.new("TextBox", searchscrollframe)
         searchtextbox.AnchorPoint = Vector2.new(0.5, 0)
         searchtextbox.BackgroundTransparency = 1
         searchtextbox.Position = UDim2.new(0.5, 0, 0, -37)
         searchtextbox.Size = UDim2.new(1, 0, 0, 19)
         searchtextbox.FontFace = shared.RiseFonts.AppleUISemibold
-        searchtextbox.TextColor3 = Color3.fromRGB(69, 72, 78)
-        searchtextbox.Text = "Start typing to search..."
+        searchtextbox.PlaceholderColor3 = Color3.fromRGB(69, 72, 78)
+        searchtextbox.PlaceholderText = "Start typing to search..."
         searchtextbox.TextSize = 21
-        local handling = false
-        inputService.InputBegan:Connect(function(input)
-            if GuiLibrary == nil or handling or not vis then
-                return
-            end
-            local key, _unused = tostring(input.KeyCode):gsub("Enum.KeyCode.", "")
-            if string.find("abcdefghijklmnopqrstuvwxyz1234567890", key:lower()) and selectedwindowoption == "Search" and
-                not guitweening then
-                handling = true
-                local Api = awaittextinput(34, (searchtextbox.TextColor3 == Color3.fromRGB(69, 72, 78) and "" or searchtextbox.Text))
-                repeat
-                    local text = Api.Text
-                    if text:len() == 0 then
-                        searchtextbox.TextColor3 = Color3.fromRGB(69, 72, 78)
-                        searchtextbox.Text = "Start typing to search..."
-                    else
-                        searchtextbox.TextColor3 = Color3.fromRGB(255, 255, 255)
-                        if searchtextbox.Text == text then return end
-                        searchtextbox.Text = text
-                    end
-                    task.wait(0.1)
-                until not GuiLibrary.AwaitingTextInput
-                handling = false
-            end
-        end)
     end
 }
 selectedwindow = Instance.new("ImageLabel", winlist)
@@ -2070,7 +2018,6 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             GuiLibrary.ObjectCanBeSaved[buttonapi.Name .. api.Name .. "Mode"] = api
             return api
         end
-
         GuiLibrary.ObjectCanBeSaved[buttonapi.Name .. "OptionsButton"] = buttonapi
         return buttonapi
     end
@@ -2081,14 +2028,6 @@ inputService.InputBegan:Connect(function(input)
     if Enum.KeyCode[GuiLibrary.Settings.Keybind] == input.KeyCode then
         task.spawn(tgle)
         closing = true
-    end
-    if vis and not closing then
-        local acceptedRedirs = "abcdefghijklmnopqrstuvwxyz1234567890"
-        local keycode, _unused = tostring(input.KeyCode):gsub("Enum.KeyCode.", ""):lower()
-        if acceptedRedirs:find(keycode) and selectedwindowoption ~= "Search" then
-            windowbuttonhandle(selectedwindowoption, "Search", true)
-        end
-        return
     end
     for i, v in pairs(GuiLibrary.ObjectCanBeSaved) do
         if v.Keybind == nil then
