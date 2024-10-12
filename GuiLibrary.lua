@@ -65,9 +65,6 @@ local delfile = delfile or function(_1)
     return true
 end
 local getriseasset = function(url)
-    if GuiLibrary.Assets[url] then
-        return GuiLibrary.Assets[url]
-    end
     local asset = request {
         Url = "https://raw.githubusercontent.com/SpeedSonic0MC/RiseForRoblox/main/assets/" .. url,
         Method = "GET"
