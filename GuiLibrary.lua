@@ -6,12 +6,6 @@ local GuiLibrary = {
         Theme = "Blend",
         Language = "en"
     },
-    Assets = {
-        ["logo.png"] = "rbxassetid://128089542278367",
-        ["maingui.png"] = "rbxassetid://138942713766181",
-        ["Window.png"] = "rbxassetid://78059882197728",
-        ["theme.png"] = "rbxassetid://133674502783435"
-    },
     Version = "6.1.30",
     GradientItems = {},
     RainbowItems = {},
@@ -555,100 +549,16 @@ local initWindowFunction = {
                 local xuigra = Instance.new("UIGradient", themex)
                 if theme ~= "Rainbow" then
                     if #ThemeService.Themes[theme] == 2 then
-                        local colorseq = ThemeService:GetColorSequence(theme)
-                        local tv = TweenInfo.new(1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
-                        local create1 = tweenService:Create(xuigra, tv, {
-                            Offset = Vector2.new(-1, 0)
-                        })
-                        local startpos = Vector2.new(1, 0)
-                        local rot = 180
-                        xuigra.Offset = startpos
-                        xuigra.Rotation = 0
-                        xuigra.Color = colorseq
-                        create1:Play()
-                        local function comp()
-                            if rot == 0 then
-                                xuigra.Rotation = 180
-                                xuigra.Offset = startpos
-                                create1:Play()
-                            elseif rot == 180 then
-                                xuigra.Rotation = 0
-                                xuigra.Offset = startpos
-                                create1:Play()
-                            end
-                        end
-                        create1.Completed:Connect(function()
-                            if rot == 0 then
-                                rot = 180
-                            elseif rot == 180 then
-                                rot = 0
-                            end
-                            comp()
-                        end)
+                        local firstColor = ThemeService.Themes[theme][1]
+                        local secondColor = ThemeService.Themes[theme][2]
                     elseif #ThemeService.Themes[theme] == 1 then
                         xuigra.Color = ColorSequence.new(ThemeService.Themes[theme][1])
                     elseif #ThemeService.Themes[theme] == 3 then
-                        local theme2 = ThemeService.Themes[theme]
-                        local colorseq = ColorSequence.new({ColorSequenceKeypoint.new(0, theme2[1]),
-                                                            ColorSequenceKeypoint.new(0.4, theme2[2]),
-                                                            ColorSequenceKeypoint.new(0.6, theme2[2]),
-                                                            ColorSequenceKeypoint.new(1, theme2[3])})
-                        local tv = TweenInfo.new(2, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
-                        local create1 = tweenService:Create(xuigra, tv, {
-                            Offset = Vector2.new(-1, 0)
-                        })
-                        local startpos = Vector2.new(1, 0)
-                        local rot = 180
-                        xuigra.Offset = startpos
-                        xuigra.Rotation = 0
-                        xuigra.Color = colorseq
-                        create1:Play()
-                        local function comp()
-                            if rot == 0 then
-                                xuigra.Rotation = 180
-                                xuigra.Offset = startpos
-                                create1:Play()
-                            elseif rot == 180 then
-                                xuigra.Rotation = 0
-                                xuigra.Offset = startpos
-                                create1:Play()
-                            end
-                        end
-                        create1.Completed:Connect(function()
-                            if rot == 0 then
-                                rot = 180
-                            elseif rot == 180 then
-                                rot = 0
-                            end
-                            comp()
-                        end)
+                        local firstColor = ThemeService.Themes[theme][1]
+                        local secondColor = ThemeService.Themes[theme][2]
+                        local thirdColor = ThemeService.Themes[theme][3]
                     end
                 else
-                    local counter = 0
-                    local w = math.pi / 12
-                    local colors = {}
-                    local num = 15
-                    local frames = 0
-                    runService.Heartbeat:Connect(function()
-                        if math.fmod(frames, 2) == 0 then
-                            for i = 0, num do
-                                table.insert(colors, i + 1, ColorSequenceKeypoint.new(i / num,
-                                    Color3.fromRGB(127 * math.sin(w * i + counter) + 128,
-                                        127 * math.sin(w * i + 2 * math.pi / 3 + counter) + 128,
-                                        127 * math.sin(w * i + 4 * math.pi / 3 + counter) + 128)))
-                            end
-                            xuigra.Color = ColorSequence.new(colors)
-                            colors = {}
-                            counter = counter + math.pi / 40
-                            if counter >= math.pi * 2 then
-                                counter = 0
-                            end
-                        end
-                        if frames >= 1000 then
-                            frames = 0
-                        end
-                        frames = frames + 1
-                    end)
                 end
                 local text = Instance.new("TextLabel", themex)
                 text.BackgroundTransparency = 1
@@ -977,6 +887,8 @@ local initWindowFunction = {
         searchtextbox.BackgroundTransparency = 1
         searchtextbox.Position = UDim2.new(0.5, 0, 0, -37)
         searchtextbox.Size = UDim2.new(1, 0, 0, 19)
+        searchtextbox.Text = ""
+        searchtextbox.TextColor3 = Color3.new(1, 1, 1)
         searchtextbox.FontFace = shared.RiseFonts.AppleUISemibold
         searchtextbox.PlaceholderColor3 = Color3.fromRGB(69, 72, 78)
         searchtextbox.PlaceholderText = "Start typing to search..."
