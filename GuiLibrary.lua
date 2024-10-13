@@ -33,7 +33,6 @@ if getcustomasset == nil then
     error(
         "Rise >> Rise 6 requires a functional getcustomasset. If the executor supports it, try to rejoin for a few times to fix it being nil.")
 end
-local searchscrollframe
 local vapeCheckLoop = coroutine.wrap(function()
     repeat
         if shared.VapeExecuted then
@@ -396,13 +395,10 @@ local winlist = Instance.new("Frame", clip)
 winlist.Name = "WindowButtonList"
 winlist.BackgroundTransparency = 1
 winlist.Size = UDim2.new(1, 0, 1, 0)
-local selectedsize = {96, 102, 120, 88, 96, 94, 88, 76, 102, 114}
 local selectedpos = {80, 120, 162, 203, 243, 285, 325, 367, 408, 449}
 local winpos = {80, 121, 162, 203, 244, 285, 326, 367, 408, 449}
-local winize = {70, 81, 103, 65, 74, 68, 66, 52, 81, 95}
 local windowbuttonhandle
 local selectedwindow
-local searchtextbox
 local initWindowFunction = {
     ["Themes"] = function(frame)
         frame.UIListLayout:Destroy()
@@ -862,34 +858,6 @@ local initWindowFunction = {
         scrs.TextXAlignment = Enum.TextXAlignment.Left
     end,
     ["Search"] = function(scrframe)
-        local frame = scrframe.Parent
-        frame.UIPadding:Destroy()
-        frame.ScrollingFrame:Destroy()
-        local uipadding = Instance.new("UIPadding", frame)
-        uipadding.PaddingBottom = UDim.new(0, 14)
-        uipadding.PaddingTop = UDim.new(0, 70)
-        searchscrollframe = Instance.new("ScrollingFrame", frame)
-        searchscrollframe.ClipsDescendants = false
-        searchscrollframe.AnchorPoint = Vector2.new(0.5, 0.5)
-        searchscrollframe.BackgroundTransparency = 1
-        searchscrollframe.Position = UDim2.new(0.5, 0, 0.5, 0)
-        searchscrollframe.Size = UDim2.new(1, -12, 1, 0)
-        searchscrollframe.AutomaticCanvasSize = Enum.AutomaticSize.Y
-        searchscrollframe.CanvasSize = UDim2.new(0, 0, 0, 0)
-        searchscrollframe.ElasticBehavior = Enum.ElasticBehavior.Always
-        searchscrollframe.ScrollingDirection = Enum.ScrollingDirection.Y
-        searchscrollframe.ScrollBarImageColor3 = Color3.fromRGB(39, 72, 77)
-        searchtextbox = Instance.new("TextBox", searchscrollframe)
-        searchtextbox.AnchorPoint = Vector2.new(0.5, 0)
-        searchtextbox.BackgroundTransparency = 1
-        searchtextbox.Position = UDim2.new(0.5, 0, 0, -37)
-        searchtextbox.Size = UDim2.new(1, 0, 0, 19)
-        searchtextbox.Text = ""
-        searchtextbox.TextColor3 = Color3.new(1, 1, 1)
-        searchtextbox.FontFace = shared.RiseFonts.AppleUISemibold
-        searchtextbox.PlaceholderColor3 = Color3.fromRGB(69, 72, 78)
-        searchtextbox.PlaceholderText = "Start typing to search..."
-        searchtextbox.TextSize = 21
     end
 }
 selectedwindow = Instance.new("ImageLabel", winlist)
@@ -1048,10 +1016,6 @@ windowbuttonhandle = function(oldname, newname, focus)
             end)
         end)
     end)
-    if focus and newname == "Search" then
-        searchtextbox.Text = ""
-        searchscrollframe.CanvasPosition = Vector2.new(0, 0)
-    end
     selectedwindowoption = newname
 end
 for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit", "Ghost", "CaS", "Themes", "Language"}) do
