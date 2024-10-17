@@ -101,6 +101,29 @@ rise2.OnTopOfCoreBlur = true
 rise2.Name = "Rise 6 - HUD"
 rise2.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 rise2.ResetOnSpawn = false
+local coordinates = Instance.new("TextLabel", rise2)
+coordinates.Text = "XYZ: ???, ???, ???"
+coordinates.TextColor3 = Color3.fromRGB(200, 200, 200)
+coordinates.FontFace = shared.RiseFonts.AppleUI
+coordinates.TextSize = 18
+coordinates.Position = UDim2.new(0, 10, 1, -10)
+coordinates.AnchorPoint = Vector2.new(0, 1)
+coordinates.TextXAlignment = Enum.TextXAlignment.Left
+coordinates.BackgroundTransparency = 1
+coordinates.Size = UDim2.new(0, 0, 18, 0)
+task.spawn(function()
+    repeat
+        local character = lplr.Character
+        if not character then return end
+        local position = character:FindFirstChild("HumanoidRootPart")
+        if not position then
+            coordinates.Text = "XYZ: ???, ???, ???"
+            return
+        end
+        local crd = position.CFrame.Position
+        coordinates.Text = "XYZ: " .. tostring(crd.X) .. ", " .. tostring(crd.Y) .. ", " .. tostring(crd.Z)
+    until coordinates == nil
+end)
 local logoimage = Instance.new("TextLabel", rise2)
 logoimage.BackgroundTransparency = 1
 logoimage.Position = UDim2.new(0, 15, 0, 15)
