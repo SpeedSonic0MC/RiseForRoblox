@@ -1169,7 +1169,6 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         task.spawn(function()
             initWindowFunction[v](scrframe)
         end)
-        return
     end
     windowapi["CreateOptionsButton"] = function(argsmaintable)
         local buttonapi = {

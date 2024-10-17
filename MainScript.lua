@@ -25,10 +25,10 @@ for i, v in pairs({"rise", "rise/assets", "rise/configs", "rise/scripts"}) do
 end
 shared.Rise = loadstring(loadscript("RiseService.lua"))()
 local GuiLibrary = loadstring(loadscript("GuiLibrary.lua"))()
-if GuiLibrary.Loaded == false then
+if not GuiLibrary["Loaded"] then
     repeat
         task.wait()
-    until GuiLibrary.Loaded == true
+    until GuiLibrary["Loaded"] == true
 end
 local suc, res = pcall(function()
     return game:HttpGet("https://raw.githubusercontent.com/SpeedSonic0MC/RiseForRoblox/main/game/" .. game.PlaceId .. ".lua", true)
