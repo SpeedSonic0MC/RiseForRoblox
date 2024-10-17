@@ -197,7 +197,7 @@ local requestinput = function(argstable)
         param.Width = 99999
         api.Width = textService:GetTextBoundsAsync(param).X
         if type(argstable["MaxTextWidth"]) == "number" then
-            if api.Value > argstable["MaxTextWidth"] then
+            if api.Width > argstable["MaxTextWidth"] then
                 htl.Text = api["Value"]
                 return
             end
