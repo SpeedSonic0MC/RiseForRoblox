@@ -15,7 +15,8 @@ local GuiLibrary = {
     Loaded = false,
     TranslateItems = {},
     LanguageFunctions = {},
-    AwaitingTextInput = false
+    AwaitingTextInput = false,
+    Connections = {}
 }
 local guitweening = false
 local vis = false
@@ -114,7 +115,9 @@ coordinates.Size = UDim2.new(0, 0, 0, 20)
 task.spawn(function()
     repeat
         local character = lplr.Character
-        if not character then return end
+        if not character then
+            return
+        end
         local position = character:FindFirstChild("HumanoidRootPart")
         if not position then
             coordinates.Text = "XYZ: ???, ???, ???"
@@ -141,7 +144,7 @@ logoimage.Position = UDim2.new(0, 15, 0, 15)
 logoimage.Size = UDim2.new(0, 69, 0, 28)
 logoimage.TextSize = 45
 logoimage.TextXAlignment = Enum.TextXAlignment.Left
-logoimage.FontFace = shared.RiseFonts.AppleUISemibold
+logoimage.FontFace = shared.RiseFonts.AppleUI
 logoimage.Text = "Rise"
 logoimage.TextColor3 = Color3.new(1, 1, 1)
 logoimage.Visible = false
@@ -171,7 +174,8 @@ if Enum.KeyCode[GuiLibrary.Settings.Keybind] == nil then
 end
 local requestinput = function(argstable)
     local api = {
-        ["Value"] = argstable["Default"] or ""
+        ["Value"] = argstable["Default"] or "",
+        Width = 0
     }
     if GuiLibrary.AwaitingTextInput then
         return
@@ -186,6 +190,18 @@ local requestinput = function(argstable)
         htl:Destroy()
     end)
     htl:GetPropertyChangedSignal("Text"):Connect(function()
+        local param = Instance.new("GetTextBoundsParams")
+        param.Font = shared.RiseFonts.AppleUI
+        param.Text = htl.Text
+        param.Size = argstable["TextSize"] or 21
+        param.Width = 99999
+        api.Width = textService:GetTextBoundsAsync(param).X
+        if type(argstable["MaxTextWidth"]) == "number" then
+            if api.Value > argstable["MaxTextWidth"] then
+                htl.Text = api["Value"]
+                return
+            end
+        end
         api["Value"] = htl.Text
     end)
     return api
@@ -441,6 +457,7 @@ local clip = Instance.new("Frame", maingui)
 clip.AnchorPoint = Vector2.new(0.5, 0.5)
 clip.BackgroundTransparency = 1
 clip.Position = UDim2.new(0.5, 0, 0.5, 0)
+clip.Name = "MainGUIClip"
 clip.Size = UDim2.new(0, 800, 0, 600)
 clip.ClipsDescendants = true
 local windowshit = Instance.new("Frame", clip)
@@ -457,6 +474,7 @@ local selectedpos = {80, 120, 162, 203, 243, 285, 325, 367, 408, 449}
 local winpos = {80, 121, 162, 203, 244, 285, 326, 367, 408, 449}
 local windowbuttonhandle
 local selectedwindow
+local searchtextboxinit
 local initWindowFunction = {
     ["Themes"] = function(frame)
         frame.UIListLayout:Destroy()
@@ -930,6 +948,7 @@ local initWindowFunction = {
         scrframe.AutomaticCanvasSize = Enum.AutomaticSize.Y
         scrframe.ScrollBarImageColor3 = Color3.fromRGB(39, 72, 77)
         scrframe.ScrollBarThickness = 2
+        scrframe.ClipsDescendants = false
         scrframe.ScrollingDirection = Enum.ScrollingDirection.Y
         scrframe.CanvasSize = UDim2.new(0, 0, 0, 0)
         local cf = Instance.new("Frame", scrframe)
@@ -950,6 +969,76 @@ local initWindowFunction = {
         textlabel.TextColor3 = Color3.fromRGB(69, 72, 78)
         textlabel.Text = "Start typing to search..."
         textlabel.TextSize = 21
+        local indicatorframe = Instance.new("Frame", textlabel)
+        indicatorframe:AddTag("NoTween")
+        indicatorframe.BackgroundTransparency = 1
+        indicatorframe.AnchorPoint = Vector2.new(0.5, 0)
+        indicatorframe.Position = UDim2.new(0.5, 0, 0, 0)
+        indicatorframe.Size = UDim2.new(0, 300, 0, 19) -- roblox android typing indicator stink mf
+        local indicator = Instance.new("Frame", indicatorframe)
+        indicator.AnchorPoint = Vector2.new(0, 0)
+        indicator:AddTag("NoTween")
+        indicator.Position = UDim2.new(0, 0, 0, 0)
+        indicator.Size = UDim2.new(0, 2, 0, 19)
+        indicator.BackgroundColor3 = Color3.new(1, 1, 1)
+        indicator.Visible = false
+        task.spawn(function()
+            repeat
+                tweenService:Create(indicator, TweenInfo.new(0.5), {
+                    BackgroundTransparency = 1
+                }):Play()
+                task.wait(.5)
+                tweenService:Create(indicator, TweenInfo.new(0.5), {
+                    BackgroundTransparency = 0
+                }):Play()
+                task.wait(.5)
+            until not indicator
+        end)
+        searchtextboxinit = function(val)
+            local searchapi = requestinput({
+                ["Default"] = val,
+                ["TextSize"] = 21,
+                ["MaxTextWidth"] = 300
+            })
+            local indicatorlocation = -1
+            repeat
+                local value = searchapi.Value
+                if value == "" then
+                    indicatorlocation = -1
+                    textlabel.Text = "Start typing to search..."
+                    textlabel.TextColor3 = Color3.fromRGB(69, 72, 78)
+                else
+                    indicatorlocation = searchapi.Width
+                    textlabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    textlabel.Text = value
+                end
+                if indicatorlocation == -1 then
+                    tweenService:Create(indicator, TweenInfo.new(0.1), {
+                        AnchorPoint = Vector2.new(0, 0),
+                        Position = UDim2.new(0, 0, 0, 0)
+                    }):Play()
+                else
+                    tweenService:Create(indicator, TweenInfo.new(0.1), {
+                        AnchorPoint = Vector2.new(0.5, 0),
+                        Position = UDim2.new(0.5, 0, 0, indicatorlocation / 2)
+                    }):Play()
+                end
+                task.wait()
+            until not GuiLibrary.AwaitingTextInput
+            indicator.Visible = false
+        end
+        table.insert(GuiLibrary.Connections, inputService.InputBegan:Connect(function(input)
+            local accepted = "abcdefghijklmnopqrstuvwxyz1234567890"
+            local value = tostring(input.KeyCode):gsub("Enum.KeyCode.", ""):lower()
+            if input.KeyCode == Enum.KeyCode.Space or accepted:find(value) then
+                local updatevalue = ""
+                if input.KeyCode ~= Enum.KeyCode.Space then
+                    textlabel.Text = value
+                    updatevalue = value
+                end
+                searchtextboxinit(updatevalue)
+            end
+        end))
     end
 }
 selectedwindow = Instance.new("ImageLabel", winlist)
@@ -2009,6 +2098,11 @@ end)
 GuiLibrary["SelfDestruct"] = function()
     gui:Destroy()
     rise2:Destroy()
+    for i, v in pairs(GuiLibrary.Connections) do
+        pcall(function()
+            v:Disconnect()
+        end)
+    end
     GuiLibrary = nil
 end
 GuiLibrary.UpdateHudEvent.Event:Connect(function(ignore)
