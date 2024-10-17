@@ -125,6 +125,16 @@ task.spawn(function()
         task.wait()
     until coordinates == nil
 end)
+local cd = Instance.new("TextLabel", rise2)
+cd.Text = "RiseClient.com"
+cd.TextColor3 = Color3.fromRGB(200, 200, 200)
+cd.FontFace = shared.RiseFonts.AppleUI
+cd.TextSize = 18
+cd.Position = UDim2.new(1, -10, 1, -10)
+cd.AnchorPoint = Vector2.new(1, 1)
+cd.TextXAlignment = Enum.TextXAlignment.Right
+cd.BackgroundTransparency = 1
+cd.Size = UDim2.new(0, 0, 18, 0)
 local logoimage = Instance.new("TextLabel", rise2)
 logoimage.BackgroundTransparency = 1
 logoimage.Position = UDim2.new(0, 15, 0, 15)
