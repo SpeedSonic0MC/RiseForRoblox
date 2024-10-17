@@ -22,12 +22,9 @@ task.spawn(function()
         end
     end
 end)
-local oldtick = tick()
 shared.Rise = loadstring(loadscript("RiseService.lua"))()
 local scr = loadscript("GuiLibrary.lua")
-local newtick = tick()
 local GuiLibrary = loadstring(scr)()
-print("Rise >> Used " .. tostring(newtick - oldtick) .. " seconds to initiate GuiLibrary and Rise Services")
 if not GuiLibrary["Loaded"] then
     repeat
         task.wait()
