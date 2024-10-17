@@ -1001,6 +1001,7 @@ local initWindowFunction = {
                 ["MaxTextWidth"] = 300
             })
             local indicatorlocation = -1
+            indicator.Visible = true
             repeat
                 local value = searchapi.Value
                 if value == "" then
