@@ -101,13 +101,14 @@ rise2.OnTopOfCoreBlur = true
 rise2.Name = "Rise 6 - HUD"
 rise2.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 rise2.ResetOnSpawn = false
-local logoimage = Instance.new("ImageLabel", rise2)
+local logoimage = Instance.new("TextLabel", rise2)
 logoimage.BackgroundTransparency = 1
 logoimage.Position = UDim2.new(0, 15, 0, 15)
 logoimage.Size = UDim2.new(0, 69, 0, 28)
-logoimage.Image = getriseasset("logo.png")
+logoimage.TextSize = 25
+logoimage.FontFace = shared.RiseFonts.AppleUISemibold
+logoimage.Text = "Rise"
 logoimage.Visible = false
-logoimage.ScaleType = Enum.ScaleType.Fit
 local uigra = Instance.new("UIGradient", logoimage)
 uigra.Color = ColorSequence.new(Color3.new(1, 1, 1))
 table.insert(GuiLibrary.RainbowItems, uigra)
@@ -131,6 +132,27 @@ if isfile("rise/configs/GUI.rscfg") then
 end
 if Enum.KeyCode[GuiLibrary.Settings.Keybind] == nil then
     GuiLibrary.Settings.Keybind = "RightShift"
+end
+local requestinput = function(argstable)
+    local api = {
+        ["Value"] = argstable["Default"] or ""
+    }
+    if GuiLibrary.AwaitingTextInput then
+        return
+    end
+    local htl = Instance.new("TextBox", gui) -- we don't use inputbegan because rise feature :D
+    htl.Position = UDim2.new(999, 0, 999, 0)
+    htl.Text = api.Value
+    htl.ClearTextOnFocus = false
+    htl:CaptureFocus()
+    htl.FocusLost:Connect(function()
+        GuiLibrary.AwaitingTextInput = false
+        htl:Destroy()
+    end)
+    htl:GetPropertyChangedSignal("Text"):Connect(function()
+        api["Value"] = htl.Text
+    end)
+    return api
 end
 local ThemeService = shared.Rise:GetService("ColorService")
 local Lang = shared.Rise:GetService("LanguageService")
@@ -858,6 +880,22 @@ local initWindowFunction = {
         scrs.TextXAlignment = Enum.TextXAlignment.Left
     end,
     ["Search"] = function(scrframe)
+        --[[local frame = scrframe.Parent
+        scrframe:Destroy()
+        frame.UIPadding:Destroy()
+        local up = Instance.new("UIPadding", frame)
+        up.PaddingBottom = UDim.new(0, 14)
+        up.PaddingTop = UDim.new(0, 70)
+        scrframe = Instance.new("ScrollingFrame", frame)
+        scrframe.AnchorPoint = Vector2.new(0.5, 0.5)
+        scrframe.BackgroundTransparency = 9999
+        scrframe.Position = UDim2.new(0.5, 0, 0.5, 0)
+        scrframe.Size = UDim2.new(1, -12, 1, 0)
+        scrframe.AutomaticCanvasSize = Enum.AutomaticSize.Y
+        scrframe.ScrollBarImageColor3 = Color3.fromRGB(39, 72, 77)
+        scrframe.ScrollBarThickness = 2
+        scrframe.ScrollingDirection = Enum.ScrollingDirection.Y
+        scrframe.CanvasSize = UDim2.new(0, 0, 0, 0)]]
     end
 }
 selectedwindow = Instance.new("ImageLabel", winlist)
