@@ -204,6 +204,7 @@ local requestinput = function(argstable)
             end
         end
         api["Value"] = htl.Text
+        print("Rise >> " .. api["Value"])
     end)
     return api
 end
@@ -1030,7 +1031,7 @@ local initWindowFunction = {
             indicator.Visible = false
         end
         table.insert(GuiLibrary.Connections, inputService.InputBegan:Connect(function(input)
-            local accepted = "abcdefghijklmnopqrstuvwxyz1234567890"
+            local accepted = "bcefghijklmnopqrtuvwyz1234567890"
             local value = tostring(input.KeyCode):gsub("Enum.KeyCode.", ""):lower()
             if input.KeyCode == Enum.KeyCode.Space or accepted:find(value) and vis and selectedwindowoption == "Search" and value ~= GuiLibrary.Settings.Keybind:lower() then
                 searchtextboxinit(searchtextboxpendingreset and "" or value)
