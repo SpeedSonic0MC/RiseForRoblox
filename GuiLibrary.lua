@@ -1030,7 +1030,7 @@ local initWindowFunction = {
         table.insert(GuiLibrary.Connections, inputService.InputBegan:Connect(function(input)
             local accepted = "abcdefghijklmnopqrstuvwxyz1234567890"
             local value = tostring(input.KeyCode):gsub("Enum.KeyCode.", ""):lower()
-            if input.KeyCode == Enum.KeyCode.Space or accepted:find(value) then
+            if input.KeyCode == Enum.KeyCode.Space or accepted:find(value) and vis and selectedwindowoption == "Search" then
                 local updatevalue = ""
                 if input.KeyCode ~= Enum.KeyCode.Space then
                     textlabel.Text = value
