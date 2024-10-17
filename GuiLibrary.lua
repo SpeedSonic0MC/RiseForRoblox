@@ -938,7 +938,7 @@ local initWindowFunction = {
         cf.Position = UDim2.new(0.5, 0, 0, 0)
         cf.Size = UDim2.new(0, 0, 0, 0)
         local cfl = Instance.new("UIListLayout", cf)
-        cfl.Padding = UDim2.new(0, 14)
+        cfl.Padding = UDim.new(0, 14)
         cfl.SortOrder = Enum.SortOrder.LayoutOrder
         cfl.HorizontalAlignment = Enum.HorizontalAlignment.Center
     end
@@ -1189,6 +1189,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         buttonapi.Object = buttonobj
         buttonobj.Text = ""
         buttonobj.Name = buttonapi.Name
+        buttonapi["Object"] = buttonobj
         buttonobj.BackgroundColor3 = Color3.fromRGB(18, 21, 27)
         buttonobj.Size = UDim2.new(0, 566, 0, 75)
         buttonobj.AutoButtonColor = false
