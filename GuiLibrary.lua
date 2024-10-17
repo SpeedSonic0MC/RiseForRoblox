@@ -941,6 +941,15 @@ local initWindowFunction = {
         cfl.Padding = UDim.new(0, 14)
         cfl.SortOrder = Enum.SortOrder.LayoutOrder
         cfl.HorizontalAlignment = Enum.HorizontalAlignment.Center
+        local textlabel = Instance.new("TextLabel", scrframe)
+        textlabel.AnchorPoint = Vector2.new(0.5, 0)
+        textlabel.BackgroundTransparency = 1
+        textlabel.Position = UDim2.new(0.5, 0, 0, -37)
+        textlabel.Size = UDim2.new(1, 0, 0, 19)
+        textlabel.FontFace = shared.RiseFonts.AppleUI
+        textlabel.TextColor3 = Color3.fromRGB(69, 72, 78)
+        textlabel.Text = "Start typing to search..."
+        textlabel.TextSize = 21
     end
 }
 selectedwindow = Instance.new("ImageLabel", winlist)
