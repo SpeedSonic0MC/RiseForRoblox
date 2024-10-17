@@ -182,7 +182,7 @@ local requestinput = function(argstable)
         return
     end
     local htl = Instance.new("TextBox", gui) -- we don't use inputbegan because rise feature :D
-    htl.Position = UDim2.new(999, 0, 999, 0)
+    htl.Position = UDim2.new(0, 0, 1, 0)
     htl.Text = api.Value
     htl.ClearTextOnFocus = false
     htl:CaptureFocus()
@@ -1031,7 +1031,7 @@ local initWindowFunction = {
             indicator.Visible = false
         end
         table.insert(GuiLibrary.Connections, inputService.InputBegan:Connect(function(input)
-            local accepted = "bcefghijklmnopqrtuvwyz1234567890"
+            local accepted = "bcefghijklmnopqrtuvxyz1234567890"
             local value = tostring(input.KeyCode):gsub("Enum.KeyCode.", ""):lower()
             if input.KeyCode == Enum.KeyCode.Space or accepted:find(value) and vis and selectedwindowoption == "Search" and value ~= GuiLibrary.Settings.Keybind:lower() then
                 searchtextboxinit(searchtextboxpendingreset and "" or value)
