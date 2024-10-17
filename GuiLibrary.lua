@@ -882,7 +882,7 @@ local initWindowFunction = {
         scrs.TextXAlignment = Enum.TextXAlignment.Left
     end,
     ["Search"] = function(scrframe)
-        --[[local frame = scrframe.Parent
+        local frame = scrframe.Parent
         scrframe:Destroy()
         frame.UIPadding:Destroy()
         local up = Instance.new("UIPadding", frame)
@@ -897,7 +897,16 @@ local initWindowFunction = {
         scrframe.ScrollBarImageColor3 = Color3.fromRGB(39, 72, 77)
         scrframe.ScrollBarThickness = 2
         scrframe.ScrollingDirection = Enum.ScrollingDirection.Y
-        scrframe.CanvasSize = UDim2.new(0, 0, 0, 0)]]
+        scrframe.CanvasSize = UDim2.new(0, 0, 0, 0)
+        local cf = Instance.new("Frame", scrframe)
+        cf.AnchorPoint = Vector2.new(0.5, 0)
+        cf.BackgroundTransparency = 1
+        cf.Position = UDim2.new(0.5, 0, 0, 0)
+        cf.Size = UDim2.new(0, 0, 0, 0)
+        local cfl = Instance.new("UIListLayout", cf)
+        cfl.Padding = UDim2.new(0, 14)
+        cfl.SortOrder = Enum.SortOrder.LayoutOrder
+        cfl.HorizontalAlignment = Enum.HorizontalAlignment.Center
     end
 }
 selectedwindow = Instance.new("ImageLabel", winlist)
@@ -1126,6 +1135,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         task.spawn(function()
             initWindowFunction[v](scrframe)
         end)
+        return
     end
     windowapi["CreateOptionsButton"] = function(argsmaintable)
         local buttonapi = {
@@ -1137,7 +1147,8 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
             ["Enabled"] = argsmaintable["Enabled"] or false,
             ["Keybind"] = nil,
             ["Function"] = argsmaintable["Function"] or function()
-            end
+            end,
+            ["Category"] = v
         }
         local buttonexpanded = false
         local buttonobj = Instance.new("TextButton", scrframe)
@@ -1228,6 +1239,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         options.AnchorPoint = Vector2.new(0.5, 0)
         options.Size = UDim2.new(1, -26, 0, 0)
         options:AddTag("NoTween")
+        buttonapi["OptionsObject"] = options
         local list = Instance.new("UIListLayout", options)
         list.SortOrder = Enum.SortOrder.LayoutOrder
         list.HorizontalAlignment = Enum.HorizontalAlignment.Center
