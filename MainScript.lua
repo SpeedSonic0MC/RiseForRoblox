@@ -23,12 +23,12 @@ for i, v in pairs({"rise", "rise/assets", "rise/configs", "rise/scripts"}) do
         makefolder(v)
     end
 end
-shared.Rise = loadstring(loadscript("RiseService.lua"))()
 local oldtick = tick()
+shared.Rise = loadstring(loadscript("RiseService.lua"))()
 local scr = loadscript("GuiLibrary.lua")
 local newtick = tick()
 local GuiLibrary = loadstring(scr)()
-print("Rise >> Used " .. tostring(newtick - oldtick) .. " seconds to download GuiLibrary")
+print("Rise >> Used " .. tostring(newtick - oldtick) .. " seconds to initiate GuiLibrary and Rise Services")
 if not GuiLibrary["Loaded"] then
     repeat
         task.wait()
