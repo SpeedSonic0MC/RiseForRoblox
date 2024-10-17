@@ -24,7 +24,11 @@ for i, v in pairs({"rise", "rise/assets", "rise/configs", "rise/scripts"}) do
     end
 end
 shared.Rise = loadstring(loadscript("RiseService.lua"))()
-local GuiLibrary = loadstring(loadscript("GuiLibrary.lua"))()
+local oldtick = tick()
+local scr = loadscript("GuiLibrary.lua")
+local newtick = tick()
+local GuiLibrary = loadstring(scr)()
+print("Rise >> Used " .. tostring(newtick - oldtick) .. " seconds to download GuiLibrary")
 if not GuiLibrary["Loaded"] then
     repeat
         task.wait()
