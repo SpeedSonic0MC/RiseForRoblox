@@ -19,6 +19,7 @@ local GuiLibrary = {
     Connections = {}
 }
 local guitweening = false
+local searchtextboxpendingreset = false
 local vis = false
 print("Rise >> Running rise version " .. GuiLibrary.Version)
 local function RelativeXY(GuiObject, location)
@@ -228,6 +229,7 @@ local tweening = false
 local rt = "RiseTransparency"
 local function tgle()
     guitweening = true
+    searchtextboxpendingreset = true
     vis = not vis
     local function wefpok230(v)
         if v:IsA("Frame") then
@@ -1020,7 +1022,7 @@ local initWindowFunction = {
                     }):Play()
                 else
                     tweenService:Create(indicator, TweenInfo.new(0.1), {
-                        Position = UDim2.new(0.5, indicatorlocation / 2, 0, 0)
+                        Position = UDim2.new(0.5, indicatorlocation / 2 + 2, 0, 0)
                     }):Play()
                 end
                 task.wait()
@@ -1031,12 +1033,7 @@ local initWindowFunction = {
             local accepted = "abcdefghijklmnopqrstuvwxyz1234567890"
             local value = tostring(input.KeyCode):gsub("Enum.KeyCode.", ""):lower()
             if input.KeyCode == Enum.KeyCode.Space or accepted:find(value) and vis and selectedwindowoption == "Search" and value ~= GuiLibrary.Settings.Keybind:lower() then
-                local updatevalue = ""
-                if input.KeyCode ~= Enum.KeyCode.Space then
-                    textlabel.Text = value
-                    updatevalue = value
-                end
-                searchtextboxinit(updatevalue)
+                searchtextboxinit(searchtextboxpendingreset and "" or value)
             end
         end))
     end
@@ -1086,6 +1083,9 @@ windowbuttonhandle = function(oldname, newname, focus)
         {"Search", "Combat", "Movement", "Player", "Render", "Exploit", "Ghost", "CaS", "Themes", "Language"}
     if oldname == newname or selectedwindowoption == newname or windowdescendantstweening then
         return false
+    end
+    if oldname == "Search" then
+        searchtextboxpendingreset = true
     end
     local winbutton = {
         Old = winlist[oldname],
