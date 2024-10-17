@@ -110,7 +110,7 @@ coordinates.Position = UDim2.new(0, 10, 1, -10)
 coordinates.AnchorPoint = Vector2.new(0, 1)
 coordinates.TextXAlignment = Enum.TextXAlignment.Left
 coordinates.BackgroundTransparency = 1
-coordinates.Size = UDim2.new(0, 0, 18, 0)
+coordinates.Size = UDim2.new(0, 0, 0, 18)
 task.spawn(function()
     repeat
         local character = lplr.Character
@@ -121,7 +121,7 @@ task.spawn(function()
             return
         end
         local crd = position.CFrame.Position
-        coordinates.Text = "XYZ: " .. tostring(crd.X) .. ", " .. tostring(crd.Y) .. ", " .. tostring(crd.Z)
+        coordinates.Text = "XYZ: " .. math.round(crd.X) .. ", " .. math.round(crd.Y) .. ", " .. math.round(crd.Z)
         task.wait()
     until coordinates == nil
 end)
@@ -134,7 +134,7 @@ cd.Position = UDim2.new(1, -10, 1, -10)
 cd.AnchorPoint = Vector2.new(1, 1)
 cd.TextXAlignment = Enum.TextXAlignment.Right
 cd.BackgroundTransparency = 1
-cd.Size = UDim2.new(0, 0, 18, 0)
+cd.Size = UDim2.new(0, 0, 0, 18)
 local logoimage = Instance.new("TextLabel", rise2)
 logoimage.BackgroundTransparency = 1
 logoimage.Position = UDim2.new(0, 15, 0, 15)
