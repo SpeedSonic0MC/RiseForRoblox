@@ -972,14 +972,14 @@ local initWindowFunction = {
         local indicatorframe = Instance.new("Frame", textlabel)
         indicatorframe:AddTag("NoTween")
         indicatorframe.BackgroundTransparency = 1
-        indicatorframe.AnchorPoint = Vector2.new(0.5, 0)
-        indicatorframe.Position = UDim2.new(0.5, 0, 0, 0)
-        indicatorframe.Size = UDim2.new(0, 300, 0, 19) -- roblox android typing indicator stink mf
+        indicatorframe.AnchorPoint = Vector2.new(0.5, 0.5)
+        indicatorframe.Position = UDim2.new(0.5, 0, 0.5, 0)
+        indicatorframe.Size = UDim2.new(0, 300, 0, 17) -- roblox android typing indicator stink mf
         local indicator = Instance.new("Frame", indicatorframe)
-        indicator.AnchorPoint = Vector2.new(0, 0)
+        indicator.AnchorPoint = Vector2.new(0.5, 0)
         indicator:AddTag("NoTween")
-        indicator.Position = UDim2.new(0, 0, 0, 0)
-        indicator.Size = UDim2.new(0, 2, 0, 19)
+        indicator.Position = UDim2.new(0, -86, 0, 0)
+        indicator.Size = UDim2.new(0, 2, 1, 0)
         indicator.BackgroundColor3 = Color3.new(1, 1, 1)
         indicator.Visible = false
         task.spawn(function()
@@ -1000,6 +1000,7 @@ local initWindowFunction = {
                 ["TextSize"] = 21,
                 ["MaxTextWidth"] = 300
             })
+            GuiLibrary.AwaitingTextInput = true
             local indicatorlocation = -1
             indicator.Visible = true
             repeat
@@ -1015,17 +1016,15 @@ local initWindowFunction = {
                 end
                 if indicatorlocation == -1 then
                     tweenService:Create(indicator, TweenInfo.new(0.1), {
-                        AnchorPoint = Vector2.new(0, 0),
-                        Position = UDim2.new(0, 0, 0, 0)
+                        Position = UDim2.new(0.5, -86, 0, 0)
                     }):Play()
                 else
                     tweenService:Create(indicator, TweenInfo.new(0.1), {
-                        AnchorPoint = Vector2.new(0.5, 0),
-                        Position = UDim2.new(0.5, 0, 0, indicatorlocation / 2)
+                        Position = UDim2.new(0.5, indicatorlocation / 2, 0, 0)
                     }):Play()
                 end
                 task.wait()
-            until not GuiLibrary.AwaitingTextInput
+            until GuiLibrary.AwaitingTextInput == false
             indicator.Visible = false
         end
         table.insert(GuiLibrary.Connections, inputService.InputBegan:Connect(function(input)
