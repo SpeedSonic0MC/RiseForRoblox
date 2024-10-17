@@ -122,6 +122,7 @@ task.spawn(function()
         end
         local crd = position.CFrame.Position
         coordinates.Text = "XYZ: " .. tostring(crd.X) .. ", " .. tostring(crd.Y) .. ", " .. tostring(crd.Z)
+        task.wait()
     until coordinates == nil
 end)
 local logoimage = Instance.new("TextLabel", rise2)
