@@ -2193,10 +2193,7 @@ GuiLibrary["LoadSettings"] = function(customsave, config)
     end
 end
 GuiLibrary["SaveSettings"] = function()
-    if not GuiLibrary.Loaded then
-        return
-    end
-    local file = "rise/configs/latest" .. tostring(game.PlaceId) .. ".rscfg" -- don't ask why its only latest. Try rise yourself.
+    local file = "rise/configs/latest" .. tostring(shared.CustomRiseSave or game.PlaceId) .. ".rscfg" -- don't ask why its only latest. Try rise yourself.
     local savetable = {}
     for i, v in pairs(GuiLibrary.ObjectCanBeSaved) do
         if v.Type == "OptionsButton" then
