@@ -1011,7 +1011,8 @@ local initWindowFunction = {
             local indicatorlocation = -1
             indicator.Visible = true
             repeat
-                local value = searchapi.Value
+                local value = searchapi["Value"]
+                if value == nil then return end
                 if value == "" then
                     indicatorlocation = -1
                     textlabel.Text = "Start typing to search..."
@@ -2207,14 +2208,15 @@ GuiLibrary["ClearOptions"] = function()
     end
 end
 GuiLibrary["LoadSettings"] = function(customsave, config)
-    GuiLibrary.ClearOptions()
     local loadfile = "rise/configs/" .. (config or "") .. (customsave or game.PlaceId) .. ".rscfg"
     if isfile("rise/configs/latest" .. tostring(game.PlaceId) .. ".rscfg") and not config then
         loadfile = "rise/configs/latest" .. tostring(game.PlaceId) .. ".rscfg"
     end
     if not isfile(loadfile) then
+        writefile(loadfile, "{\"Placeholder\": \"This message will be removed as soon as GuiLibrary starts saving settings.\"}")
         return
     end
+    GuiLibrary.ClearOptions() -- only clear all options if file exists
     local decoded = httpService:JSONDecode(readfile(loadfile))
     if decoded ~= nil and type(decoded) == "table" then
         for i, v in pairs(decoded) do

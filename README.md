@@ -11,5 +11,5 @@ Rise For Roblox is not compatible with mobile. (use Mobile Emulators instead)
 PC executors gets you ban waved :)
 
 ## Incompatibilities
-- Delta (GUI will not load)
-- WSA (Screen goes white)
+- Delta Executor
+- WSA
