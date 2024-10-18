@@ -178,33 +178,37 @@ local requestinput = function(argstable)
         ["Value"] = argstable["Default"] or "",
         Width = 0
     }
-    if GuiLibrary.AwaitingTextInput then
+    if GuiLibrary.AwaitingTextInput then -- cancels if active awaiting
         return
     end
-    local htl = Instance.new("TextBox", gui) -- we don't use inputbegan because rise feature :D
-    htl.Position = UDim2.new(0, 0, 1, 0)
-    htl.Text = api.Value
-    htl.ClearTextOnFocus = false
-    htl:CaptureFocus()
-    htl.FocusLost:Connect(function()
-        GuiLibrary.AwaitingTextInput = false
-        htl:Destroy()
-    end)
-    htl:GetPropertyChangedSignal("Text"):Connect(function()
-        local param = Instance.new("GetTextBoundsParams")
-        param.Font = shared.RiseFonts.AppleUI
-        param.Text = htl.Text
-        param.Size = argstable["TextSize"] or 21
-        param.Width = 99999
-        api.Width = textService:GetTextBoundsAsync(param).X
-        if type(argstable["MaxTextWidth"]) == "number" then
-            if api.Width > argstable["MaxTextWidth"] then
-                htl.Text = api["Value"]
+    GuiLibrary.AwaitingTextInput = true
+    local listener
+    listener = inputService.InputBegan:Connect(function(input)
+        if (input.KeyCode == Enum.KeyCode.Escape or input.KeyCode == Enum.KeyCode.Enter) and not argstable["NoCancel"] then
+            listener:Disconnect()
+            GuiLibrary.AwaitingTextInput = false
+        elseif input.KeyCode == Enum.KeyCode.Backspace then
+            if api["Value"]:len() == 0 then
                 return
+            end -- empty str
+            api["Value"] = api["Value"]:sub(1, -2)
+        else
+            local acceptedkeycode = "abcdefghijklmnopqrstuvwxyz1234567890"
+            local inputted = tostring(input.KeyCode):gsub("Enum.KeyCode.", ""):lower()
+            if acceptedkeycode:find(inputted) or input.KeyCode == Enum.KeyCode.Space then
+                local newstring = api["Value"] .. (input.KeyCode == Enum.KeyCode.Space and " " or inputted)
+                local param = Instance.new("GetTextBoundsParams")
+                param.Font = shared.RiseFonts.AppleUI
+                param.Text = newstring
+                param.Size = argstable["TextSize"] or 21
+                param.Width = 99999
+                api.Width = textService:GetTextBoundsAsync(param).X
+                if type(argstable["MaxTextWidth"]) == "number" and api.Width > argstable.MaxTextWidth then
+                    return
+                end
+                api["Value"] = newstring
             end
         end
-        api["Value"] = htl.Text
-        print("Rise >> " .. api["Value"])
     end)
     return api
 end
