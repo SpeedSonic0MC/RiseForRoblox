@@ -974,6 +974,7 @@ local initWindowFunction = {
                 if selectedwindowoption == "Search" then
                     if searchtextboxpendingreset then
                         textlabel.Text = ""
+                        searchtextboxpendingreset = false
                     end
                 else
                     if frametweening then
