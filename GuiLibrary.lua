@@ -975,9 +975,9 @@ local initWindowFunction = {
                     end
                 else
                     windowbuttonhandle(selectedwindowoption, "Search")
-                    task.wait(0.35)
+                    task.wait(0.4)
                 end
-                    textlabel:CaptureFocus()
+                textlabel:CaptureFocus()
             end
         end))
     end
@@ -1028,7 +1028,7 @@ windowbuttonhandle = function(oldname, newname)
     if oldname == newname or selectedwindowoption == newname or windowdescendantstweening then
         return false
     end
-    if oldname == "Search" then
+    if newname == "Search" then
         searchtextboxpendingreset = true
     end
     local winbutton = {
