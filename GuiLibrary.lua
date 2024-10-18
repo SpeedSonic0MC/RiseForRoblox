@@ -2208,10 +2208,7 @@ GuiLibrary["ClearOptions"] = function()
     end
 end
 GuiLibrary["LoadSettings"] = function(customsave, config)
-    local loadfile = "rise/configs/" .. (config or "") .. (customsave or game.PlaceId) .. ".rscfg"
-    if isfile("rise/configs/latest" .. tostring(game.PlaceId) .. ".rscfg") and not config then
-        loadfile = "rise/configs/latest" .. tostring(game.PlaceId) .. ".rscfg"
-    end
+    local loadfile = "rise/configs/" .. (config or "latest") .. (customsave or game.PlaceId) .. ".rscfg"
     if not isfile(loadfile) then
         writefile(loadfile, "{\"Placeholder\": \"This message will be removed as soon as GuiLibrary starts saving settings.\"}")
         return
