@@ -5,7 +5,7 @@ local function loadscript(url, e)
         end
     end
     local suc, res = pcall(function()
-        return game:HttpGet("https://cdn.jsdelivr.net/gh/SpeedSonic0MC/RiseForRoblox/" .. url)
+        return game:HttpGet("https://raw.githubusercontent.com/SpeedSonic0MC/RiseForRoblox/refs/heads/main/" .. url)
     end)
     if not suc or res == "404: Not Found" then
         print("Rise >> Failed to execute loadscript()")
@@ -31,7 +31,7 @@ if not GuiLibrary["Loaded"] then
     until GuiLibrary["Loaded"] == true
 end
 local suc, res = pcall(function()
-    return game:HttpGet("https://cdn.jsdelivr.net/gh/SpeedSonic0MC/RiseForRoblox/game/" .. game.PlaceId ..
+    return game:HttpGet("https://raw.githubusercontent.com/SpeedSonic0MC/RiseForRoblox/refs/heads/main/game/" .. game.PlaceId ..
                             ".lua", true)
 end)
 if not suc or res == "404: Not Found" then

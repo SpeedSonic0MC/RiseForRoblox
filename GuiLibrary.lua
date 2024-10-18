@@ -67,7 +67,7 @@ local delfile = delfile or function(_1)
 end
 local getriseasset = function(url)
     local asset = request {
-        Url = "https://cdn.jsdelivr.net/gh/SpeedSonic0MC/RiseForRoblox/assets/" .. url,
+        Url = "https://raw.githubusercontent.com/SpeedSonic0MC/RiseForRoblox/refs/heads/main/assets/" .. url,
         Method = "GET"
     }
     writefile("rise/assets/" .. url, asset.Body)
@@ -2241,7 +2241,7 @@ lplr.OnTeleport:Connect(function()
     if (not tps) then
         tps = true
         local tpss = [[
-        loadstring(game:HttpGet("https://cdn.jsdelivr.net/gh/SpeedSonic0MC/RiseForRoblox/MainScript.lua"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/SpeedSonic0MC/RiseForRoblox/refs/heads/main/MainScript.lua"))()
         ]]
         if shared.RiseDeveloper then
             tpss = "shared.RiseDeveloper = true\n" .. tpss
