@@ -184,7 +184,7 @@ local requestinput = function(argstable)
     GuiLibrary.AwaitingTextInput = true
     local listener
     listener = inputService.InputBegan:Connect(function(input)
-        if (input.KeyCode == Enum.KeyCode.Escape or input.KeyCode == Enum.KeyCode.Enter) and not argstable["NoCancel"] then
+        if (input.KeyCode == Enum.KeyCode.Escape or input.KeyCode == Enum.KeyCode.Return) and not argstable["NoCancel"] then
             listener:Disconnect()
             GuiLibrary.AwaitingTextInput = false
         elseif input.KeyCode == Enum.KeyCode.Backspace then
