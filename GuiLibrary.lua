@@ -934,6 +934,7 @@ local initWindowFunction = {
         textlabel.Position = UDim2.new(0.5, 0, 0, -37)
         textlabel.Size = UDim2.new(1, 0, 0, 19)
         textlabel.FontFace = shared.RiseFonts.AppleUI
+        textlabel.ClearTextOnFocus = false
         textlabel.PlaceholderColor3 = Color3.fromRGB(69, 72, 78)
         textlabel.PlaceholderText = "Start typing to search..."
         textlabel.TextColor3 = Color3.new(1, 1, 1)
