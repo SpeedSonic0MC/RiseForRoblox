@@ -173,45 +173,6 @@ end
 if Enum.KeyCode[GuiLibrary.Settings.Keybind] == nil then
     GuiLibrary.Settings.Keybind = "RightShift"
 end
-local requestinput = function(argstable)
-    local api = {
-        ["Value"] = argstable["Default"] or "",
-        Width = 0
-    }
-    if GuiLibrary.AwaitingTextInput then -- cancels if active awaiting
-        return
-    end
-    GuiLibrary.AwaitingTextInput = true
-    local listener
-    listener = inputService.InputBegan:Connect(function(input)
-        if (input.KeyCode == Enum.KeyCode.Escape or input.KeyCode == Enum.KeyCode.Return) and not argstable["NoCancel"] then
-            listener:Disconnect()
-            GuiLibrary.AwaitingTextInput = false
-        elseif input.KeyCode == Enum.KeyCode.Backspace then
-            if api["Value"]:len() == 0 then
-                return
-            end -- empty str
-            api["Value"] = api["Value"]:sub(1, -2)
-        else
-            local acceptedkeycode = "abcdefghijklmnopqrstuvwxyz1234567890"
-            local inputted = tostring(input.KeyCode):gsub("Enum.KeyCode.", ""):lower()
-            if acceptedkeycode:find(inputted) or input.KeyCode == Enum.KeyCode.Space then
-                local newstring = api["Value"] .. (input.KeyCode == Enum.KeyCode.Space and " " or inputted)
-                local param = Instance.new("GetTextBoundsParams")
-                param.Font = shared.RiseFonts.AppleUI
-                param.Text = newstring
-                param.Size = argstable["TextSize"] or 21
-                param.Width = 99999
-                api.Width = textService:GetTextBoundsAsync(param).X
-                if type(argstable["MaxTextWidth"]) == "number" and api.Width > argstable.MaxTextWidth then
-                    return
-                end
-                api["Value"] = newstring
-            end
-        end
-    end)
-    return api
-end
 local ThemeService = shared.Rise:GetService("ColorService")
 local Lang = shared.Rise:GetService("LanguageService")
 local languages = Lang["Available"]
@@ -967,14 +928,16 @@ local initWindowFunction = {
         cfl.Padding = UDim.new(0, 14)
         cfl.SortOrder = Enum.SortOrder.LayoutOrder
         cfl.HorizontalAlignment = Enum.HorizontalAlignment.Center
-        local textlabel = Instance.new("TextLabel", scrframe)
+        local textlabel = Instance.new("TextBox", scrframe)
         textlabel.AnchorPoint = Vector2.new(0.5, 0)
         textlabel.BackgroundTransparency = 1
         textlabel.Position = UDim2.new(0.5, 0, 0, -37)
         textlabel.Size = UDim2.new(1, 0, 0, 19)
         textlabel.FontFace = shared.RiseFonts.AppleUI
-        textlabel.TextColor3 = Color3.fromRGB(69, 72, 78)
-        textlabel.Text = "Start typing to search..."
+        textlabel.PlaceholderColor3 = Color3.fromRGB(69, 72, 78)
+        textlabel.PlaceholderText = "Start typing to search..."
+        textlabel.TextColor3 = Color3.new(1, 1, 1)
+        textlabel.Text = ""
         textlabel.TextSize = 21
         local indicatorframe = Instance.new("Frame", textlabel)
         indicatorframe:AddTag("NoTween")
@@ -1001,45 +964,20 @@ local initWindowFunction = {
                 task.wait(.5)
             until GuiLibrary == nil
         end)
-        searchtextboxinit = function(val)
-            local searchapi = requestinput({
-                ["Default"] = val,
-                ["TextSize"] = 21,
-                ["MaxTextWidth"] = 300
-            })
-            GuiLibrary.AwaitingTextInput = true
-            local indicatorlocation = -1
-            indicator.Visible = true
-            repeat
-                local value = searchapi["Value"]
-                if value == nil then return end
-                if value == "" then
-                    indicatorlocation = -1
-                    textlabel.Text = "Start typing to search..."
-                    textlabel.TextColor3 = Color3.fromRGB(69, 72, 78)
-                else
-                    indicatorlocation = searchapi.Width
-                    textlabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-                    textlabel.Text = value
-                end
-                if indicatorlocation == -1 then
-                    tweenService:Create(indicator, TweenInfo.new(0.1), {
-                        Position = UDim2.new(0.5, -86, 0, 0)
-                    }):Play()
-                else
-                    tweenService:Create(indicator, TweenInfo.new(0.1), {
-                        Position = UDim2.new(0.5, indicatorlocation / 2 + 2, 0, 0)
-                    }):Play()
-                end
-                task.wait()
-            until GuiLibrary.AwaitingTextInput == false
-            indicator.Visible = false
-        end
         table.insert(GuiLibrary.Connections, inputService.InputBegan:Connect(function(input)
             local accepted = "bcefghijklmnopqrtuvxyz1234567890"
             local value = tostring(input.KeyCode):gsub("Enum.KeyCode.", ""):lower()
-            if input.KeyCode == Enum.KeyCode.Space or accepted:find(value) and vis and selectedwindowoption == "Search" and value ~= GuiLibrary.Settings.Keybind:lower() then
-                searchtextboxinit(searchtextboxpendingreset and "" or value)
+            if input.KeyCode == Enum.KeyCode.Space or accepted:find(value) and vis and value ~=
+                GuiLibrary.Settings.Keybind:lower() then
+                if selectedwindowoption == "Search" then
+                    if searchtextboxpendingreset then
+                        textlabel.Text = ""
+                    end
+                else
+                    windowbuttonhandle(selectedwindowoption, "Search")
+                    task.wait(0.35)
+                end
+                    textlabel:CaptureFocus()
             end
         end))
     end
@@ -1084,7 +1022,7 @@ local cr = Instance.new("UICorner", shader)
 cr.CornerRadius = UDim.new(1, 0)
 local windowdescendantstweening = false
 selectedwindowoption = "Search"
-windowbuttonhandle = function(oldname, newname, focus)
+windowbuttonhandle = function(oldname, newname)
     local indexes =
         {"Search", "Combat", "Movement", "Player", "Render", "Exploit", "Ghost", "CaS", "Themes", "Language"}
     if oldname == newname or selectedwindowoption == newname or windowdescendantstweening then
@@ -2210,7 +2148,8 @@ end
 GuiLibrary["LoadSettings"] = function(customsave, config)
     local loadfile = "rise/configs/" .. (config or "latest") .. (customsave or game.PlaceId) .. ".rscfg"
     if not isfile(loadfile) then
-        writefile(loadfile, "{\"Placeholder\": \"This message will be removed as soon as GuiLibrary starts saving settings.\"}")
+        writefile(loadfile,
+            "{\"Placeholder\": \"This message will be removed as soon as GuiLibrary starts saving settings.\"}")
         return
     end
     GuiLibrary.ClearOptions() -- only clear all options if file exists
