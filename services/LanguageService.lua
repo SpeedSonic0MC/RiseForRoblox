@@ -14,7 +14,7 @@ local a = {
 function a:GetLanguage(key)
     if not a.Languages[key] then
         local b, c = pcall(function()
-            return game:HttpGet("https://raw.githubusercontent.com/SpeedSonic0MC/RiseForRoblox/main/lang/" .. key ..
+            return game:HttpGet("https://cdn.jsdelivr.net/gh/SpeedSonic0MC/RiseForRoblox/lang/" .. key ..
                                     ".json")
         end)
         if not b or c == "404: Not Found" then
