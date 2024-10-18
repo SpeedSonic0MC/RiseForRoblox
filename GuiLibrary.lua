@@ -19,6 +19,7 @@ local GuiLibrary = {
     Connections = {}
 }
 local guitweening = false
+local frametweening = false
 local searchtextboxpendingreset = false
 local vis = false
 print("Rise >> Running rise version " .. GuiLibrary.Version)
@@ -975,6 +976,9 @@ local initWindowFunction = {
                         textlabel.Text = ""
                     end
                 else
+                    if frametweening then
+                        repeat task.wait() until not frametweening
+                    end
                     windowbuttonhandle(selectedwindowoption, "Search")
                     task.wait(0.4)
                 end
@@ -1024,6 +1028,7 @@ cr.CornerRadius = UDim.new(1, 0)
 local windowdescendantstweening = false
 selectedwindowoption = "Search"
 windowbuttonhandle = function(oldname, newname)
+    frametweening = true
     local indexes =
         {"Search", "Combat", "Movement", "Player", "Render", "Exploit", "Ghost", "CaS", "Themes", "Language"}
     if oldname == newname or selectedwindowoption == newname or windowdescendantstweening then
@@ -1138,6 +1143,7 @@ windowbuttonhandle = function(oldname, newname)
                 end
                 task.delay(0.2, function()
                     windowdescendantstweening = false
+                    frametweening = false
                 end)
             end)
         end)
