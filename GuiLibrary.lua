@@ -16,7 +16,8 @@ local GuiLibrary = {
     TranslateItems = {},
     LanguageFunctions = {},
     AwaitingTextInput = false,
-    Connections = {}
+    Connections = {},
+    AssetVersion = 1
 }
 local guitweening = false
 local frametweening = false
@@ -76,7 +77,9 @@ local getriseasset = function(url)
 end
 shared.RiseFonts = {}
 for i, v in pairs({"Minecraft", "Comfortaa", "AppleUI", "AppleUISemibold", "AppleUIBold", "Icona", "Iconb", "Iconc"}) do
-    getriseasset(v .. ".ttf")
+    if not isfile("rise/assets/" .. v .. ".ttf") then
+        getriseasset(v .. ".ttf")
+    end
     if not isfile("rise/assets/" .. v .. ".json") then
         writefile("rise/assets/" .. v .. ".json", httpService:JSONEncode({
             name = v,
@@ -978,7 +981,9 @@ local initWindowFunction = {
                     end
                 else
                     if frametweening then
-                        repeat task.wait() until not frametweening
+                        repeat
+                            task.wait()
+                        until not frametweening
                     end
                     windowbuttonhandle(selectedwindowoption, "Search")
                     task.wait(0.4)
@@ -986,6 +991,32 @@ local initWindowFunction = {
                 textlabel:CaptureFocus()
             end
         end))
+        local function createoptionsbutton(optbtn)
+            local obj = GuiLibrary.ObjectCanBeSaved[optbtn .. "OptionsButton"]
+            if not obj then
+                return
+            end
+            local opt = Instance.new("TextButton", cf)
+            local be = false
+            opt.Text = ""
+            opt.Name = optbtn
+            opt.BackgroundColor3 = Color3.fromRGB(18, 21, 27)
+            opt.AutoButtonColor = false
+            opt.Size = UDim2.new(0, 566, 0, 75)
+            local _IlIIl = Instance.new("UICorner", opt)
+            _IlIIl.CornerRadius = UDim.new(0, 12)
+            opt.MouseEnter:Connect(function()
+                tweenService:Create(_IlIIl, TweenInfo.new(0.1), {
+                    BackgroundColor3 = Color3.fromRGB(17, 19, 25)
+                }):Play()
+            end)
+            task.spawn(function()
+                repeat task.wait() until (GuiLibrary.ObjectCanBeSaved[optbtn .. "OptionsButton"] == nil or GuiLibrary == nil or opt == nil)
+                if opt then
+                    opt:Destroy()
+                end
+            end)
+        end
     end
 }
 selectedwindow = Instance.new("ImageLabel", winlist)
@@ -1310,9 +1341,10 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         end
         buttonobj.MouseButton1Click:Connect(function()
             task.spawn(function()
+                local oldbuttoncolor = buttonobj.BackgroundColor3
                 buttonobj.BackgroundColor3 = Color3.fromRGB(16, 18, 23)
                 task.wait(.1)
-                buttonobj.BackgroundColor3 = Color3.fromRGB(18, 21, 27)
+                buttonobj.BackgroundColor3 = oldbuttoncolor
             end)
             buttonapi["ToggleButton"]()
         end)
@@ -1328,7 +1360,7 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
         list.SortOrder = Enum.SortOrder.LayoutOrder
         list.HorizontalAlignment = Enum.HorizontalAlignment.Center
         list.Padding = UDim.new(0, 12)
-        buttonobj.MouseButton2Click:Connect(function()
+        buttonapi["ExpandOption"] = function()
             buttonexpanded = not buttonexpanded
             task.spawn(function()
                 buttonobj.BackgroundColor3 = Color3.fromRGB(16, 18, 23)
@@ -1354,6 +1386,9 @@ for i, v in pairs({"Search", "Combat", "Movement", "Player", "Render", "Exploit"
                     [prop] = options.AutomaticSize == Enum.AutomaticSize.None and 0 or 1
                 }):Play()
             end
+        end
+        buttonobj.MouseButton2Click:Connect(function()
+            buttonapi["ExpandOption"]()
         end)
         options.Changed:Connect(function(property)
             if property == "AbsoluteSize" and buttonexpanded and not guitweening then
