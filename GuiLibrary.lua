@@ -1010,8 +1010,15 @@ local initWindowFunction = {
                     BackgroundColor3 = Color3.fromRGB(17, 19, 25)
                 }):Play()
             end)
+            opt.MouseLeave:Connect(function()
+                tweenService:Create(_IlIIl, TweenInfo.new(0.1), {
+                    BackgroundColor3 = Color3.fromRGB(18, 21, 27)
+                }):Play()
+            end)
             task.spawn(function()
-                repeat task.wait() until (GuiLibrary.ObjectCanBeSaved[optbtn .. "OptionsButton"] == nil or GuiLibrary == nil or opt == nil)
+                repeat
+                    task.wait()
+                until (GuiLibrary.ObjectCanBeSaved[optbtn .. "OptionsButton"] == nil or GuiLibrary == nil or opt == nil)
                 if opt then
                     opt:Destroy()
                 end
