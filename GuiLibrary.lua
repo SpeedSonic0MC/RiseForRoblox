@@ -972,7 +972,7 @@ local initWindowFunction = {
         table.insert(GuiLibrary.Connections, inputService.InputBegan:Connect(function(input)
             local accepted = "bcefghijklmnopqrtuvxyz1234567890"
             local value = tostring(input.KeyCode):gsub("Enum.KeyCode.", ""):lower()
-            if input.KeyCode == Enum.KeyCode.Space or accepted:find(value) and vis and value ~=
+            if (input.KeyCode == Enum.KeyCode.Space or accepted:find(value)) and vis and value ~=
                 GuiLibrary.Settings.Keybind:lower() then
                 if selectedwindowoption == "Search" then
                     if searchtextboxpendingreset then
