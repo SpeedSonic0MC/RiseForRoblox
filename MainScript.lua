@@ -32,6 +32,7 @@ for _, v in pairs({"Elegant-Font.ttf", "Icon-Font.ttf", "SF-Pro-Rounded-Bold.otf
             error("❌ Failed to download font file : " .. _2)
         else
             writefile("Rise/Assets/Fonts/" .. v, res)
+            getcustomasset("Rise/Assets/Fonts/" .. v)
             print("🥰 Successfully downloaded font : " .. _2)
         end
     end
@@ -42,7 +43,7 @@ for _, v in pairs({"Elegant-Font.ttf", "Icon-Font.ttf", "SF-Pro-Rounded-Bold.otf
                 name = "Regular",
                 weight = 300,
                 style = "normal",
-                assetId = getcustomasset("Rise/Assets/Fonts/" .. v)
+                assetId = "rbxasset://Rise/Assets/Fonts/" .. v
             }}
         }))
     end
