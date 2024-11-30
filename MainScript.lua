@@ -1,6 +1,3 @@
-repeat
-    task.wait()
-until game:IsLoaded()
 if getgenv and not getgenv().shared then
     getgenv().shared = {}
 end
