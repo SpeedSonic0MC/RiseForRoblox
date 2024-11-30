@@ -64,6 +64,7 @@ local geturl = function(p)
     if not suc or res == "404: Not Found" then
         error("❌ Failed to load rise file : rise/" .. p)
     end
+    return res
 end
 
 shared.Rise.GuiLibrary = loadstring(geturl("Libraries/Gui.lua"))()
