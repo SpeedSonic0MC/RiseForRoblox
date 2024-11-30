@@ -32,7 +32,9 @@ for _, v in pairs({"Elegant-Font.ttf", "Icon-Font.ttf", "SF-Pro-Rounded-Bold.otf
             error("❌ Failed to download font file : " .. _2)
         else
             writefile("Rise/Assets/Fonts/" .. v, res)
-            getcustomasset("Rise/Assets/Fonts/" .. v)
+            if not isfile("Rise/Assets/Fonts/" .. v) then
+                repeat task.wait() until isfile("Rise/Assets/Fonts/" .. v)
+            end -- codex its just one update and you broke it already
             print("🥰 Successfully downloaded font : " .. _2)
         end
     end
@@ -43,7 +45,7 @@ for _, v in pairs({"Elegant-Font.ttf", "Icon-Font.ttf", "SF-Pro-Rounded-Bold.otf
                 name = "Regular",
                 weight = 300,
                 style = "normal",
-                assetId = "rbxasset://Rise/Assets/Fonts/" .. v -- using getcustomasset asset here: Error: cannot open source file :exploding_head:
+                assetId = getcustomasset("Rise/Assets/Fonts/" .. v)
             }}
         }))
     end
