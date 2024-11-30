@@ -22,7 +22,7 @@ end
 print("💬 Checking rise fonts")
 for _, v in pairs({"Elegant-Font.ttf", "Icon-Font.ttf", "SF-Pro-Rounded-Bold.otf", "SF-Pro-Rounded-Light.otf",
                    "SF-Pro-Rounded-Medium.otf", "SF-Pro-Rounded-Regular.otf"}) do
-    local _1 = string.gsub(v, "-", "")
+    local _1 = string.gsub(v, "-", " ")
     local _2 = string.sub(_1, 1, -5) -- Name of font (Elegant-Font.ttf -> "Elegant Font")'
     if not isfile("Rise/Assets/Fonts/" .. v) then
         local suc, res = pcall(function()
