@@ -42,7 +42,7 @@ for _, v in pairs({"Elegant-Font.ttf", "Icon-Font.ttf", "SF-Pro-Rounded-Bold.otf
                 name = "Regular",
                 weight = 300,
                 style = "normal",
-                assetId = "rbxasset://Rise/Assets/Fonts/" .. v
+                assetId = getcustomasset("Rise/Assets/Fonts/" .. v)
             }}
         }))
     end
