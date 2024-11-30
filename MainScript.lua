@@ -45,9 +45,10 @@ for _, v in pairs({"Elegant-Font.ttf", "Icon-Font.ttf", "SF-Pro-Rounded-Bold.otf
                 name = "Regular",
                 weight = 300,
                 style = "normal",
-                assetId = getcustomasset("Rise/Assets/Fonts/" .. v)
+                assetId = getcustomasset("Rise/Assets/Fonts/" .. v) -- it was supposed to work :sob: codex wtf did you do :rofl:
             }}
         }))
+        repeat task.wait() until isfile("Rise/Assets/Fonts/" .. string.sub(v, 1, -5) .. ".json")
     end
     shared.Rise.Fonts[_2] = Font.new(getcustomasset("Rise/Assets/Fonts/" .. string.sub(v, 1, -5) .. ".json"))
 end
