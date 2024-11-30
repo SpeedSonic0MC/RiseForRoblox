@@ -46,7 +46,7 @@ for _, v in pairs({"Elegant-Font.ttf", "Icon-Font.ttf", "SF-Pro-Rounded-Bold.otf
             }}
         }))
     end
-    shared.Rise.Fonts[_2] = Font.new("rbxasset://Rise/Assets/Fonts/" .. string.sub(v, 1, -5) .. ".json")
+    shared.Rise.Fonts[_2] = Font.new(getcustomasset("Rise/Assets/Fonts/" .. string.sub(v, 1, -5) .. ".json"))
 end
 
 local geturl = function(p)
