@@ -1,0 +1,12 @@
+{
+    "windows.search": "Search",
+    "windows.combat": "Combat",
+    "windows.movement": "Movement",
+    "windows.player": "Player",
+    "windows.render": "Render",
+    "windows.exploit": "Exploit",
+    "windows.ghost": "Ghost",
+    "windows.cas": "CaS",
+    "windows.themes": "Themes",
+    "windows.language": "Language"
+}

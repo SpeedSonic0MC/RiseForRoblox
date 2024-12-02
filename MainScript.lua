@@ -70,3 +70,8 @@ end
 
 shared.Rise.GuiLibrary = loadstring(geturl("Libraries/Gui.lua"))()
 print("✨ Loaded Rise GUI")
+shared.Rise.GuiLibrary["CreateNotification"]({
+    Duration = 5,
+    Title = "Rise Client",
+    Text = "Rise Loaded. Press " .. shared.Rise.GuiLibrary.MainSettings.ClickGUIKeybind .. " to open ClickGUI"
+})

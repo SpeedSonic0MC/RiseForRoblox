@@ -1,1 +1,14 @@
-{}
+{
+    "windows": {
+        "search": "Search",
+        "combat": "Combat",
+        "movement": "Movement",
+        "player": "Player",
+        "render": "Render",
+        "exploit": "Exploit",
+        "ghost": "Ghost",
+        "cas": "CaS",
+        "themes": "Themes",
+        "language": "Language"
+    }
+}
