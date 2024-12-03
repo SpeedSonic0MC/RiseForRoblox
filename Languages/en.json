@@ -8,5 +8,6 @@
     "windows.ghost": "Ghost",
     "windows.cas": "CaS",
     "windows.themes": "Themes",
-    "windows.language": "Language"
+    "windows.language": "Language",
+    "language.title": "Select which language you want Rise to be in"
 }

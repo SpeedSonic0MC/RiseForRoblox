@@ -10,5 +10,8 @@
         "cas": "CaS",
         "themes": "Themes",
         "language": "Language"
+    },
+    "language": {
+        "title": "Select which language you want Rise to be in"
     }
 }
