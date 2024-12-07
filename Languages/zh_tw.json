@@ -9,5 +9,6 @@
     "windows.cas": "脚本",
     "windows.themes": "顔色主題",
     "windows.language": "語言",
-    "language.title": "選擇你想Rise顯示的語言"
+    "language.title": "選擇你想Rise顯示的語言",
+    "theme.title": "你可以按下一個顔色按鈕以分類，再按同一個顔色按鈕重設。"
 }

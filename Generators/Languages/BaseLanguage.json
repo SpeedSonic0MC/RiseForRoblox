@@ -13,5 +13,8 @@
     },
     "language": {
         "title": "Select which language you want Rise to be in"
+    },
+    "theme": {
+        "title": "You can click on a color to filter by it. Click again to reset."
     }
 }
