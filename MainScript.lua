@@ -73,5 +73,5 @@ print("✨ Loaded Rise GUI")
 shared.Rise.GuiLibrary["CreateNotification"]({
     Duration = 5,
     Title = "Rise Client",
-    Text = "Rise Loaded. Press " .. shared.Rise.GuiLibrary.MainSettings.ClickGUIKeybind .. " to open ClickGUI"
+    Text = "Rise Loaded. Press " .. shared.Rise.GuiLibrary.MainSettings.ClickGUIKeybind .. " to open Click GUI"
 })
