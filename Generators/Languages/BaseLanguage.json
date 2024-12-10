@@ -16,5 +16,15 @@
     },
     "theme": {
         "title": "You can click on a color to filter by it. Click again to reset."
+    },
+    "modules": {
+        "click_gui": {
+            "name": "Click GUI",
+            "description": "Displays a GUI that allows you to toggle modules and edit their settings"
+        },
+        "interface": {
+            "name": "Interface",
+            "description": "The clients interface with all information"
+        }
     }
 }
