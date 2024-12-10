@@ -10,5 +10,9 @@
     "windows.themes": "Themes",
     "windows.language": "Language",
     "language.title": "Select which language you want Rise to be in",
-    "theme.title": "You can click on a color to filter by it. Click again to reset."
+    "theme.title": "You can click on a color to filter by it. Click again to reset.",
+    "modules.click_gui.name": "Click GUI",
+    "modules.click_gui.description": "Displays a GUI that allows you to toggle modules and edit their settings",
+    "modules.interface.name": "Interface",
+    "modules.interface.description": "The clients interface with all information"
 }
