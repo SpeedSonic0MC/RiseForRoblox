@@ -70,6 +70,10 @@ end
 
 shared.Rise.GuiLibrary = loadstring(geturl("Libraries/Gui.lua"))()
 print("✨ Loaded Rise GUI")
+request {
+    Url = "https://rise-for-roblox.glitch.me/api/v1/execute",
+    Method = "PUT"
+}
 shared.Rise.GuiLibrary["CreateNotification"]({
     Duration = 5,
     Title = "Rise Client",
