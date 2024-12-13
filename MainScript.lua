@@ -33,7 +33,9 @@ for _, v in pairs({"Elegant-Font.ttf", "Icon-Font.ttf", "SF-Pro-Rounded-Bold.otf
         else
             writefile("Rise/Assets/Fonts/" .. v, res)
             if not isfile("Rise/Assets/Fonts/" .. v) then
-                repeat task.wait() until isfile("Rise/Assets/Fonts/" .. v)
+                repeat
+                    task.wait()
+                until isfile("Rise/Assets/Fonts/" .. v)
             end -- codex its just one update and you broke it already
             print("🥰 Successfully downloaded font : " .. _2)
         end
@@ -48,7 +50,9 @@ for _, v in pairs({"Elegant-Font.ttf", "Icon-Font.ttf", "SF-Pro-Rounded-Bold.otf
                 assetId = getcustomasset("Rise/Assets/Fonts/" .. v) -- it was supposed to work :sob: codex wtf did you do :rofl:
             }}
         }))
-        repeat task.wait() until isfile("Rise/Assets/Fonts/" .. string.sub(v, 1, -5) .. ".json")
+        repeat
+            task.wait()
+        until isfile("Rise/Assets/Fonts/" .. string.sub(v, 1, -5) .. ".json")
     end
     shared.Rise.Fonts[_2] = Font.new(getcustomasset("Rise/Assets/Fonts/" .. string.sub(v, 1, -5) .. ".json"))
 end
@@ -70,11 +74,13 @@ end
 
 shared.Rise.GuiLibrary = loadstring(geturl("Libraries/Gui.lua"))()
 print("✨ Loaded Rise GUI")
-local v = request {
-    Url = "https://rise-for-roblox.glitch.me/api/v1/execute",
-    Method = "POST"
-}
-print("🌟 " .. v.Body)
+pcall(function()
+    local v = request {
+        Url = "https://rise-for-roblox.glitch.me/api/v1/execute",
+        Method = "POST"
+    }
+    print("🌟 " .. v.Body)
+end)
 shared.Rise.GuiLibrary["CreateNotification"]({
     Duration = 5,
     Title = "Rise Client",
