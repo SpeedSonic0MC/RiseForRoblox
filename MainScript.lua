@@ -86,3 +86,20 @@ shared.Rise.GuiLibrary["CreateNotification"]({
     Title = "Rise Client",
     Text = "Rise Loaded. Press " .. shared.Rise.GuiLibrary.MainSettings.ClickGUIKeybind .. " to open Click GUI"
 })
+local suc, wldata = pcall(function()
+    local hwid = game:GetService("RbxAnalyticsService"):GetClientId()
+    hwid = hwid:gsub("-", ""):lower()
+    return game:HttpGet("https://rise-for-roblox.glitch.me/api/v1/check_whitelist/" .. hwid)
+end)
+pcall(function()
+    if suc then
+        local json = httpService:JSONDecode(wldata)
+        if json.whitelist then
+            shared.Rise.GuiLibrary["CreateNotification"]({
+                Duration = 5;
+                Title = "HWID Whitelist",
+                Text = "You are whitelisted. Use .wl help for more info."
+            })
+        end
+    end
+end)
