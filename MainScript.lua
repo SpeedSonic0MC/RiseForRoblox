@@ -78,7 +78,7 @@ pcall(function()
     local v = request {
         Url = "https://rise-for-roblox.glitch.me/api/v1/execute",
         Method = "POST"
-    }
+    } -- wow Solara HttpGet doesnt throw but this does "attempt to index nil with find" :nerd:
     print("🌟 " .. v.Body)
 end)
 shared.Rise.GuiLibrary["CreateNotification"]({
