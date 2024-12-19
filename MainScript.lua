@@ -1,7 +1,7 @@
 if getgenv and not getgenv().shared then
     getgenv().shared = {}
 end
-assert(not shared.RiseExecuted, "💢 Rise already injected!")
+if shared.RiseExecuted then return end
 shared.RiseExecuted = true
 
 shared.Rise = {
@@ -10,16 +10,12 @@ shared.Rise = {
 
 local httpService = game:GetService("HttpService")
 
-print("✨ Running rise")
-print("🌟 Checking rise folders")
 for _, v in pairs({"Rise", "Rise/Assets", "Rise/Configs", "Rise/Assets/Fonts", "Rise/Assets/Interface"}) do
     if not isfolder(v) then
         makefolder(v)
-        print("⚠️ Created rise folder : " .. v)
     end
 end
 
-print("💬 Checking rise fonts")
 for _, v in pairs({"Elegant-Font.ttf", "Icon-Font.ttf", "SF-Pro-Rounded-Bold.otf", "SF-Pro-Rounded-Light.otf",
                    "SF-Pro-Rounded-Medium.otf", "SF-Pro-Rounded-Regular.otf"}) do
     local _1 = string.gsub(v, "-", " ")
@@ -37,7 +33,6 @@ for _, v in pairs({"Elegant-Font.ttf", "Icon-Font.ttf", "SF-Pro-Rounded-Bold.otf
                     task.wait()
                 until isfile("Rise/Assets/Fonts/" .. v)
             end -- codex its just one update and you broke it already
-            print("🥰 Successfully downloaded font : " .. _2)
         end
     end
     if not isfile("Rise/Assets/Fonts/" .. string.sub(v, 1, -5) .. ".json") then
@@ -60,7 +55,6 @@ end
 local geturl = function(p)
     local customurl = "https://raw.githubusercontent.com/SpeedSonic0MC/RiseForRoblox/main/" .. p
     if shared.RiseDeveloper and shared.RiseUrls[p] then
-        print("✅ [DEBUG] : Loaded custom file for Rise : rise/" .. p)
         customurl = shared.RiseUrls[p]
     end
     local suc, res = pcall(function()
@@ -73,13 +67,11 @@ local geturl = function(p)
 end
 
 shared.Rise.GuiLibrary = loadstring(geturl("Libraries/Gui.lua"))()
-print("✨ Loaded Rise GUI")
 pcall(function()
-    local v = request {
+    request {
         Url = "https://rise-for-roblox.glitch.me/api/v1/execute",
         Method = "POST"
     } -- wow Solara HttpGet doesnt throw but this does "attempt to index nil with find" :nerd:
-    print("🌟 " .. v.Body)
 end)
 shared.Rise.GuiLibrary["CreateNotification"]({
     Duration = 5,
