@@ -75,7 +75,7 @@ pcall(function()
 end)
 
 local suc, fx = pcall(function()
-    return game:HttpGet("https://raw.githubusercontent.com/SpeedSonic0MC/RiseForRoblox/main/Modules/" .. game.PlcaeId .. ".lua")
+    return geturl("Modules/" .. game.PlcaeId .. ".lua")
 end)
 
 if not suc or fx == "404: Not Found" then
