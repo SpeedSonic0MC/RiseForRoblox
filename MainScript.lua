@@ -80,9 +80,10 @@ end)
 
 if not suc or fx == "404: Not Found" then
     print("ℹ️ Rise is not supported in this game.")
+else
+    loadstring(fx)()
 end
 
-loadstring(fx)()
 shared.Rise.GuiLibrary.LoadSettings()
 
 shared.Rise.GuiLibrary["CreateNotification"]({
