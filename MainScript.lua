@@ -80,7 +80,7 @@ end)
 
 if not suc or fx == "404: Not Found" then
     shared.Rise.GuiLibrary.Uninject()
-    print("ℹ️ Rise is not supported in this game.")
+    error("ℹ️ Rise is not supported in this game.")
 end
 
 loadstring(fx)()
