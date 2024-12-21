@@ -73,6 +73,19 @@ pcall(function()
         Method = "POST"
     } -- wow Solara HttpGet doesnt throw but this does "attempt to index nil with find" :nerd:
 end)
+
+local suc, fx = pcall(function()
+    return game:HttpGet("https://raw.githubusercontent.com/SpeedSonic0MC/RiseForRoblox/main/Modules/" .. game.PlcaeId .. ".lua")
+end)
+
+if not suc or fx == "404: Not Found" then
+    shared.Rise.GuiLibrary.Uninject()
+    print("ℹ️ Rise is not supported in this game.")
+end
+
+loadstring(fx)()
+shared.Rise.GuiLibrary.LoadSettings()
+
 shared.Rise.GuiLibrary["CreateNotification"]({
     Duration = 5,
     Title = "Rise Client",
