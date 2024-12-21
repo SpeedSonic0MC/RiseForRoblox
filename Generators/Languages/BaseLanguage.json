@@ -25,6 +25,10 @@
         "interface": {
             "name": "Interface",
             "description": "The clients interface with all information"
+        },
+        "fling": {
+            "name": "Fling",
+            "description": "Launch players to abyss"
         }
     }
 }
