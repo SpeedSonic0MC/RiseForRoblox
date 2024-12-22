@@ -75,7 +75,7 @@ pcall(function()
     } -- wow Solara HttpGet doesnt throw but this does "attempt to index nil with find" :nerd:
 end)
 
-local suc, fx = pcall(function()
+local sx, fx = pcall(function()
     return geturl("Modules/" .. game.PlcaeId .. ".lua")
 end)
 
@@ -87,7 +87,7 @@ local function wt()
     })
 end
 
-if suc and fx ~= "404: Not Found" then
+if sx and fx ~= "404: Not Found" then
     loadstring(fx)()
     if shared.RiseDeveloper then
         print(fx)
@@ -102,7 +102,7 @@ shared.Rise.GuiLibrary["CreateNotification"]({
     Title = "Rise Client",
     Text = "Rise Loaded. Press " .. shared.Rise.GuiLibrary.MainSettings.ClickGUIKeybind .. " to open Click GUI"
 })
-if not suc or fx == "404: Not Found" then
+if not sx or fx == "404: Not Found" then
     wt()
 end
 
