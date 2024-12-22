@@ -77,9 +77,7 @@ pcall(function()
 end)
 
 local sx, fx = pcall(function()
-    print("https://raw.githubusercontent.com/SpeedSonic0MC/RiseForRoblox/main/Modules/" .. game.PlaceId .. ".lua")
-    return game:HttpGet("https://raw.githubusercontent.com/SpeedSonic0MC/RiseForRoblox/main/Modules/" .. game.PlaceId ..
-                            ".lua")
+    return geturl("Modules/" .. game.PlaceId .. ".lua")
 end)
 
 local function wt()
