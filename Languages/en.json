@@ -14,5 +14,7 @@
     "modules.click_gui.name": "Click GUI",
     "modules.click_gui.description": "Displays a GUI that allows you to toggle modules and edit their settings",
     "modules.interface.name": "Interface",
-    "modules.interface.description": "The clients interface with all information"
+    "modules.interface.description": "The clients interface with all information",
+    "modules.infinite_jump.name": "Infinite Jump",
+    "modules.infinite_jump.description": "Allows you to jump infinitely"
 }

@@ -14,5 +14,7 @@
     "modules.click_gui.name": "點擊使用者界面",
     "modules.click_gui.description": "顯示一個讓你更改設定和開關模組的界面",
     "modules.interface.name": "界面",
-    "modules.interface.description": "客戶端與所有資訊"
+    "modules.interface.description": "客戶端與所有資訊",
+    "modules.infinite_jump.name": "無限跳躍",
+    "modules.infinite_jump.description": "讓你無限的跳躍"
 }

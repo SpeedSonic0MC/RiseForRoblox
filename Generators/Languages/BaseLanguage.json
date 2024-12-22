@@ -25,6 +25,10 @@
         "interface": {
             "name": "Interface",
             "description": "The clients interface with all information"
+        },
+        "infinite_jump": {
+            "name": "Infinite Jump",
+            "description": "Allows you to jump infinitely"
         }
     }
 }
