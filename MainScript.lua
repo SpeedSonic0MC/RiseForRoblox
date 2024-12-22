@@ -1,7 +1,9 @@
 if getgenv and not getgenv().shared then
     getgenv().shared = {}
 end
-if shared.RiseExecuted then return end
+if shared.RiseExecuted then
+    return
+end
 shared.RiseExecuted = true
 
 shared.Rise = {
@@ -57,7 +59,6 @@ local geturl = function(p)
     if shared.RiseDeveloper and shared.RiseUrls[p] then
         customurl = shared.RiseUrls[p]
     end
-    if shared.RiseDeveloper then print(customurl) end
     local suc, res = pcall(function()
         return game:HttpGet(customurl)
     end)
@@ -76,7 +77,9 @@ pcall(function()
 end)
 
 local sx, fx = pcall(function()
-    return geturl("Modules/" .. game.PlcaeId .. ".lua")
+    print("https://raw.githubusercontent.com/SpeedSonic0MC/RiseForRoblox/main/Modules/" .. game.PlaceId .. ".lua")
+    return game:HttpGet("https://raw.githubusercontent.com/SpeedSonic0MC/RiseForRoblox/main/Modules/" .. game.PlaceId ..
+                            ".lua")
 end)
 
 local function wt()
@@ -116,7 +119,7 @@ pcall(function()
         local json = httpService:JSONDecode(wldata)
         if json.whitelist then
             shared.Rise.GuiLibrary["CreateNotification"]({
-                Duration = 5;
+                Duration = 5,
                 Title = "HWID Whitelist",
                 Text = "You are whitelisted. Use .wl help for more info."
             })
