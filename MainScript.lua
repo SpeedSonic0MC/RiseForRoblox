@@ -57,6 +57,7 @@ local geturl = function(p)
     if shared.RiseDeveloper and shared.RiseUrls[p] then
         customurl = shared.RiseUrls[p]
     end
+    if shared.RiseDeveloper then print(customurl) end
     local suc, res = pcall(function()
         return game:HttpGet(customurl)
     end)
@@ -88,6 +89,9 @@ end
 
 if suc and fx ~= "404: Not Found" then
     loadstring(fx)()
+    if shared.RiseDeveloper then
+        print(fx)
+    end
 end
 
 shared.Rise.GuiLibrary.LoadSettings()
