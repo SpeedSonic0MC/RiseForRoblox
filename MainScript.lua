@@ -85,6 +85,7 @@ else
 end
 
 shared.Rise.GuiLibrary.LoadSettings()
+shared.Rise.GuiLibrary.Events.UpdateShaderEvents:Fire()
 
 shared.Rise.GuiLibrary["CreateNotification"]({
     Duration = 5,
