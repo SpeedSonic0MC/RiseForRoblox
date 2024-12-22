@@ -78,9 +78,15 @@ local suc, fx = pcall(function()
     return geturl("Modules/" .. game.PlcaeId .. ".lua")
 end)
 
-if not suc or fx == "404: Not Found" then
-    print("ℹ️ Rise is not supported in this game.")
-else
+local function wt()
+    shared.Rise.GuiLibrary["CreateNotification"]({
+        Duration = 15,
+        Title = "Rise Client",
+        Text = "Rise is not supported in this game."
+    })
+end
+
+if suc and fx ~= "404: Not Found" then
     loadstring(fx)()
 end
 
@@ -92,6 +98,10 @@ shared.Rise.GuiLibrary["CreateNotification"]({
     Title = "Rise Client",
     Text = "Rise Loaded. Press " .. shared.Rise.GuiLibrary.MainSettings.ClickGUIKeybind .. " to open Click GUI"
 })
+if not suc or fx == "404: Not Found" then
+    wt()
+end
+
 local suc, wldata = pcall(function()
     local hwid = game:GetService("RbxAnalyticsService"):GetClientId()
     hwid = hwid:gsub("-", ""):lower()
