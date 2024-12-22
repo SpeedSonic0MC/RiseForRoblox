@@ -14,7 +14,5 @@
     "modules.click_gui.name": "Click GUI",
     "modules.click_gui.description": "Displays a GUI that allows you to toggle modules and edit their settings",
     "modules.interface.name": "Interface",
-    "modules.interface.description": "The clients interface with all information",
-    "modules.189707fling.name": "Fling",
-    "modules.189707fling.description": "Launch players to the abyss upon impact"
+    "modules.interface.description": "The clients interface with all information"
 }

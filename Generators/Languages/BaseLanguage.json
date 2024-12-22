@@ -25,10 +25,6 @@
         "interface": {
             "name": "Interface",
             "description": "The clients interface with all information"
-        },
-        "189707fling": {
-            "name": "Fling",
-            "description": "Launch players to the abyss upon impact"
         }
     }
 }

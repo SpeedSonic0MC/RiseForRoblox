@@ -14,7 +14,5 @@
     "modules.click_gui.name": "點擊使用者界面",
     "modules.click_gui.description": "顯示一個讓你更改設定和開關模組的界面",
     "modules.interface.name": "界面",
-    "modules.interface.description": "客戶端與所有資訊",
-    "modules.189707fling.name": "甩人",
-    "modules.189707fling.description": "撞擊後將玩家發射至深淵"
+    "modules.interface.description": "客戶端與所有資訊"
 }
