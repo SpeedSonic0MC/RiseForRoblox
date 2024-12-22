@@ -90,9 +90,6 @@ end
 
 if sx and fx ~= "404: Not Found" then
     loadstring(fx)()
-    if shared.RiseDeveloper then
-        print(fx)
-    end
 end
 
 shared.Rise.GuiLibrary.LoadSettings()
