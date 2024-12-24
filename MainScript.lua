@@ -62,9 +62,9 @@ for _, v in pairs({"Regular", "Bold", "BoldItalic", "Italic"}) do
                     ".otf")
         end)
         if not suc or res == "404: Not Found" then
-            error("❌ Failed to download font file : " .. _2)
+            error("❌ Failed to download font file : " .. v)
         else
-            writefile("Rise/Assets/Fonts/Minecraft" .. v .. ".otf")
+            writefile("Rise/Assets/Fonts/Minecraft" .. v .. ".otf", res)
             if not isfile("Rise/Assets/Fonts/Minecraft" .. v .. ".otf") then
                 repeat
                     task.wait()
