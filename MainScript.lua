@@ -54,6 +54,57 @@ for _, v in pairs({"Elegant-Font.ttf", "Icon-Font.ttf", "SF-Pro-Rounded-Bold.otf
     shared.Rise.Fonts[_2] = Font.new(getcustomasset("Rise/Assets/Fonts/" .. string.sub(v, 1, -5) .. ".json"))
 end
 
+for _, v in pairs({"Regular", "Bold", "BoldItalic", "Italic"}) do
+    if not isfile("Rise/Assets/Fonts/Minecraft" .. v .. ".otf") then
+        local suc, res = pcall(function()
+            return game:HttpGet("https://raw.githubusercontent.com/SpeedSonic0MC/RiseForRoblox/main/Assets/Fonts/Minecraft" .. v .. ".otf")
+        end)
+        if not suc or res == "404: Not Found" then
+            error("❌ Failed to download font file : " .. _2)
+        else
+            writefile("Rise/Assets/Fonts/Minecraft" .. v .. ".otf")
+            if not isfile("Rise/Assets/Fonts/Minecraft" .. v .. ".otf") then
+                repeat
+                    task.wait()
+                until isfile("Rise/Assets/Fonts/Minecraft" .. v .. ".otf")
+            end -- codex its just one update and you broke it already
+        end
+    end
+end
+
+if not isfile("Rise/Assets/Fonts/Minecraft.json") then
+    writefile("Rise/Assets/Fonts/Minecraft.json", httpService:JSONEncode({
+        name = "Minecraft",
+        faces = {
+            {
+                name = "Regular",
+                weight = 400,
+                style = "normal",
+                assetId = getcustomasset("Rise/Assets/Fonts/MinecraftRegular.otf")
+            },
+            {
+                name = "Bold",
+                weight = 700,
+                style = "normal",
+                assetId = getcustomasset("Rise/Assets/Fonts/MinecraftBold.otf")
+            },
+            {
+                name = "Bold Italic",
+                weight = 700,
+                style = "italic",
+                assetId = getcustomasset("Rise/Assets/Fonts/MinecraftBoldItalic.otf")
+            },
+            {
+                name = "Italic",
+                weight = 400,
+                style = "italic",
+                assetId = getcustomasset("Rise/Assets/Fonts/MinecraftItalic.otf")
+            }
+        }
+    }))
+    shared.Rise.Fonts["Minecraft"] = Font.new(getcustomasset("Rise/Assets/Fonts/Minecraft.json"))
+end
+
 local geturl = function(p)
     local customurl = "https://raw.githubusercontent.com/SpeedSonic0MC/RiseForRoblox/main/" .. p
     if shared.RiseDeveloper and shared.RiseUrls[p] then
@@ -95,7 +146,6 @@ end
 shared.Rise.GuiLibrary.LoadSettings()
 shared.Rise.GuiLibrary.Events.UpdateShaderEvents:Fire()
 shared.Rise.GuiLibrary.Events.UpdateLanguageEvent:Fire()
-
 
 shared.Rise.GuiLibrary["CreateNotification"]({
     Duration = 5,
