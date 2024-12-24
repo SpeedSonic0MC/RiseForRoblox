@@ -99,8 +99,8 @@ if not isfile("Rise/Assets/Fonts/Minecraft.json") then
             assetId = getcustomasset("Rise/Assets/Fonts/MinecraftItalic.otf")
         }}
     }))
-    shared.Rise.Fonts["Minecraft"] = Font.new(getcustomasset("Rise/Assets/Fonts/Minecraft.json"))
 end
+shared.Rise.Fonts["Minecraft"] = Font.new(getcustomasset("Rise/Assets/Fonts/Minecraft.json"))
 
 local geturl = function(p)
     local customurl = "https://raw.githubusercontent.com/SpeedSonic0MC/RiseForRoblox/main/" .. p
