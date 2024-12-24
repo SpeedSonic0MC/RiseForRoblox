@@ -11,4 +11,8 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/SpeedSonic0MC/RiseFor
 ## Need Support?
 Join our [Discord!](https://discord.gg/qmGfJMUG7X)
 
+## Follow Me! <3
+* [Instagram](https://www.instagram.com/speedsonic0mc/)
+* [Threads](https://www.threads.net/@speedsonic0mc)
+
 <br/>Rise for Roblox is licensed under CC BY-ND 4.0 
