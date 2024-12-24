@@ -16,5 +16,7 @@
     "modules.interface.name": "Interface",
     "modules.interface.description": "The clients interface with all information",
     "modules.infinite_jump.name": "Infinite Jump",
-    "modules.infinite_jump.description": "Allows you to jump infinitely"
+    "modules.infinite_jump.description": "Allows you to jump infinitely",
+    "modules.chat.name": "Chat",
+    "modules.chat.description": "Displays Roblox chat"
 }

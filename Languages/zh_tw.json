@@ -16,5 +16,7 @@
     "modules.interface.name": "界面",
     "modules.interface.description": "客戶端與所有資訊",
     "modules.infinite_jump.name": "無限跳躍",
-    "modules.infinite_jump.description": "讓你無限的跳躍"
+    "modules.infinite_jump.description": "讓你無限的跳躍",
+    "modules.chat.name": "聊天",
+    "modules.chat.description": "顯示Roblox聊天記錄"
 }

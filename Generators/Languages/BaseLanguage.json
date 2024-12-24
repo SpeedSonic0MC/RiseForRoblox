@@ -29,6 +29,10 @@
         "infinite_jump": {
             "name": "Infinite Jump",
             "description": "Allows you to jump infinitely"
+        },
+        "chat": {
+            "name": "Chat",
+            "description": "Displays Roblox chat"
         }
     }
 }
