@@ -37,6 +37,10 @@
         "fling": {
             "name": "Fling",
             "description": "Launches player to the abyss upon impact"
+        },
+        "teleport_walk": {
+            "name": "Teleport Walk",
+            "description": "Teleports you to your moving direction"
         }
     }
 }
