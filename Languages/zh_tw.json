@@ -20,5 +20,7 @@
     "modules.chat.name": "聊天",
     "modules.chat.description": "顯示Roblox聊天記錄",
     "modules.fling.name": "甩人",
-    "modules.fling.description": "接觸物件以甩去深淵"
+    "modules.fling.description": "接觸物件以甩去深淵",
+    "modules.teleport_walk.name": "傳送移動",
+    "modules.teleport_walk.description": "不斷在你行走的方向傳送"
 }

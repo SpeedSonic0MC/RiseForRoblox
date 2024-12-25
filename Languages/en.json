@@ -20,5 +20,7 @@
     "modules.chat.name": "Chat",
     "modules.chat.description": "Displays Roblox chat",
     "modules.fling.name": "Fling",
-    "modules.fling.description": "Launches player to the abyss upon impact"
+    "modules.fling.description": "Launches player to the abyss upon impact",
+    "modules.teleport_walk.name": "Teleport Walk",
+    "modules.teleport_walk.description": "Teleports you to your moving direction"
 }
