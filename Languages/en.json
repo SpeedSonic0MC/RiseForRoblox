@@ -18,5 +18,7 @@
     "modules.infinite_jump.name": "Infinite Jump",
     "modules.infinite_jump.description": "Allows you to jump infinitely",
     "modules.chat.name": "Chat",
-    "modules.chat.description": "Displays Roblox chat"
+    "modules.chat.description": "Displays Roblox chat",
+    "modules.fling.name": "Fling",
+    "modules.fling.description": "Launches player to the abyss upon impact"
 }

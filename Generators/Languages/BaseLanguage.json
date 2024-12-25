@@ -33,6 +33,10 @@
         "chat": {
             "name": "Chat",
             "description": "Displays Roblox chat"
+        },
+        "fling": {
+            "name": "Fling",
+            "description": "Launches player to the abyss upon impact"
         }
     }
 }

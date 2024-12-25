@@ -18,5 +18,7 @@
     "modules.infinite_jump.name": "無限跳躍",
     "modules.infinite_jump.description": "讓你無限的跳躍",
     "modules.chat.name": "聊天",
-    "modules.chat.description": "顯示Roblox聊天記錄"
+    "modules.chat.description": "顯示Roblox聊天記錄",
+    "modules.fling.name": "甩人",
+    "modules.fling.description": "接觸物件以甩去深淵"
 }
