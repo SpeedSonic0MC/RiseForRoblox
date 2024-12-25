@@ -152,6 +152,7 @@ shared.Rise.GuiLibrary["CreateNotification"]({
     Title = "Rise Client",
     Text = "Rise Loaded. Press " .. shared.Rise.GuiLibrary.MainSettings.ClickGUIKeybind .. " to open Click GUI"
 })
+repeat task.wait() until shared.Rise.Chat.PushRiseMessage
 shared.Rise.Chat.PushRiseMessage("Press " .. shared.Rise.GuiLibrary.MainSettings.ClickGUIKeybind .. " to open Click GUI")
 if not sx or fx == "404: Not Found" then
     wt()
