@@ -24,7 +24,5 @@
     "modules.teleport_walk.name": "Teleport Walk",
     "modules.teleport_walk.description": "Teleports you to your moving direction",
     "modules.flight.name": "Flight",
-    "modules.flight.description": "Grants you the ability to fly",
-    "modules.super_ring.name": "Super Ring",
-    "modules.super_ring.description": "Attracts objects to spin around you"
+    "modules.flight.description": "Grants you the ability to fly"
 }
