@@ -140,9 +140,9 @@ if sx and fx ~= "404: Not Found" then
     loadstring(fx)()
 end
 
-if not shared.Rise.GuiLibrary.LoadSettings then repeat
+repeat
     task.wait()
-until shared.Rise.GuiLibrary.LoadSettings end
+until shared.Rise.GuiLibrary.LoadSettings
 shared.Rise.GuiLibrary.LoadSettings()
 shared.Rise.GuiLibrary.Events.UpdateShaderEvents:Fire()
 shared.Rise.GuiLibrary.Events.UpdateLanguageEvent:Fire()
