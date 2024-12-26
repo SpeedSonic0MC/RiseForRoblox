@@ -24,5 +24,7 @@
     "modules.teleport_walk.name": "傳送移動",
     "modules.teleport_walk.description": "不斷在你行走的方向傳送",
     "modules.flight.name": "飛行",
-    "modules.flight.description": "提供飛行的技能"
+    "modules.flight.description": "提供飛行的技能",
+    "modules.super_ring.name": "超級環",
+    "modules.super_ring.description": "吸引非錨定物體圍繞你轉動"
 }

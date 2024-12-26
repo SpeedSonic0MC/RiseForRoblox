@@ -45,6 +45,10 @@
         "flight": {
             "name": "Flight",
             "description": "Grants you the ability to fly"
+        },
+        "super_ring": {
+            "name": "Super Ring",
+            "description": "Attracts objects to spin around you"
         }
     }
 }
