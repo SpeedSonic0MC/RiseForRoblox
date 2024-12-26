@@ -41,6 +41,10 @@
         "teleport_walk": {
             "name": "Teleport Walk",
             "description": "Teleports you to your moving direction"
+        },
+        "flight": {
+            "name": "Flight",
+            "description": "Grants you the ability to fly"
         }
     }
 }
