@@ -155,7 +155,7 @@ shared.Rise.GuiLibrary["CreateNotification"]({
 repeat task.wait() until shared.Rise.Chat.PushRiseMessage
 shared.Rise.Chat.PushRiseMessage("Press " .. shared.Rise.GuiLibrary.MainSettings.ClickGUIKeybind .. " to open Click GUI")
 
-if shared["GameNoChat"] then
+if shared.Rise.Chat["GameNoChat"] then
     shared.Rise.Chat.PushRiseMessage("This game has chat (temporarily / permanently) disabled. Send messages at your own risk.")
 end
 if not sx or fx == "404: Not Found" then
