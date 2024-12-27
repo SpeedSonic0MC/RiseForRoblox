@@ -53,6 +53,10 @@
         "bssmondo": {
             "name": "Mondo Chick Notifier",
             "description": "Notifies you in Chat and Notification when Mondo Chick spawns"
+        },
+        "bsssprout": {
+            "name": "Sprout Notifier",
+            "description": "Notifies you in Chat and Notification when Sprout spawns"
         }
     }
 }

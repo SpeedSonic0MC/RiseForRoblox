@@ -28,5 +28,7 @@
     "modules.tptofinishtoh.name": "Teleport to Finish",
     "modules.tptofinishtoh.description": "Teleports your character to the win location",
     "modules.bssmondo.name": "Mondo Chick Notifier",
-    "modules.bssmondo.description": "Notifies you in Chat and Notification when Mondo Chick spawns"
+    "modules.bssmondo.description": "Notifies you in Chat and Notification when Mondo Chick spawns",
+    "modules.bsssprout.name": "Sprout Notifier",
+    "modules.bsssprout.description": "Notifies you in Chat and Notification when Sprout spawns"
 }

@@ -28,5 +28,7 @@
     "modules.tptofinishtoh.name": "終點傳送",
     "modules.tptofinishtoh.description": "傳送你到跑酷終點",
     "modules.bssmondo.name": "星期一小鷄通知",
-    "modules.bssmondo.description": "當星期一小鷄產生時告訴你"
+    "modules.bssmondo.description": "當星期一小鷄生成時告訴你",
+    "modules.bsssprout.name": "葉苗通知",
+    "modules.bsssprout.description": "當葉苗生成時告訴你"
 }
