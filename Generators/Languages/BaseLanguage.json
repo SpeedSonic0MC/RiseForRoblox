@@ -57,6 +57,10 @@
         "bsssprout": {
             "name": "Sprout Notifier",
             "description": "Notifies you in Chat and Notification when Sprout spawns"
+        },
+        "bsspuff": {
+            "name": "Puffball Mushroom Notifier",
+            "description": "Notifies you in Chat and Notification when rare puffshroom spawns"
         }
     }
 }

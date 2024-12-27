@@ -30,5 +30,7 @@
     "modules.bssmondo.name": "Mondo Chick Notifier",
     "modules.bssmondo.description": "Notifies you in Chat and Notification when Mondo Chick spawns",
     "modules.bsssprout.name": "Sprout Notifier",
-    "modules.bsssprout.description": "Notifies you in Chat and Notification when Sprout spawns"
+    "modules.bsssprout.description": "Notifies you in Chat and Notification when Sprout spawns",
+    "modules.bsspuff.name": "Puffball Mushroom Notifier",
+    "modules.bsspuff.description": "Notifies you in Chat and Notification when rare puffshroom spawns"
 }
