@@ -24,5 +24,7 @@
     "modules.teleport_walk.name": "Teleport Walk",
     "modules.teleport_walk.description": "Teleports you to your moving direction",
     "modules.flight.name": "Flight",
-    "modules.flight.description": "Grants you the ability to fly"
+    "modules.flight.description": "Grants you the ability to fly",
+    "modules.tptofinishtoh.name": "Teleport to Finish",
+    "modules.tptofinishtoh.description": "Teleports your character to the win location"
 }

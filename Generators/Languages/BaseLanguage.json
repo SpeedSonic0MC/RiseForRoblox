@@ -49,6 +49,10 @@
         "super_ring": {
             "name": "Super Ring",
             "description": "Attracts objects to spin around you"
+        },
+        "tptofinishtoh": {
+            "name": "Teleport to Finish",
+            "description": "Teleports your character to the win location"
         }
     }
 }
