@@ -140,9 +140,6 @@ if sx and fx ~= "404: Not Found" then
     loadstring(fx)()
 end
 
-repeat
-    task.wait()
-until shared.Rise.GuiLibrary.LoadSettings
 shared.Rise.GuiLibrary.LoadSettings()
 shared.Rise.GuiLibrary.Events.UpdateShaderEvents:Fire()
 shared.Rise.GuiLibrary.Events.UpdateLanguageEvent:Fire()
@@ -152,7 +149,6 @@ shared.Rise.GuiLibrary["CreateNotification"]({
     Title = "Rise Client",
     Text = "Rise Loaded. Press " .. shared.Rise.GuiLibrary.MainSettings.ClickGUIKeybind .. " to open Click GUI"
 })
-repeat task.wait() until shared.Rise.Chat.PushRiseMessage
 shared.Rise.Chat.PushRiseMessage("Press " .. shared.Rise.GuiLibrary.MainSettings.ClickGUIKeybind .. " to open Click GUI")
 
 if shared.Rise.Chat["GameNoChat"] then
