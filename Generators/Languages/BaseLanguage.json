@@ -46,13 +46,13 @@
             "name": "Flight",
             "description": "Grants you the ability to fly"
         },
-        "super_ring": {
-            "name": "Super Ring",
-            "description": "Attracts objects to spin around you"
-        },
         "tptofinishtoh": {
             "name": "Teleport to Finish",
             "description": "Teleports your character to the win location"
+        },
+        "bssmondo": {
+            "name": "Mondo Chick Notifier",
+            "description": "Notifies you in Chat and Notification when Mondo Chick spawns"
         }
     }
 }

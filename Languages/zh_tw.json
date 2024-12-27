@@ -26,5 +26,7 @@
     "modules.flight.name": "飛行",
     "modules.flight.description": "提供飛行的技能",
     "modules.tptofinishtoh.name": "終點傳送",
-    "modules.tptofinishtoh.description": "傳送你到跑酷終點"
+    "modules.tptofinishtoh.description": "傳送你到跑酷終點",
+    "modules.bssmondo.name": "星期一小鷄通知",
+    "modules.bssmondo.description": "當星期一小鷄產生時告訴你"
 }

@@ -26,5 +26,7 @@
     "modules.flight.name": "Flight",
     "modules.flight.description": "Grants you the ability to fly",
     "modules.tptofinishtoh.name": "Teleport to Finish",
-    "modules.tptofinishtoh.description": "Teleports your character to the win location"
+    "modules.tptofinishtoh.description": "Teleports your character to the win location",
+    "modules.bssmondo.name": "Mondo Chick Notifier",
+    "modules.bssmondo.description": "Notifies you in Chat and Notification when Mondo Chick spawns"
 }
