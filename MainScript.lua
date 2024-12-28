@@ -139,10 +139,11 @@ end
 if sx and fx ~= "404: Not Found" then
     loadstring(fx)()
 end
-
+shared.Rise.GuiLibrary.Loaded = false
 shared.Rise.GuiLibrary.LoadSettings()
 shared.Rise.GuiLibrary.Events.UpdateShaderEvents:Fire()
 shared.Rise.GuiLibrary.Events.UpdateLanguageEvent:Fire()
+shared.Rise.GuiLibrary.Loaded = true
 
 shared.Rise.GuiLibrary["CreateNotification"]({
     Duration = 5,
