@@ -117,12 +117,12 @@ local geturl = function(p)
 end
 
 shared.Rise.GuiLibrary = loadstring(geturl("Libraries/Gui.lua"))()
-pcall(function()
+--[[pcall(function()
     request {
         Url = "https://rise-for-roblox.glitch.me/api/v1/execute",
         Method = "POST"
     } -- wow Solara HttpGet doesnt throw but this does "attempt to index nil with find" :nerd:
-end)
+end)]]
 
 local sx, fx = pcall(function()
     return geturl("Modules/" .. game.PlaceId .. ".lua")
