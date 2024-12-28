@@ -147,9 +147,9 @@ shared.Rise.GuiLibrary.Events.UpdateLanguageEvent:Fire()
 shared.Rise.GuiLibrary["CreateNotification"]({
     Duration = 5,
     Title = "Rise Client",
-    Text = "Rise Loaded. Press " .. shared.Rise.GuiLibrary.MainSettings.ClickGUIKeybind .. " to open Click GUI"
+    Text = "Rise Loaded. Press " .. (shared.Rise.GuiLibrary.MainSettings.ClickGUIKeybind or "NONE") .. " to open Click GUI"
 })
-shared.Rise.Chat.PushRiseMessage("Press " .. shared.Rise.GuiLibrary.MainSettings.ClickGUIKeybind .. " to open Click GUI")
+shared.Rise.Chat.PushRiseMessage("Press " .. (shared.Rise.GuiLibrary.MainSettings.ClickGUIKeybind or "NONE") .. " to open Click GUI")
 
 if shared.Rise.Chat["GameNoChat"] then
     shared.Rise.Chat.PushRiseMessage("This game has chat (temporarily / permanently) disabled. Send messages at your own risk.")
