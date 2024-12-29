@@ -34,5 +34,7 @@
     "modules.bsspuff.name": "Puffball Mushroom Notifier",
     "modules.bsspuff.description": "Notifies you in Chat and Notification when rare puffshroom spawns",
     "modules.sessioninformation.name": "Session Information",
-    "modules.sessioninformation.description": "Displays a GUI with the stats of your current session"
+    "modules.sessioninformation.description": "Displays a GUI with the stats of your current session",
+    "modules.fpscnt.name": "FPS Counter",
+    "modules.fpscnt.description": "Displays your frames per second"
 }

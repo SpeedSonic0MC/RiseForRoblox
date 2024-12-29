@@ -65,6 +65,10 @@
         "sessioninformation": {
             "name": "Session Information",
             "description": "Displays a GUI with the stats of your current session"
+        },
+        "fpscnt": {
+            "name": "FPS Counter",
+            "description": "Displays your frames per second"
         }
     }
 }
