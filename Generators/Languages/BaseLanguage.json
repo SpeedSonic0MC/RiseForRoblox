@@ -61,6 +61,10 @@
         "bsspuff": {
             "name": "Puffball Mushroom Notifier",
             "description": "Notifies you in Chat and Notification when rare puffshroom spawns"
+        },
+        "sessioninformation": {
+            "name": "Session Information",
+            "description": "Displays a GUI with the stats of your current session"
         }
     }
 }

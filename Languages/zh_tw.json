@@ -31,6 +31,8 @@
     "modules.bssmondo.description": "當星期一小鷄生成時告訴你",
     "modules.bsssprout.name": "葉苗通知",
     "modules.bsssprout.description": "當葉苗生成時告訴你",
-    "modules.bsspuff.name": "Puffball Mushroom Notifier",
-    "modules.bsspuff.description": "Notifies you in Chat and Notification when rare puffshroom spawns"
+    "modules.bsspuff.name": "蘑菇通知",
+    "modules.bsspuff.description": "當蘑菇生成時告訴你",
+    "modules.sessioninformation.name": "游玩資訊",
+    "modules.sessioninformation.description": "顯示包含目前游玩資料的界面"
 }
