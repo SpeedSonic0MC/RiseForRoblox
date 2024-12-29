@@ -38,5 +38,7 @@
     "modules.fpscnt.name": "FPS Counter",
     "modules.fpscnt.description": "Displays your frames per second",
     "modules.cpscnt.name": "CPS Counter",
-    "modules.cpscnt.description": "Displays your left click per second"
+    "modules.cpscnt.description": "Displays your left click per second",
+    "modules.bpscnt.name": "BPS Counter",
+    "modules.bpscnt.description": "Displays your current speed"
 }

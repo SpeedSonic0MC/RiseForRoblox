@@ -73,6 +73,10 @@
         "cpscnt": {
             "name": "CPS Counter",
             "description": "Displays your left click per second"
+        },
+        "bpscnt": {
+            "name": "BPS Counter",
+            "description": "Displays your current speed"
         }
     }
 }

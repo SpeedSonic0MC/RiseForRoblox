@@ -38,5 +38,7 @@
     "modules.fpscnt.name": "幀率計數器",
     "modules.fpscnt.description": "顯示每秒的幀率",
     "modules.cpscnt.name": "每秒點擊計數器",
-    "modules.cpscnt.description": "顯示你每秒平均點擊多少次"
+    "modules.cpscnt.description": "顯示你每秒平均點擊多少次",
+    "modules.bpscnt.name": "速度計數器",
+    "modules.bpscnt.description": "顯示你當前的速度"
 }
