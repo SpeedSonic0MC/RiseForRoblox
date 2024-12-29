@@ -54,6 +54,40 @@ for _, v in pairs({"Elegant-Font.ttf", "Icon-Font.ttf", "SF-Pro-Rounded-Bold.otf
     shared.Rise.Fonts[_2] = Font.new(getcustomasset("Rise/Assets/Fonts/" .. string.sub(v, 1, -5) .. ".json"))
 end
 
+if not isfile("Rise/Assets/Fonts/sf.json") then
+    writefile("Rise/Assets/Fonts/sf.json", httpService:JSONEncode({
+        name = "SF Pro Rounded", -- used for text hud for convenience sake
+        faces = {
+            {
+                name = "Bold",
+                weight = 700,
+                style = "normal",
+                assetId = getcustomasset("Rise/Assets/Fonts/SF-Pro-Rounded-Bold.otf")
+            },
+            {
+                name = "Light",
+                weight = 300,
+                style = "normal",
+                assetId = getcustomasset("Rise/Assets/Fonts/SF-Pro-Rounded-Light.otf")
+            },
+            {
+                name = "Medium",
+                weight = 500,
+                style = "normal",
+                assetId = getcustomasset("Rise/Assets/Fonts/SF-Pro-Rounded-Medium.otf")
+            },
+            {
+                name = "Regular",
+                weight = 400,
+                style = "normal",
+                assetId = getcustomasset("Rise/Assets/Fonts/SF-Pro-Rounded-Regular.otf")
+            }
+        }
+    }))
+    repeat task.wait() until isfile("Rise/Assets/Fonts/sf.json")
+end
+shared.Rise.Fonts.SF = Font.new(getcustomasset("Rise/Assets/Fonts/sf.json"))
+
 for _, v in pairs({"Regular", "Bold", "BoldItalic", "Italic"}) do
     if not isfile("Rise/Assets/Fonts/Minecraft" .. v .. ".otf") then
         local suc, res = pcall(function()
