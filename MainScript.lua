@@ -6,27 +6,6 @@ if shared.RiseExecuted then
 end
 shared.RiseExecuted = true
 
-local test = Instance.new("ScreenGui", game:GetService"CoreGui")
-test.OnTopOfCoreBlur = true
-test.DisplayOrder = 99999
-test.ZIndexBehavior = Enum.ZIndexBehavior.Global
-test.ClipToDeviceSafeArea = false
-test.ScreenInsets = Enum.ScreenInsets.None
-test.SafeAreaCompatibility = Enum.SafeAreaCompatibility.None
-test.ResetOnSpawn = false
-local fr = Instance.new("CanvasGroup", test)
-fr.BackgroundColor3 = Color3.new(0, 0, 0)
-fr.Size = UDim2.new(1, 0, 1, 0)
-local ts = Instance.new("TextLabel", fr)
-ts.AnchorPoint = Vector2.new(0.5, 0.5)
-ts.BackgroundTransparency = 1
-ts.Position = UDim2.new(0.5, 0, 0.5, 0)
-ts.Size = UDim2.new(1, 0, 0.07, 0)
-ts.Font = Enum.Font.GothamBold
-ts.Text = "Starting Rise"
-ts.TextColor3 = Color3.new(1, 1, 1)
-ts.TextSize = 14
-
 shared.Rise = {
     Fonts = {}
 }
@@ -201,12 +180,6 @@ shared.Rise.GuiLibrary.Events.UpdateLanguageEvent:Fire()
 shared.Rise.GuiLibrary.Loaded = true
 shared.RiseUAL()
 
-game:GetService("TweenService"):Create(fr, TweenInfo.new(1, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {
-    GroupTransparency = 1
-}):Play()
-task.delay(1, function()
-    test:Destroy()
-end)
 shared.Rise.Chat.PushRiseMessage("Press " .. (shared.Rise.GuiLibrary.MainSettings.ClickGUIKeybind or "NONE") .. " to open Click GUI")
 
 if shared.Rise.Chat["GameNoChat"] then
