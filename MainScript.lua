@@ -144,6 +144,7 @@ shared.Rise.GuiLibrary.LoadSettings()
 shared.Rise.GuiLibrary.Events.UpdateShaderEvents:Fire()
 shared.Rise.GuiLibrary.Events.UpdateLanguageEvent:Fire()
 shared.Rise.GuiLibrary.Loaded = true
+shared.RiseUAL()
 
 shared.Rise.GuiLibrary["CreateNotification"]({
     Duration = 5,
