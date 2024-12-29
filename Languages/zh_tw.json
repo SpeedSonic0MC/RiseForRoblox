@@ -36,5 +36,7 @@
     "modules.sessioninformation.name": "游玩資訊",
     "modules.sessioninformation.description": "顯示包含目前游玩資料的界面",
     "modules.fpscnt.name": "幀率計數器",
-    "modules.fpscnt.description": "顯示每秒的影格數"
+    "modules.fpscnt.description": "顯示每秒的幀率",
+    "modules.cpscnt.name": "每秒點擊計數器",
+    "modules.cpscnt.description": "顯示你每秒平均點擊多少次"
 }

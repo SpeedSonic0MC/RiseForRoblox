@@ -69,6 +69,10 @@
         "fpscnt": {
             "name": "FPS Counter",
             "description": "Displays your frames per second"
+        },
+        "cpscnt": {
+            "name": "CPS Counter",
+            "description": "Displays your left click per second"
         }
     }
 }

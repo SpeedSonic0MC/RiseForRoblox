@@ -36,5 +36,7 @@
     "modules.sessioninformation.name": "Session Information",
     "modules.sessioninformation.description": "Displays a GUI with the stats of your current session",
     "modules.fpscnt.name": "FPS Counter",
-    "modules.fpscnt.description": "Displays your frames per second"
+    "modules.fpscnt.description": "Displays your frames per second",
+    "modules.cpscnt.name": "CPS Counter",
+    "modules.cpscnt.description": "Displays your left click per second"
 }
