@@ -77,6 +77,10 @@
         "bpscnt": {
             "name": "BPS Counter",
             "description": "Displays your current speed"
+        },
+        "keystrokes": {
+            "name": "Key Strokes",
+            "description": "Displays key strokes"
         }
     }
 }

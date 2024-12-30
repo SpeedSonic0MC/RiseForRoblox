@@ -40,5 +40,7 @@
     "modules.cpscnt.name": "每秒點擊計數器",
     "modules.cpscnt.description": "顯示你每秒平均點擊多少次",
     "modules.bpscnt.name": "速度計數器",
-    "modules.bpscnt.description": "顯示你當前的速度"
+    "modules.bpscnt.description": "顯示你當前的速度",
+    "modules.keystrokes.name": "擊鍵",
+    "modules.keystrokes.description": "顯示擊鍵界面 (W,A,S,D,空格鍵)"
 }

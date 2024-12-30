@@ -40,5 +40,7 @@
     "modules.cpscnt.name": "CPS Counter",
     "modules.cpscnt.description": "Displays your left click per second",
     "modules.bpscnt.name": "BPS Counter",
-    "modules.bpscnt.description": "Displays your current speed"
+    "modules.bpscnt.description": "Displays your current speed",
+    "modules.keystrokes.name": "Key Strokes",
+    "modules.keystrokes.description": "Displays key strokes"
 }
