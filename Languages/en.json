@@ -42,5 +42,7 @@
     "modules.bpscnt.name": "BPS Counter",
     "modules.bpscnt.description": "Displays your current speed",
     "modules.keystrokes.name": "Key Strokes",
-    "modules.keystrokes.description": "Displays key strokes"
+    "modules.keystrokes.description": "Displays key strokes",
+    "modules.tarinfo.name": "Target Info",
+    "modules.tarinfo.description": "Displays information about the entity you're fighting"
 }

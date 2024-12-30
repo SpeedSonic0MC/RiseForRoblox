@@ -42,5 +42,7 @@
     "modules.bpscnt.name": "速度計數器",
     "modules.bpscnt.description": "顯示你當前的速度",
     "modules.keystrokes.name": "擊鍵",
-    "modules.keystrokes.description": "顯示擊鍵界面 (W,A,S,D,空格鍵)"
+    "modules.keystrokes.description": "顯示擊鍵界面 (W,A,S,D,空格鍵)",
+    "modules.tarinfo.name": "目標資訊",
+    "modules.tarinfo.description": "顯示關於你在攻擊的目標資訊"
 }

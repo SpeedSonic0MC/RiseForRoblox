@@ -81,6 +81,10 @@
         "keystrokes": {
             "name": "Key Strokes",
             "description": "Displays key strokes"
+        },
+        "tarinfo": {
+            "name": "Target Info",
+            "description": "Displays information about the entity you're fighting"
         }
     }
 }
