@@ -164,7 +164,7 @@ end)
 
 local function wt()
     shared.Rise.GuiLibrary["CreateNotification"]({
-        Duration = 15,
+        Duration = 5,
         Title = "Rise Client",
         Text = "Rise is not supported in this game."
     })
