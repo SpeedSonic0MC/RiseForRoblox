@@ -110,7 +110,8 @@ hudgui.ZIndexBehavior = Enum.ZIndexBehavior.Global
 shared.Rise.MainGui = {
     Main = maingui,
     Mobile = mbgui,
-    HUD = hudgui
+    HUD = hudgui,
+    MBG = riseformobile
 }
 end
 
