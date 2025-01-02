@@ -81,7 +81,7 @@ task.spawn(function()
     riseformobile.Position = UDim2.new(1, 0, 0, 68)
     riseformobile.AnchorPoint = Vector2.new(1, 0)
     riseformobile.Size = UDim2.new(0, 30, 0, 20)
-    riseformobile.FontFace = shared.Rise.Fonts["SF Pro Rounded Regular"]
+    riseformobile.Font = Enum.Font.GothamBold
     riseformobile.Text = "Rise"
     riseformobile.TextColor3 = Color3.new(1, 1, 1)
     riseformobile.TextSize = 14
