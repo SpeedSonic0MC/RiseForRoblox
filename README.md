@@ -16,4 +16,6 @@ Join our [Discord!](https://discord.gg/qmGfJMUG7X)
 * [Threads](https://www.threads.net/@speedsonic0mc)
 
 <br/>Rise for Roblox is licensed under CC BY-ND 4.0<br/>
-**No skidding gui code~** (i am looking at you mr erco [imagine copying whole vape instead of custom modules])
+
+I am gonna skid this yummy code<br/>
+\- mr erco
