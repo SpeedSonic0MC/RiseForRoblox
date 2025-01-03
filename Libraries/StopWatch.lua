@@ -1,6 +1,7 @@
 local StopWatchClass = {}
 StopWatchClass.__index = StopWatchClass
 
+-- Rise 6 equalivant, error picked because rise love throwing this error so why not use it :trollface:
 function StopWatchClass.new()
     local StopWatch = {
         ["millis"] = DateTime.now().UnixTimestampMillis
@@ -24,13 +25,13 @@ function StopWatchClass.new()
 
     return setmetatable(StopWatch, {
         __newindex = function()
-            error(":face_with_symbols_over_mouth: Attempt to create new value in StopWatch class")
+            error("Fatal: Error executing task with throwable: java.util.concurrent.ExecutionException: java.lang.NullPointerException: Cannot invoke \"net.minecraft.entity.a.JG()\" because \"this.cwl\" is null")
         end
     })
 end
 
 return setmetatable(StopWatchClass, {
     __newindex = function()
-        error(":face_with_symbols_over_mouth: Attempt to create new value in StopWatch class")
+        error("Fatal: Error executing task with throwable: java.util.concurrent.ExecutionException: java.lang.NullPointerException: Cannot invoke \"net.minecraft.entity.a.JG()\" because \"this.cwl\" is null")
     end
 })
